@@ -56,7 +56,7 @@ public class Point {
      * @return the resulting vector
      */
     public Vector subtract(Point point) {
-        Double3 newXyz = point.xyz.subtract(this.xyz);
+        Double3 newXyz = this.xyz.subtract(point.xyz);
         if (Double3.ZERO.equals(newXyz)) {
             throw new IllegalArgumentException("subtraction resulting with ZERO vector - not allowed");
         }
