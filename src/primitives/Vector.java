@@ -3,6 +3,7 @@ package primitives;
 public class Vector extends Point {
     /**
      * Builds representation of a 3D vector
+     *
      * @param x x-axis value
      * @param y y-axis value
      * @param z z-axis value
@@ -22,11 +23,16 @@ public class Vector extends Point {
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (!(obj instanceof Vector)) return false;
+        Vector other = (Vector) obj;
         return super.equals(obj);
     }
 
     /**
      * Adds a vector to a vector
+     *
      * @param vector the vector to add
      * @return the resulting
      */
@@ -43,6 +49,7 @@ public class Vector extends Point {
 
     /**
      * Subtracts a given vector from the current vector
+     *
      * @param vector the vector to subtract
      * @return the resulting vector
      */
@@ -57,4 +64,38 @@ public class Vector extends Point {
     }
 
 
+    public Vector normalize() {
+        double length = this.length();
+        return new Vector(xyz.d1 / length, xyz.d2 / length, xyz.d3 / length);
+    }
+
+    public double length() {
+
+        return Math.sqrt(this.lengthSquared());
+    }
+
+    public double lengthSquared() {
+        return xyz.d1 * xyz.d1 + xyz.d2 * xyz.d2 + xyz.d3 * xyz.d3;
+    }
+
+    public Vector crossProduct(Vector vector) {
+        double x = this.xyz.d2 * vector.xyz.d3 - this.xyz.d3 * vector.xyz.d2;
+        double y = this.xyz.d3 * vector.xyz.d1 - this.xyz.d1 * vector.xyz.d3;
+        double z = this.xyz.d1 * vector.xyz.d2 - this.xyz.d2 * vector.xyz.d1;
+        if (x == 0 && y == 0 && z == 0)
+            throw new ArithmeticException("CrossProduct results with zero vector");
+        return new Vector(x, y, z);
+    }
+
+    public double dotProduct(Vector vector) {
+        return this.xyz.d1 * vector.xyz.d1
+                + this.xyz.d2 * vector.xyz.d2
+                + this.xyz.d3 * vector.xyz.d3;
+    }
+
+    public Vector scale(double factor) {
+        if (factor == 0)
+            throw new IllegalArgumentException("Cannot scale by zero");
+        return new Vector(xyz.d1 * factor, xyz.d2 * factor, xyz.d3 * factor);
+    }
 }

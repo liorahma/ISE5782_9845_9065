@@ -18,6 +18,7 @@ public class Point {
         xyz = new Double3(x, y, z);
     }
 
+
     @Override
     public String toString() {
         return "Point{" +
