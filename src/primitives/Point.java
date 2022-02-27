@@ -6,7 +6,7 @@ public class Point {
     /**
      * 3D representation of the point
      */
-    protected Double3 xyz;
+    Double3 xyz;
 
     /**
      * Builds representation of a 3D point
@@ -16,6 +16,11 @@ public class Point {
      */
     public Point(double x, double y, double z) {
         xyz = new Double3(x, y, z);
+    }
+
+
+    public Point(Double3 newPoint) {
+        xyz = new Double3(newPoint.d1,newPoint.d2,newPoint.d3);
     }
 
 

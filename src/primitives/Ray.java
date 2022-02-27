@@ -3,8 +3,8 @@ package primitives;
 import java.util.Objects;
 
 public class Ray {
-    private Point p0;
-    private Vector dir;
+    final private Point p0;
+    final private Vector dir;
 
     /**
      * constructs Ray with point and vector

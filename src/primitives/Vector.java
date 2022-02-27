@@ -14,6 +14,12 @@ public class Vector extends Point {
             throw new IllegalArgumentException("ZERO vector is not allowed");
         }
     }
+    public Vector(Double3 newVector) {
+        super(newVector.d1, newVector.d2,newVector.d3);
+        if (Double3.ZERO.equals(new Double3(newVector.d1, newVector.d2,newVector.d3))) {
+            throw new IllegalArgumentException("ZERO vector is not allowed");
+        }
+    }
 
     @Override
     public String toString() {
@@ -38,9 +44,7 @@ public class Vector extends Point {
      */
     @Override
     public Vector add(Vector vector) {
-        Double3 newXyz = new Double3(vector.xyz.d1 + this.xyz.d1,
-                vector.xyz.d2 + this.xyz.d2,
-                vector.xyz.d3 + this.xyz.d3);
+        Double3 newXyz= xyz.add(vector.xyz);
         if (Double3.ZERO.equals(newXyz)) {
             throw new IllegalArgumentException("addition resulting with ZERO vector - not allowed");
         }
@@ -54,9 +58,7 @@ public class Vector extends Point {
      * @return the resulting vector
      */
     public Vector subtract(Vector vector) {
-        Double3 newXyz = new Double3(vector.xyz.d1 - this.xyz.d1,
-                vector.xyz.d2 - this.xyz.d2,
-                vector.xyz.d3 - this.xyz.d3);
+        Double3 newXyz= xyz.subtract(vector.xyz);
         if (Double3.ZERO.equals(newXyz)) {
             throw new IllegalArgumentException("subtraction resulting with ZERO vector - not allowed");
         }
