@@ -14,9 +14,10 @@ public class Vector extends Point {
             throw new IllegalArgumentException("ZERO vector is not allowed");
         }
     }
+
     public Vector(Double3 newVector) {
-        super(newVector.d1, newVector.d2,newVector.d3);
-        if (Double3.ZERO.equals(new Double3(newVector.d1, newVector.d2,newVector.d3))) {
+        super(newVector.d1, newVector.d2, newVector.d3);
+        if (Double3.ZERO.equals(new Double3(newVector.d1, newVector.d2, newVector.d3))) {
             throw new IllegalArgumentException("ZERO vector is not allowed");
         }
     }
@@ -44,7 +45,7 @@ public class Vector extends Point {
      */
     @Override
     public Vector add(Vector vector) {
-        Double3 newXyz= xyz.add(vector.xyz);
+        Double3 newXyz = xyz.add(vector.xyz);
         if (Double3.ZERO.equals(newXyz)) {
             throw new IllegalArgumentException("addition resulting with ZERO vector - not allowed");
         }
@@ -58,7 +59,7 @@ public class Vector extends Point {
      * @return the resulting vector
      */
     public Vector subtract(Vector vector) {
-        Double3 newXyz= xyz.subtract(vector.xyz);
+        Double3 newXyz = xyz.subtract(vector.xyz);
         if (Double3.ZERO.equals(newXyz)) {
             throw new IllegalArgumentException("subtraction resulting with ZERO vector - not allowed");
         }
@@ -68,7 +69,7 @@ public class Vector extends Point {
 
     public Vector normalize() {
         double length = this.length();
-        return new Vector(xyz.d1 / length, xyz.d2 / length, xyz.d3 / length);
+        return new Vector(xyz.scale(1 / length));
     }
 
     public double length() {
@@ -98,6 +99,6 @@ public class Vector extends Point {
     public Vector scale(double factor) {
         if (factor == 0)
             throw new IllegalArgumentException("Cannot scale by zero");
-        return new Vector(xyz.d1 * factor, xyz.d2 * factor, xyz.d3 * factor);
+        return new Vector(xyz.scale(factor));
     }
 }
