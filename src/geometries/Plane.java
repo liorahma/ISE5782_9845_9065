@@ -16,6 +16,12 @@ public class Plane implements Geometry {
         this.normal = normal;
     }
 
+    /**
+     * constructs with 3 given points on the plane
+     * @param p1 point on the plane
+     * @param p2 point on the plane
+     * @param p3 point on the plane
+     */
     public Plane(Point p1, Point p2, Point p3) {
         Vector v1 = p1.subtract(p3);
         Vector v2 = p1.subtract(p2);

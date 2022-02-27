@@ -6,9 +6,14 @@ public class Ray {
     private Point p0;
     private Vector dir;
 
+    /**
+     * constructs Ray with point and vector
+     * @param p0 starting point
+     * @param dir direction vector
+     */
     public Ray(Point p0, Vector dir) {
         this.p0 = p0;
-        this.dir = dir.normalize();
+        this.dir = dir.normalize(); //vector must be normalized
     }
 
     public Point getP0() {
