@@ -3,28 +3,28 @@ package geometries;
 import primitives.*;
 
 public class Sphere implements Geometry{
-    private Point center;
-    private double radius;
+    private Point _center;
+    private double _radius;
 
     public Sphere(Point center, double radius) {
-        this.center = center;
-        this.radius = radius;
+        _center = center;
+        _radius = radius;
     }
 
     @Override
     public String toString() {
         return "Sphere{" +
-                "center=" + center +
-                ", radius=" + radius +
+                "center=" + _center +
+                ", radius=" + _radius +
                 '}';
     }
 
     public Point getCenter() {
-        return center;
+        return _center;
     }
 
     public double getRadius() {
-        return radius;
+        return _radius;
     }
 
     @Override

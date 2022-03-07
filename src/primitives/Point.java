@@ -6,7 +6,7 @@ public class Point {
     /**
      * 3D representation of the point
      */
-    Double3 xyz;
+    Double3 _xyz;
 
     /**
      * Builds representation of a 3D point
@@ -15,20 +15,22 @@ public class Point {
      * @param z z-axis value
      */
     public Point(double x, double y, double z) {
-        xyz = new Double3(x, y, z);
+       // this(new Double3(x, y, z);
+        _xyz = new Double3(x, y, z);
     }
 
-
-    public Point(Double3 newPoint) {
-        xyz = new Double3(newPoint.d1,newPoint.d2,newPoint.d3);
+    /**
+     *
+     * @param xyz tuple for x y z values
+     */
+    public Point(Double3 xyz) {
+        _xyz = new Double3(xyz._d1,xyz._d2,xyz._d3);
     }
 
 
     @Override
     public String toString() {
-        return "Point{" +
-                "xyz=" + xyz +
-                '}';
+        return "Point: " + _xyz ;
     }
 
     @Override
@@ -37,12 +39,12 @@ public class Point {
         if (obj == null) return false;
         if (!(obj instanceof Point)) return false;
         Point point = (Point) obj;
-        return Objects.equals(xyz, point.xyz);
+        return Objects.equals(_xyz, point._xyz);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(xyz);
+        return Objects.hash(_xyz);
     }
 
     /**
@@ -51,8 +53,8 @@ public class Point {
      * @return the end point of the vector starting from the point
      */
     public Point add(Vector vector) {
-        Double3 newXyz = vector.xyz.add(this.xyz);
-        return new Point(newXyz.d1, newXyz.d2, newXyz.d3);
+        Double3 newXyz = vector._xyz.add(this._xyz);
+        return new Point(newXyz);
     }
 
     /**
@@ -61,11 +63,11 @@ public class Point {
      * @return the resulting vector
      */
     public Vector subtract(Point point) {
-        Double3 newXyz = this.xyz.subtract(point.xyz);
+        Double3 newXyz = this._xyz.subtract(point._xyz);
         if (Double3.ZERO.equals(newXyz)) {
             throw new IllegalArgumentException("subtraction resulting with ZERO vector - not allowed");
         }
-        return new Vector(newXyz.d1, newXyz.d2, newXyz.d3);
+        return new Vector(newXyz._d1, newXyz._d2, newXyz._d3);
     }
 
     /**
@@ -74,9 +76,9 @@ public class Point {
      * @return the distance squared
      */
     public double distanceSquared(Point point) {
-        double deltaX = this.xyz.d1 - point.xyz.d1;
-        double deltaY = this.xyz.d2 - point.xyz.d2;
-        double deltaZ = this.xyz.d3 - point.xyz.d3;
+        double deltaX = this._xyz._d1 - point._xyz._d1;
+        double deltaY = this._xyz._d2 - point._xyz._d2;
+        double deltaZ = this._xyz._d3 - point._xyz._d3;
         return deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
     }
 
