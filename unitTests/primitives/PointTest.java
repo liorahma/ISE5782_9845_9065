@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PointTest {
 
+
     @Test
     void testAdd() {
         fail("Not yet implemented");
