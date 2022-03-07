@@ -14,7 +14,7 @@ class PointTest {
 
     @Test
     void testSubtract() {
-        assertTrue(10==1);
+        assertTrue(10 == 1);
     }
 
     @Test
