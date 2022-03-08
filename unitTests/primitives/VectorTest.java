@@ -64,16 +64,49 @@ class VectorTest {
         );
     }
 
+    /**
+     * Test method for normalizing vector {@link Vector#normalize()}
+     */
     @Test
     void testNormalize() {
+        // ============ Equivalence Partitions Tests ==============
+
+        // Make sure normalized vector length is 1
+        assertEquals(
+                1d,
+                _v1.normalize().length(),
+                0.00001,
+                "normalize() results with not-normalized vector"
+        );
     }
 
+    /**
+     * Test method for length calculation {@link Vector#length()}
+     */
     @Test
     void testLength() {
+        // ============ Equivalence Partitions Tests ==============
+        assertEquals(
+                Math.sqrt(14),
+                _v1.length(),
+                0.00001,
+                "length() results with incorrect value"
+        );
     }
 
+
+    /**
+     * Test method for lengthSquared calculation {@link Vector#lengthSquared()}
+     */
     @Test
     void testLengthSquared() {
+        // ============ Equivalence Partitions Tests ==============
+        assertEquals(
+                14d,
+                _v1.lengthSquared(),
+                0.00001,
+                "lengthSquared() results with incorrect value"
+        );
     }
 
     /**
@@ -133,7 +166,23 @@ class VectorTest {
 
     }
 
+    /**
+     * Test method for scaling vector {@link Vector#scale(double)}
+     */
     @Test
     void testScale() {
+        // ============ Equivalence Partitions Tests ==============
+        assertEquals(
+                new Vector(2, 4, 6),
+                _v1.scale(2),
+                "scale() results with wrong vector"
+        );
+
+        // ============ Boundary Values Tests ==============
+        assertThrows(
+                IllegalArgumentException.class,
+                ()->_v1.scale(0),
+                "scaling vector by zero does not throw an exception"
+        );
     }
 }

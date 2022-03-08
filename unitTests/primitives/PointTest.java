@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PointTest {
     Point _p1= new Point(1,2,3);
-    Vector _v= new Vector(4,5,6);
     Point _p2 = new Point(5,7,9);
+    Vector _v= new Vector(4,5,6);
     /**
      * Test method for {@link primitives.Point#add(primitives.Vector)}.
      */

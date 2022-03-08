@@ -71,20 +71,37 @@ public class Vector extends Point {
     }
 
 
+    /**
+     * scales vector by 1/length (normalization)
+     * @return normalized vector
+     */
     public Vector normalize() {
         double length = this.length();
         return new Vector(_xyz.scale(1 / length));
     }
 
+    /**
+     *
+     * @return vector length
+     */
     public double length() {
 
         return Math.sqrt(this.lengthSquared());
     }
 
+    /**
+     *
+     * @return vector length squared
+     */
     public double lengthSquared() {
         return _xyz._d1 * _xyz._d1 + _xyz._d2 * _xyz._d2 + _xyz._d3 * _xyz._d3;
     }
 
+    /**
+     * calculates cross product on 2 vectors
+     * @param vector second vector
+     * @return a normalized vector orthogonal to both vectors
+     */
     public Vector crossProduct(Vector vector) {
         double x = this._xyz._d2 * vector._xyz._d3 - this._xyz._d3 * vector._xyz._d2;
         double y = this._xyz._d3 * vector._xyz._d1 - this._xyz._d1 * vector._xyz._d3;
@@ -94,12 +111,23 @@ public class Vector extends Point {
         return new Vector(x, y, z);
     }
 
+    /**
+     * Calculates dot product on 2 vectors
+     * @param vector second vector for dot product
+     * @return double - the result of dot product
+     */
     public double dotProduct(Vector vector) {
         return this._xyz._d1 * vector._xyz._d1
                 + this._xyz._d2 * vector._xyz._d2
                 + this._xyz._d3 * vector._xyz._d3;
     }
 
+
+    /**
+     * Scales vector by factor
+     * @param factor factor to scale by
+     * @return scaled vector
+     */
     public Vector scale(double factor) {
         if (factor == 0)
             throw new IllegalArgumentException("Cannot scale by zero");
