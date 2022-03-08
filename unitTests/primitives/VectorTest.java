@@ -62,6 +62,7 @@ class VectorTest {
     @Test
     void testDotProduct() {
         //check
+        //1
     }
 
     @Test
