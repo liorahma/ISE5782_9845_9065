@@ -107,7 +107,7 @@ public class Vector extends Point {
         double y = this._xyz._d3 * vector._xyz._d1 - this._xyz._d1 * vector._xyz._d3;
         double z = this._xyz._d1 * vector._xyz._d2 - this._xyz._d2 * vector._xyz._d1;
         if (x == 0 && y == 0 && z == 0)
-            throw new ArithmeticException("CrossProduct results with zero vector");
+            throw new IllegalArgumentException("CrossProduct results with zero vector");
         return new Vector(x, y, z);
     }
 

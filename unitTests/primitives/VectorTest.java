@@ -132,7 +132,7 @@ class VectorTest {
 
         // ============ Boundary Values Tests ==============
         assertThrows(
-                ArithmeticException.class,
+                IllegalArgumentException.class,
                 () -> _v1.crossProduct(_v2),
                 "crossProduct() for parallel vectors does not throw an exception"
         );

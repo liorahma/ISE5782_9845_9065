@@ -2,10 +2,12 @@ package geometries;
 
 import primitives.*;
 
+import java.util.Objects;
+
 public class Plane implements Geometry {
 
-    private Point _q0;
-    private Vector _normal;
+    final private Point _q0;
+    final private Vector _normal;
 
     public Plane(Point q0, Vector normal) {
         this._q0 = q0;
@@ -14,6 +16,7 @@ public class Plane implements Geometry {
 
     /**
      * constructs with 3 given points on the plane
+     *
      * @param p1 point on the plane
      * @param p2 point on the plane
      * @param p3 point on the plane
@@ -23,10 +26,10 @@ public class Plane implements Geometry {
         Vector v2 = p3.subtract(p1);
         try {
             _normal = v1.crossProduct(v2).normalize();
-        }
-        catch (ArithmeticException ex) {
+        } catch (ArithmeticException ex) {
             throw new IllegalArgumentException("Points must define plane (create two linearly independent vectors)");
         }
+        _q0 = p1;
 
     }
 
@@ -36,7 +39,8 @@ public class Plane implements Geometry {
 
     /**
      * getter for normal field
-     * @return
+     *
+     * @return normal
      */
     public Vector getNormal() {
         return _normal;
@@ -44,8 +48,9 @@ public class Plane implements Geometry {
 
     /**
      * overriding {@link Geometry#getNormal(Point)}
+     *
      * @param point point from which a normal vector is requested
-     * @return
+     * @return normal
      */
     @Override
     public Vector getNormal(Point point) {
@@ -58,5 +63,19 @@ public class Plane implements Geometry {
                 "q0=" + _q0 +
                 ", normal=" + _normal +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (!(obj instanceof Plane)) return false;
+        Plane plane = (Plane) obj;
+        return Objects.equals(_q0, plane._q0) && Objects.equals(_normal, plane._normal);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_q0, _normal);
     }
 }
