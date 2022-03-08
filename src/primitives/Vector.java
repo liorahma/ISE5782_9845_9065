@@ -15,9 +15,14 @@ public class Vector extends Point {
         }
     }
 
-    public Vector(Double3 newVector) {
-        super(newVector._d1, newVector._d2, newVector._d3);
-        if (Double3.ZERO.equals(new Double3(newVector._d1, newVector._d2, newVector._d3))) {
+    /**
+     * Builds representation of a 3D vector
+     *
+     * @param double3 axis values for vector
+     */
+    public Vector(Double3 double3) {
+        super(double3._d1, double3._d2, double3._d3);
+        if (Double3.ZERO.equals(new Double3(double3._d1, double3._d2, double3._d3))) {
             throw new IllegalArgumentException("ZERO vector is not allowed");
         }
     }
