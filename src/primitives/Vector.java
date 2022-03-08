@@ -10,22 +10,21 @@ public class Vector extends Point {
      */
     public Vector(double x, double y, double z) {
         super(x, y, z);
-        if (Double3.ZERO.equals(new Double3(x, y, z))) {
+        if (Double3.ZERO.equals(_xyz)) {
             throw new IllegalArgumentException("ZERO vector is not allowed");
         }
     }
 
     public Vector(Double3 newVector) {
-        super(newVector.d1, newVector.d2, newVector.d3);
-        if (Double3.ZERO.equals(new Double3(newVector.d1, newVector.d2, newVector.d3))) {
+        super(newVector._d1, newVector._d2, newVector._d3);
+        if (Double3.ZERO.equals(new Double3(newVector._d1, newVector._d2, newVector._d3))) {
             throw new IllegalArgumentException("ZERO vector is not allowed");
         }
     }
 
     @Override
     public String toString() {
-        return "Vector{" + super.toString()
-                + "}";
+        return "Vector: " + _xyz;
     }
 
     @Override
@@ -45,11 +44,11 @@ public class Vector extends Point {
      */
     @Override
     public Vector add(Vector vector) {
-        Double3 newXyz = xyz.add(vector.xyz);
+        Double3 newXyz = _xyz.add(vector._xyz);
         if (Double3.ZERO.equals(newXyz)) {
             throw new IllegalArgumentException("addition resulting with ZERO vector - not allowed");
         }
-        return new Vector(newXyz.d1, newXyz.d2, newXyz.d3);
+        return new Vector(newXyz._d1, newXyz._d2, newXyz._d3);
     }
 
     /**
@@ -59,17 +58,17 @@ public class Vector extends Point {
      * @return the resulting vector
      */
     public Vector subtract(Vector vector) {
-        Double3 newXyz = xyz.subtract(vector.xyz);
+        Double3 newXyz = _xyz.subtract(vector._xyz);
         if (Double3.ZERO.equals(newXyz)) {
             throw new IllegalArgumentException("subtraction resulting with ZERO vector - not allowed");
         }
-        return new Vector(newXyz.d1, newXyz.d2, newXyz.d3);
+        return new Vector(newXyz._d1, newXyz._d2, newXyz._d3);
     }
 
 
     public Vector normalize() {
         double length = this.length();
-        return new Vector(xyz.scale(1 / length));
+        return new Vector(_xyz.scale(1 / length));
     }
 
     public double length() {
@@ -78,27 +77,27 @@ public class Vector extends Point {
     }
 
     public double lengthSquared() {
-        return xyz.d1 * xyz.d1 + xyz.d2 * xyz.d2 + xyz.d3 * xyz.d3;
+        return _xyz._d1 * _xyz._d1 + _xyz._d2 * _xyz._d2 + _xyz._d3 * _xyz._d3;
     }
 
     public Vector crossProduct(Vector vector) {
-        double x = this.xyz.d2 * vector.xyz.d3 - this.xyz.d3 * vector.xyz.d2;
-        double y = this.xyz.d3 * vector.xyz.d1 - this.xyz.d1 * vector.xyz.d3;
-        double z = this.xyz.d1 * vector.xyz.d2 - this.xyz.d2 * vector.xyz.d1;
+        double x = this._xyz._d2 * vector._xyz._d3 - this._xyz._d3 * vector._xyz._d2;
+        double y = this._xyz._d3 * vector._xyz._d1 - this._xyz._d1 * vector._xyz._d3;
+        double z = this._xyz._d1 * vector._xyz._d2 - this._xyz._d2 * vector._xyz._d1;
         if (x == 0 && y == 0 && z == 0)
             throw new ArithmeticException("CrossProduct results with zero vector");
         return new Vector(x, y, z);
     }
 
     public double dotProduct(Vector vector) {
-        return this.xyz.d1 * vector.xyz.d1
-                + this.xyz.d2 * vector.xyz.d2
-                + this.xyz.d3 * vector.xyz.d3;
+        return this._xyz._d1 * vector._xyz._d1
+                + this._xyz._d2 * vector._xyz._d2
+                + this._xyz._d3 * vector._xyz._d3;
     }
 
     public Vector scale(double factor) {
         if (factor == 0)
             throw new IllegalArgumentException("Cannot scale by zero");
-        return new Vector(xyz.scale(factor));
+        return new Vector(_xyz.scale(factor));
     }
 }

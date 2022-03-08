@@ -3,27 +3,27 @@ package geometries;
 import primitives.*;
 
 public class Tube implements Geometry {
-    protected Ray axisRay;
-    protected double radius;
+    protected Ray _axisRay;
+    protected double _radius;
 
     public Tube(Ray axisRay, double radius) {
-        this.axisRay = axisRay;
-        this.radius = radius;
+        this._axisRay = axisRay;
+        this._radius = radius;
     }
 
     public Ray getAxisRay() {
-        return axisRay;
+        return _axisRay;
     }
 
     public double getRadius() {
-        return radius;
+        return _radius;
     }
 
     @Override
     public String toString() {
         return "Tube{" +
-                "axisRay=" + axisRay +
-                ", radius=" + radius +
+                "axisRay=" + _axisRay +
+                ", radius=" + _radius +
                 '}';
     }
 

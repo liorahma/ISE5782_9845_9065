@@ -10,7 +10,7 @@ public class Triangle extends Polygon {
     @Override
     public String toString() {
         return "Triangle{" +
-                "vertices=" + vertices +
+                "vertices=" + _vertices +
                 ", plane=" + plane +
                 '}';
     }
