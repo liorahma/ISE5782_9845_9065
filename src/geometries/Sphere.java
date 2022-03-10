@@ -2,7 +2,7 @@ package geometries;
 
 import primitives.*;
 
-public class Sphere implements Geometry{
+public class Sphere implements Geometry {
     private Point _center;
     private double _radius;
 
@@ -27,8 +27,9 @@ public class Sphere implements Geometry{
         return _radius;
     }
 
+
     @Override
-    public Vector getNormal(Point point){
-        return null;
+    public Vector getNormal(Point point) {
+        return point.subtract(_center);
     }
 }

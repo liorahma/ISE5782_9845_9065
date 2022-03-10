@@ -12,8 +12,15 @@ class SphereTest {
     @Test
     void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============
-        Sphere s= new Sphere(new Point(0,0,0),2d);
-        Point p = new Point(0,0,2);
-        Vector v= p.subtract(s.getCenter());
+        Point center = new Point(0, 0, 0);
+        Sphere s = new Sphere(center, 2d);
+        Point point = new Point(0, 0, 2);
+        Vector normalOption1 = new Vector(0, 0, 1);
+        Vector normalOption2 = new Vector(0, 0, -1);
+        Vector sNormal = s.getNormal(point);
+        assertTrue(
+                sNormal.equals(normalOption1) || sNormal.equals(normalOption2),
+                "getNormal() for sphere doesn't work correctly"
+        );
     }
 }

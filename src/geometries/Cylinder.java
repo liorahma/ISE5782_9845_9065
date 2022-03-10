@@ -8,7 +8,7 @@ import primitives.Vector;
  * class Cylinder represents a 3D cylinder
  */
 public class Cylinder extends Tube {
-    private double _height;
+    private double height;
 
 
     /**
@@ -19,18 +19,18 @@ public class Cylinder extends Tube {
      */
     public Cylinder(Ray axisRay, double radius, double height) {
         super(axisRay, radius);
-        _height = height;
+        this.height = height;
     }
 
 
     public double getHeight() {
-        return _height;
+        return height;
     }
 
     @Override
     public String toString() {
         return "Cylinder{" +
-                "height=" + _height +
+                "height=" + height +
                 '}';
     }
 
