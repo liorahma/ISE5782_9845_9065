@@ -35,6 +35,13 @@ class PlaneTest {
                 ()->new Plane(p0, p1, p1Scaled),
                 "Constructor of plane allows 3 points on the same vector"
         );
+
+        // In a case where first and second point are the same
+        assertThrows(
+                IllegalArgumentException.class,
+                ()->new Plane(p0, p0, p1Scaled),
+                "Constructor of plane allows 2 similar points"
+        );
     }
 
     /**
