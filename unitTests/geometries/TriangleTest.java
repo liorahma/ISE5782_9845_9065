@@ -17,7 +17,10 @@ class TriangleTest {
         Triangle t = new Triangle(new Point(0, 0, 1),
                 new Point(1, 0, 0),
                 new Point(0, 1, 0));
-        double d= Math.sqrt(1d/3);
-        //assertEquals(new Vector(d,d,d), t.getNormal(new Point3D(1, 0, 0)),"GetNormal() wrong result- bed normal ");
+        double d = Math.sqrt(1d / 3);
+        assertEquals(
+                new Vector(d, d, d),
+                t.getNormal(new Point(1, 0, 0)),
+                "GetNormal() of triangle wrong result - bad normal");
     }
 }
