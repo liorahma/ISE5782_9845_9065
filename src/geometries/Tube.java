@@ -32,6 +32,7 @@ public class Tube implements Geometry {
     public Vector getNormal(Point point) {
         Vector p0point = point.subtract(_axisRay.getP0());
         double t = p0point.dotProduct(_axisRay.getDir());
+        // If p0 is o (the point where the vector p0p is orthogonal to the axis)
         if (t == 0)
             return p0point.normalize();
         Point o = _axisRay.getP0().add(_axisRay.getDir().scale(t));

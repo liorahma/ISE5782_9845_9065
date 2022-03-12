@@ -17,9 +17,7 @@ class VectorTest {
     void testConstructorZero() {
         assertThrows(
                 IllegalArgumentException.class,
-                () -> {
-                    new Vector(0, 0, 0);
-                },
+                () -> new Vector(0, 0, 0),
                 "ERROR: zero vector should have thrown an exception");
     }
 
@@ -38,7 +36,7 @@ class VectorTest {
         // ============ Boundary Values Tests ==============
         assertThrows(
                 IllegalArgumentException.class,
-                ()->new Vector(-1, 1, 0).add(new Vector(1, -1, 0)),
+                () -> new Vector(-1, 1, 0).add(new Vector(1, -1, 0)),
                 "add() resulting with zero vector does not throw an exception"
         );
 
@@ -59,7 +57,7 @@ class VectorTest {
         // ============ Boundary Values Tests ==============
         assertThrows(
                 IllegalArgumentException.class,
-                ()->new Vector(-1, 1, 0).subtract(new Vector(-1, 1, 0)),
+                () -> new Vector(-1, 1, 0).subtract(new Vector(-1, 1, 0)),
                 "subtract() resulting with zero vector does not throw an exception"
         );
     }
@@ -181,7 +179,7 @@ class VectorTest {
         // ============ Boundary Values Tests ==============
         assertThrows(
                 IllegalArgumentException.class,
-                ()->_v1.scale(0),
+                () -> _v1.scale(0),
                 "scaling vector by zero does not throw an exception"
         );
     }
