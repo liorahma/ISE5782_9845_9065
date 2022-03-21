@@ -43,4 +43,7 @@ class CylinderTest {
                 "getNormal() of cylinder doesn't work correctly for point on base with p0"
         );
     }
+    @Test
+    void testFindIntersections() {
+    }
 }

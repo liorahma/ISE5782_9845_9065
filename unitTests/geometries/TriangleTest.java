@@ -23,4 +23,7 @@ class TriangleTest {
                 t.getNormal(new Point(1, 0, 0)),
                 "GetNormal() of triangle wrong result - bad normal");
     }
+    @Test
+    void testFindIntersections() {
+    }
 }

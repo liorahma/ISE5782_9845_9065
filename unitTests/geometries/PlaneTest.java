@@ -2,7 +2,10 @@ package geometries;
 
 import org.junit.jupiter.api.Test;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -72,4 +75,39 @@ class PlaneTest {
         assertEquals(new Vector(d, d, d), p.getNormal(), "GetNormal(Point) wrong result ");
     }
 
+    /**
+     * Test method for {@link Plane#findIntersections(Ray)}
+     */
+    @Test
+    void testFindIntersections() {
+        Plane p = new Plane(new Point(0, 0, 1),
+                new Point(1, 0, 0),
+                new Point(0, 1, 0));
+        // ============ Equivalence Partitions Tests ==============
+        // Ray is neither orthogonal nor parallel to the plane
+        // EP01: Ray intersects the plane
+        Point intersection = new Point(0, 0, 1);
+        List<Point> intersections = p.findIntersections(new Ray(new Point(2, 1, 0), new Vector(-2, -1, 1)););
+        assertEquals(intersections.size(),
+                1,
+                "Incorrect number of intersection points"
+        );
+        assertEquals(intersections.get(1),
+                intersection,
+                "Incorrect intersection point"
+        );
+        // EP02: Ray does not intersect the plane
+        assertNull(p.findIntersections(new Ray(new Point(2, 1, 0), new Vector(-2, -1, 1))),
+                "No intersection - should return null"
+        );
+
+        // ============ Boundary Values Tests ==============
+        //Ray is parallel to plane
+        //BVA01: Ray is included in the plane
+        assertNull(p.findIntersections(new Ray(new Point(0, 0, 1), new Vector(1, 0, -1))),
+                "Ray is included - should return null"
+        );
+
+
+    }
 }

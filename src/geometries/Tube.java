@@ -2,6 +2,8 @@ package geometries;
 
 import primitives.*;
 
+import java.util.List;
+
 public class Tube implements Geometry {
     protected Ray _axisRay;
     protected double _radius;
@@ -37,5 +39,10 @@ public class Tube implements Geometry {
             return p0point.normalize();
         Point o = _axisRay.getP0().add(_axisRay.getDir().scale(t));
         return point.subtract(o).normalize();
+    }
+
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        return null;
     }
 }

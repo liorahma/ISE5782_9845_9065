@@ -4,6 +4,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
 import static primitives.Util.isZero;
 
 /**
@@ -49,5 +51,9 @@ public class Cylinder extends Tube {
             return _axisRay.getDir();
         }
         return super.getNormal(point);
+    }
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        return null;
     }
 }

@@ -23,4 +23,7 @@ class SphereTest {
                 "getNormal() for sphere doesn't work correctly"
         );
     }
+    @Test
+    void testFindIntersections() {
+    }
 }

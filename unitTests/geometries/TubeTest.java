@@ -35,4 +35,7 @@ class TubeTest {
                 "getNormal() for sphere doesn't work correctly for boundary value"
         );
     }
+    @Test
+    void testFindIntersections() {
+    }
 }

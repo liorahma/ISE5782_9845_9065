@@ -2,6 +2,7 @@ package geometries;
 
 import primitives.*;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Plane implements Geometry {
@@ -77,5 +78,10 @@ public class Plane implements Geometry {
     @Override
     public int hashCode() {
         return Objects.hash(_q0, _normal);
+    }
+
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        return null;
     }
 }
