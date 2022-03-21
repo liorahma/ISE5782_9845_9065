@@ -25,5 +25,11 @@ class SphereTest {
     }
     @Test
     void testFindIntersections() {
+        Sphere s = new Sphere(new Point(1, 1, 0), 2);
+        // ============ Equivalence Partitions Tests ==============
+        // EP01: Ray does not intersect sphere
+
+        // EP02: 1 intersection point
+
     }
 }

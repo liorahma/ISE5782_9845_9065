@@ -35,14 +35,14 @@ class PlaneTest {
         // In a case where all 3 points are on the same vector
         assertThrows(
                 IllegalArgumentException.class,
-                ()->new Plane(p0, p1, p1Scaled),
+                () -> new Plane(p0, p1, p1Scaled),
                 "Constructor of plane allows 3 points on the same vector"
         );
 
         // In a case where first and second point are the same
         assertThrows(
                 IllegalArgumentException.class,
-                ()->new Plane(p0, p0, p1Scaled),
+                () -> new Plane(p0, p0, p1Scaled),
                 "Constructor of plane allows 2 similar points"
         );
     }
@@ -65,8 +65,7 @@ class PlaneTest {
      * Test method for {@link Plane#getNormal(Point)}
      */
     @Test
-    void testGetNormalWithPoint()
-    {
+    void testGetNormalWithPoint() {
         // ============ Equivalence Partitions Tests ==============
         Plane p = new Plane(new Point(0, 0, 1),
                 new Point(1, 0, 0),
@@ -86,14 +85,13 @@ class PlaneTest {
         // ============ Equivalence Partitions Tests ==============
         // Ray is neither orthogonal nor parallel to the plane
         // EP01: Ray intersects the plane
-        Point intersection = new Point(0, 0, 1);
-        List<Point> intersections = p.findIntersections(new Ray(new Point(2, 1, 0), new Vector(-2, -1, 1)););
+        List<Point> intersections = p.findIntersections(new Ray(new Point(2, 1, 0), new Vector(-2, -1, 1)));
         assertEquals(intersections.size(),
                 1,
                 "Incorrect number of intersection points"
         );
         assertEquals(intersections.get(1),
-                intersection,
+                new Point(0, 0, 1),
                 "Incorrect intersection point"
         );
         // EP02: Ray does not intersect the plane
@@ -102,12 +100,43 @@ class PlaneTest {
         );
 
         // ============ Boundary Values Tests ==============
-        //Ray is parallel to plane
-        //BVA01: Ray is included in the plane
-        assertNull(p.findIntersections(new Ray(new Point(0, 0, 1), new Vector(1, 0, -1))),
+        // Ray is parallel to plane
+        // BVA01: Ray is included in the plane
+        assertNull(p.findIntersections(
+                        new Ray(new Point(0, 0, 1), new Vector(1, 0, -1))),
                 "Ray is included - should return null"
         );
-
-
+        // BVA02: Ray is parallel to plane but not included
+        assertNull(p.findIntersections(
+                        new Ray(new Point(0, 0, 2), new Vector(1, 0, -1))),
+                "Ray is parallel - no intersection, should return null"
+        );
+        // Ray is orthogonal to plane
+        // BVA03: Ray intersects plane
+        assertEquals(p.findIntersections(
+                        new Ray(new Point(0, 0, 1), new Vector(1, 0, -1))).get(1),
+                new Point(1d / 3, 1d / 3, 1d / 3),
+                "Orthogonal ray with 1 intersection point does not work"
+        );
+        // BVA04: starting point of ray is on the plane
+        assertNull(p.findIntersections(
+                        new Ray(new Point(1d / 3, 1d / 3, 1d / 3), new Vector(1, 0, -1))),
+                "Orthogonal ray that starts on does not work"
+        );
+        // BVA05: Ray does not intersect the plane
+        assertNull(p.findIntersections(
+                        new Ray(new Point(2, 2, 2), new Vector(1, 0, -1))),
+                "Orthogonal ray with no intersection does not work"
+        );
+        // BVA06: Ray starts on plane (and is not orthogonal)
+        assertNull(p.findIntersections(
+                        new Ray(new Point(0, 1, 0), new Vector(1, 0, 0))),
+                "Not orthogonal ray that starts on plane does not work"
+        );
+        // BVA07: Ray starts on reference point of the plane (and is not orthogonal)
+        assertNull(p.findIntersections(
+                        new Ray(new Point(0, 0, 1), new Vector(1, 0, 0))),
+                "Not orthogonal ray that starts on reference point does not work"
+        );
     }
 }
