@@ -33,14 +33,27 @@ class TriangleTest {
         Triangle t = new Triangle(new Point(0, 0, 1),
                 new Point(1, 0, 0),
                 new Point(0, 1, 0));
-        // ============ Equivalence Partitions Tests ==============
-        //Ray intersects inside the triangle
         Point p=new Ray(new Point(0,-1,0);
-        Ray checked= new Ray(new Point(0,-1,0),new Vector(1/3,1/3+1,1/3));
-        assertEquals(new Point(1/3,1/3,1/3),t.findIntersections(checked));
+        // ============ Equivalence Partitions Tests ==============
+        //TC01: Ray intersects inside the triangle
+        assertEquals(new Point(1/3,1/3,1/3),
+                t.findIntersections(new Ray(p,new Vector(1/3,1/3+1,1/3))).get(1));
         //Ray doesn't intersect- two cases:
-        //not on corners
-        assertEquals(new Point(0.8571428571, -0.1428571429, 0.2857142857),t.findIntersections(new Ray(p,new Vector(1.5,0.5,0.5))));
-        //yes on corners
+        //TC02: not on corners
+        assertEquals(null,
+                t.findIntersections(new Ray(p,new Vector(1.5,0.5,0.5))));
+        //TC03: yes on corners
+        assertEquals(null,
+                t.findIntersections(new Ray(p, new Vector(1.083043995, 0.9655408618, -0.0485848569))));
+        // =============== Boundary Values Tests ==================
+        //TC04:Ray intersects on one of the points
+        assertEquals(null,
+                t.findIntersections(new Ray(p,new Vector(0,1,1))));
+        //TC05: Ray intersects on one of the edges
+        assertEquals(null,
+                t.findIntersections(new Ray(p,new Vector(0,1.5,0.5))));
+        //TC06: Ray intersects with continuation of one of the edges
+        assertEquals(null,
+                t.findIntersections(new Ray(p,new Vector(2.3,-0.3,0))));
     }
 }

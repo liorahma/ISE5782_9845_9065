@@ -31,5 +31,49 @@ class SphereTest {
 
         // EP02: 1 intersection point
 
+        //EP03: Ray continuation to the opposite side does intersect, but the ray does not
+
+        //EP04: 2 intersection points
+
+        // =============== Boundary Values Tests ==================
+        //157 slide
+        //Point is on the sphere:
+
+        //TC05: P0 is on the sphere, and the vector is not in the direction of inside the sphere- 0 intersections
+
+        //TC06: P0 is on the sphere, and the vector is in the direction of inside the sphere- 1 intersections
+
+        //Vector or opposite vector goes through o:
+
+        //TC07: P0 is o- 1 intersection
+
+        //TC08: P0 is on the sphere and vector is to the outside of the sphere- 0 intersections
+
+        //TC09: P0 is on the sphere and vector is to the inside of the sphere- 1 intersection
+
+        //TC10: P0 is out of the sphere and in the opposite direction- 0 intersections
+
+        //TC11: P0 is out of the sphere and in the direction of the sphere- 2 intersections
+
+        //TC12: P0 is inside the sphere- 1 intersection
+        //Tangents:
+        //TC13: P0 is before where the ray is tangent to the sphere- 1 intersection
+
+        //TC14: P0 is on the sphere- 0 intersections
+
+        //TC15: P0 is after where the ray is tangent to the sphere- 0 intersection
+        //Orthogonal:
+        //TC16: Ray is orthogonal to a ray from the middle of the sphere, but does not touch the sphere- 0 intersections
+
+
+
+
+
+
+
+
+
+
+
     }
 }
