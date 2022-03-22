@@ -5,6 +5,9 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TubeTest {
@@ -37,5 +40,28 @@ class TubeTest {
     }
     @Test
     void testFindIntersections() {
+
+        Tube tube= new Tube(new Ray(new Point(0,1,0),new Vector(0,1,0)),1);
+        // ============ Equivalence Partitions Tests ==============
+
+        //חותך, הקרן מתחילה מבחוץ, לא מאונך
+        //TC01: Ray starts outside the tube and crosses it twice
+        List<Point> result= tube.findIntersections(new Ray(new Point(0,-2,0), new Vector(2,4,2)));
+        assertEquals(2, result.size(),"Wrong number of points in TC01");
+        Point p1=new Point(0.6, -0.8, 0.6);
+        Point p2=new Point(1, 0, 1);
+        assertTrue(List.of(p1, p2).equals(result) || List.of(p2, p1).equals(result),
+                "Wrong intersection points in TC01");
+        //אותו דבר רק לכיוון השני- לא חותכת
+        //TC02: Ray starts outside the tube to the other direction- 0 intersections
+        assertNull(tube.findIntersections(new Ray(new Point(0,-2,0), new Vector(-2,-4,-2))),"Does not find 0 intersections where there are none (doesn't return null");
+        //קרן יוצאת מבפנים
+        //TC03: Ray starts inside tube- 1 intersection
+        result= tube.findIntersections(new Ray(new Point(0,-0.5,0), new Vector(0,-1.5,2)));
+        assertEquals(1,result.size(),"Wrong number of points in TC03");
+        assertEquals(new Point(0,-1,2/3f),result.get(1),"Wrong intersection point in TC03");
+
+        //
+
     }
 }
