@@ -10,27 +10,38 @@ public class Point {
 
     /**
      * Builds representation of a 3D point
+     *
      * @param x x-axis value
      * @param y y-axis value
      * @param z z-axis value
      */
     public Point(double x, double y, double z) {
-       // this(new Double3(x, y, z);
+        // this(new Double3(x, y, z);
         _xyz = new Double3(x, y, z);
     }
 
     /**
-     *
      * @param xyz tuple for x y z values
      */
     public Point(Double3 xyz) {
-        _xyz = new Double3(xyz._d1,xyz._d2,xyz._d3);
+        _xyz = new Double3(xyz._d1, xyz._d2, xyz._d3);
     }
 
+    public double getX() {
+        return _xyz._d1;
+    }
+
+    public double getY() {
+        return _xyz._d2;
+    }
+
+    public double getZ() {
+        return _xyz._d3;
+    }
 
     @Override
     public String toString() {
-        return "Point: " + _xyz ;
+        return "Point: " + _xyz;
     }
 
     @Override
@@ -49,6 +60,7 @@ public class Point {
 
     /**
      * Adds a vector to a point
+     *
      * @param vector the vector to add
      * @return the end point of the vector starting from the point
      */
@@ -59,6 +71,7 @@ public class Point {
 
     /**
      * Subtracts a given point from the current point
+     *
      * @param point the point to subtract
      * @return the resulting vector
      */
@@ -72,6 +85,7 @@ public class Point {
 
     /**
      * Calculates the squared value of the distance between 2 points
+     *
      * @param point the point to calculate distance from
      * @return the distance squared
      */
@@ -84,6 +98,7 @@ public class Point {
 
     /**
      * Calculates the value of the distance between 2 points
+     *
      * @param point the point to calculate distance from
      * @return the distance
      */

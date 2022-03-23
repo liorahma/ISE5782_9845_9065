@@ -92,5 +92,15 @@ class PolygonTest {
     }
     @Test
     void testFindIntersections() {
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: Ray intersects inside the polygon - 1 points
+        // Ray doesn't intersect - two cases:
+        // TC02: not on corners
+        // TC03: on corners
+        // =============== Boundary Values Tests ==================
+        // TC11:Ray intersects on one of the points
+        // TC12: Ray intersects on one of the edges
+        // TC13: Ray intersects with continuation of one of the edges
+
     }
 }

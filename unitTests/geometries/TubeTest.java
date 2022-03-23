@@ -44,43 +44,54 @@ class TubeTest {
         Tube tube= new Tube(new Ray(new Point(0,1,0),new Vector(0,1,0)),1);
         // ============ Equivalence Partitions Tests ==============
 
-        //חותך, הקרן מתחילה מבחוץ, לא מאונך
-        //TC01: Ray starts outside the tube and crosses it twice
+        // *** Group: Ray starts on the outside, crosses the tube and is not orthogonal
+        // TC01: Ray starts outside the tube and crosses it twice
         List<Point> result= tube.findIntersections(new Ray(new Point(0,-2,0), new Vector(2,4,2)));
         assertEquals(2, result.size(),"Wrong number of points in TC01");
         Point p1=new Point(0.6, -0.8, 0.6);
         Point p2=new Point(1, 0, 1);
         assertTrue(List.of(p1, p2).equals(result) || List.of(p2, p1).equals(result),
                 "Wrong intersection points in TC01");
-        //אותו דבר רק לכיוון השני- לא חותכת
-        //TC02: Ray starts outside the tube to the other direction- 0 intersections
+        // *** Group: Ray starts on the outside, does not cross the tube and is not orthogonal
+        // TC02: Ray starts outside the tube to the other direction - 0 intersections
         assertNull(tube.findIntersections(new Ray(new Point(0,-2,0), new Vector(-2,-4,-2))),"There should be no intersection in TC02");
-        //קרן יוצאת מבפנים
-        //TC03: Ray starts inside tube- 1 intersection
+
+        // TC03: Ray starts inside tube and is not orthogonal - 1 intersection
         result= tube.findIntersections(new Ray(new Point(0,-0.5,0), new Vector(0,-1.5,2)));
         assertEquals(1,result.size(),"Wrong number of points in TC03");
         assertEquals(new Point(0,-1,2/3f),result.get(1),"Wrong intersection point in TC03");
 
         // =============== Boundary Values Tests ==================
 
-        //TC04: Ray starts on Tube and goes out- 0 points
+        // *** Group: Ray starts on the tube (not orthogonal)
+        // TC11: Ray starts on Tube and goes out - 0 points
         assertNull(tube.findIntersections(new Ray(new Point(0,-1,0), new Vector(0,-1,2))),"There should be no intersection in TC04");
-        //TC05: Ray starts on Tube and goes in- 1 point
+        // TC12: Ray starts on Tube and goes in - 1 point
         result= tube.findIntersections(new Ray(new Point(0,-1,0), new Vector(0,2,-4)));
         assertEquals(1,result.size(),"Wrong number of points in TC05");
         assertEquals(new Point(0,1,-4),result.get(1),"Wrong intersection point in TC05");
-        //Parallel vectors:
 
-        //TC06: Ray is inside tube and parallel to it - 0 intersections
+        // *** Group: Ray is parallel
+        // TC13: Ray is inside tube and parallel to it - 0 intersections
         assertNull(tube.findIntersections(new Ray(new Point(0,0.5,0), new Vector(0,0,1))),"There should be no intersection in TC06");
 
-        //TC07: Ray is on tube and parallel to it - 0 intersections
+        // TC14: Ray is on tube and parallel to it - 0 intersections
         assertNull(tube.findIntersections(new Ray(new Point(0,1,0), new Vector(0,0,1))),"There should be no intersection in TC07");
 
-        //TC08: Ray is out of tube and parallel to it - 0 intersections
+        // TC15: Ray is out of tube and parallel to it - 0 intersections
         assertNull(tube.findIntersections(new Ray(new Point(0,2,0), new Vector(0,0,1))),"There should be no intersection in TC08");
 
+        // *** Group: Ray is orthogonal to tube vector
+        // TC16: Ray starts out of the tube and crosses the tube - 2 intersections
+        // TC18: Ray starts out of the tube and does not cross the tube - 0 intersections
+        // TC19: Ray starts on the tube and goes in - 1 intersection
+        // TC20: Ray starts on the tube and goes out - 0 intersections
 
+
+        // *** Group: Ray starts on tube's Ray
+        // TC21: Ray starts on tube's Ray and is not orthogonal - 1 intersection
+        // TC22: Ray starts on tube's Ray and is orthogonal - 1 intersection
+        // TC23: Ray is tube's ray - 0 intersections
 
     }
 }
