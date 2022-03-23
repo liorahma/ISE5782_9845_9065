@@ -54,14 +54,33 @@ class TubeTest {
                 "Wrong intersection points in TC01");
         //אותו דבר רק לכיוון השני- לא חותכת
         //TC02: Ray starts outside the tube to the other direction- 0 intersections
-        assertNull(tube.findIntersections(new Ray(new Point(0,-2,0), new Vector(-2,-4,-2))),"Does not find 0 intersections where there are none (doesn't return null");
+        assertNull(tube.findIntersections(new Ray(new Point(0,-2,0), new Vector(-2,-4,-2))),"There should be no intersection in TC02");
         //קרן יוצאת מבפנים
         //TC03: Ray starts inside tube- 1 intersection
         result= tube.findIntersections(new Ray(new Point(0,-0.5,0), new Vector(0,-1.5,2)));
         assertEquals(1,result.size(),"Wrong number of points in TC03");
         assertEquals(new Point(0,-1,2/3f),result.get(1),"Wrong intersection point in TC03");
 
-        //
+        // =============== Boundary Values Tests ==================
+
+        //TC04: Ray starts on Tube and goes out- 0 points
+        assertNull(tube.findIntersections(new Ray(new Point(0,-1,0), new Vector(0,-1,2))),"There should be no intersection in TC04");
+        //TC05: Ray starts on Tube and goes in- 1 point
+        result= tube.findIntersections(new Ray(new Point(0,-1,0), new Vector(0,2,-4)));
+        assertEquals(1,result.size(),"Wrong number of points in TC05");
+        assertEquals(new Point(0,1,-4),result.get(1),"Wrong intersection point in TC05");
+        //Parallel vectors:
+
+        //TC06: Ray is inside tube and parallel to it - 0 intersections
+        assertNull(tube.findIntersections(new Ray(new Point(0,0.5,0), new Vector(0,0,1))),"There should be no intersection in TC06");
+
+        //TC07: Ray is on tube and parallel to it - 0 intersections
+        assertNull(tube.findIntersections(new Ray(new Point(0,1,0), new Vector(0,0,1))),"There should be no intersection in TC07");
+
+        //TC08: Ray is out of tube and parallel to it - 0 intersections
+        assertNull(tube.findIntersections(new Ray(new Point(0,2,0), new Vector(0,0,1))),"There should be no intersection in TC08");
+
+
 
     }
 }
