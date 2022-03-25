@@ -4,9 +4,10 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static primitives.Util.isZero;
+import static primitives.Util.*;
 
 /**
  * class Cylinder represents a 3D cylinder
@@ -52,8 +53,10 @@ public class Cylinder extends Tube {
         }
         return super.getNormal(point);
     }
+
     @Override
     public List<Point> findIntersections(Ray ray) {
+
         return null;
     }
 }

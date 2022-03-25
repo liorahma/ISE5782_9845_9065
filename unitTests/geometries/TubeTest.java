@@ -83,15 +83,32 @@ class TubeTest {
 
         // *** Group: Ray is orthogonal to tube vector
         // TC16: Ray starts out of the tube and crosses the tube - 2 intersections
+        result=tube.findIntersections(new Ray(new Point(2,0,0),new Vector(-3,0,0)));
+        assertEquals(2, result.size(),"Wrong number of points in TC16");
+        p1=new Point(1,0,0);
+        p2=new Point(-1, 0, 0);
+        assertTrue(List.of(p1, p2).equals(result) || List.of(p2, p1).equals(result),
+                "Wrong intersection points in TC16");
         // TC18: Ray starts out of the tube and does not cross the tube - 0 intersections
+        assertNull(tube.findIntersections(new Ray(new Point(2,0,0), new Vector(1,0,0))),"There should be no intersection in TC18");
         // TC19: Ray starts on the tube and goes in - 1 intersection
+        result= tube.findIntersections(new Ray(new Point(1,0,0), new Vector(-1,0,0)));
+        assertEquals(1,result.size(),"Wrong number of points in TC19");
+        assertEquals(new Point(-1,0,0),result.get(1),"Wrong intersection point in TC19");
         // TC20: Ray starts on the tube and goes out - 0 intersections
-
+        assertNull(tube.findIntersections(new Ray(new Point(1,0,0), new Vector(1,0,0))),"There should be no intersection in TC20");
 
         // *** Group: Ray starts on tube's Ray
         // TC21: Ray starts on tube's Ray and is not orthogonal - 1 intersection
+        result= tube.findIntersections(new Ray(new Point(0,0,1), new Vector(0,-1,-1)));
+        assertEquals(1,result.size(),"Wrong number of points in TC21");
+        assertEquals(new Point(0,-1,0),result.get(1),"Wrong intersection point in TC21");
         // TC22: Ray starts on tube's Ray and is orthogonal - 1 intersection
+        result= tube.findIntersections(new Ray(new Point(0,0,1), new Vector(0,1,0)));
+        assertEquals(1,result.size(),"Wrong number of points in TC22");
+        assertEquals(new Point(0,1,1),result.get(1),"Wrong intersection point in TC22");
         // TC23: Ray is tube's ray - 0 intersections
+        assertNull(tube.findIntersections(new Ray(new Point(0,0,1), new Vector(0,0,1))),"There should be no intersection in TC23");
 
     }
 }
