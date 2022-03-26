@@ -1,5 +1,7 @@
 package primitives;
 
+import static primitives.Util.isZero;
+
 public class Vector extends Point {
     /**
      * Builds representation of a 3D vector
@@ -106,7 +108,7 @@ public class Vector extends Point {
         double x = this._xyz._d2 * vector._xyz._d3 - this._xyz._d3 * vector._xyz._d2;
         double y = this._xyz._d3 * vector._xyz._d1 - this._xyz._d1 * vector._xyz._d3;
         double z = this._xyz._d1 * vector._xyz._d2 - this._xyz._d2 * vector._xyz._d1;
-        if (x == 0 && y == 0 && z == 0)
+        if (isZero(x) && isZero(y) && isZero(z))
             throw new IllegalArgumentException("CrossProduct results with zero vector");
         return new Vector(x, y, z);
     }
@@ -129,7 +131,7 @@ public class Vector extends Point {
      * @return scaled vector
      */
     public Vector scale(double factor) {
-        if (factor == 0)
+        if (isZero(factor))
             throw new IllegalArgumentException("Cannot scale by zero");
         return new Vector(_xyz.scale(factor));
     }
