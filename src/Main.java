@@ -63,6 +63,7 @@ public final class Main {
 		if (v.dotProduct(u) < 0)
 			out.println("ERROR: the normalized vector is opposite to the original one");
 
+
 		// Test operations with points and vectors
 		Point p1 = new Point(1, 2, 3);
 		if (!(p1.add(new Vector(-1, -2, -3)).equals(new Point(0, 0, 0))))
