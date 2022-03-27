@@ -23,6 +23,8 @@ public class Triangle extends Polygon {
     @Override
     public List<Point> findIntersections(Ray ray) {
         List<Point> intersections = _plane.findIntersections(ray);
+        if (intersections==null)
+            return null;
         if (!isInside(intersections.get(0))) {
             return null;
         }
