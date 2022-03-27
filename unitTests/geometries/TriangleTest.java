@@ -22,6 +22,7 @@ class TriangleTest {
                 t.getNormal(new Point(1, 0, 0)),
                 "GetNormal() of triangle wrong result - bad normal");
     }
+
     /**
      * Test method for {@link Triangle#findIntersections(Ray)}
      */
@@ -30,11 +31,11 @@ class TriangleTest {
         Triangle t = new Triangle(new Point(0, 0, 1),
                 new Point(1, 0, 0),
                 new Point(0, 1, 0));
-        Point p=new Point(0,-1,0);
+        Point p = new Point(0, -1, 0);
         // ============ Equivalence Partitions Tests ==============
         //TC01: Ray intersects inside the triangle
-        assertEquals(new Point(1/3f,1/3f,1/3f),
-                t.findIntersections(new Ray(p,new Vector(1/3f,1/3f+1,1/3f))).get(1));
+        assertEquals(new Point(1 / 3d, 1 / 3d, 1 / 3d),
+                t.findIntersections(new Ray(p, new Vector(1 / 3f, 1 / 3f + 1, 1 / 3f))).get(0));
         //Ray doesn't intersect- two cases:
         //TC02: not on corners
         assertNull(t.findIntersections(new Ray(p, new Vector(1.5, 0.5, 0.5))));

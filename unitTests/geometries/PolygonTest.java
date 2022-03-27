@@ -92,15 +92,28 @@ class PolygonTest {
     }
     @Test
     void testFindIntersections() {
+        Polygon polygon = new Polygon(new Point(0, 2, 0),
+                new Point(2, 0, 0),
+                new Point(1, 0, 1),
+                new Point(0, 1, 1));
+        Point p = new Point(0, -1, 0);
         // ============ Equivalence Partitions Tests ==============
         // TC01: Ray intersects inside the polygon - 1 points
+        assertEquals(new Point(0.5, 1, 0.5),
+                polygon.findIntersections(new Ray(p, new Vector(1 / 3f, 1 / 3f + 1, 1 / 3f))).get(0));
         // Ray doesn't intersect - two cases:
         // TC02: not on corners
+        assertNull(polygon.findIntersections(new Ray(p, new Vector(0, 1, 3))));
         // TC03: on corners
+        assertNull(polygon.findIntersections(new Ray(p, new Vector(1, 1, 1))));
         // =============== Boundary Values Tests ==================
         // TC11:Ray intersects on one of the points
+        assertNull(polygon.findIntersections(new Ray(p, new Vector(0, 3, 0))));
         // TC12: Ray intersects on one of the edges
+        assertNull(polygon.findIntersections(new Ray(p, new Vector(0.5, 1.5, 1))));
         // TC13: Ray intersects with continuation of one of the edges
+        assertNull(polygon.findIntersections(new Ray(p, new Vector(0, 1, 2))));
+
 
     }
 }
