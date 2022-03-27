@@ -53,6 +53,11 @@ public class Sphere implements Geometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
+        if(_center.equals(ray.getP0())) {
+            List<Point> intersections = new ArrayList<>();
+            intersections.add(ray.getP0().add(ray.getDir().scale(_radius)));
+            return intersections;
+        }
         Vector u= _center.subtract(ray.getP0());
         double tm = u.dotProduct(ray.getDir().normalize());
         double d = Math.sqrt(u.lengthSquared() - tm * tm);

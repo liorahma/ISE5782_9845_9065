@@ -69,7 +69,7 @@ class SphereTest {
                 result.size(),
                 "Wrong number of points in TC11"
         );
-        assertEquals(List.of(new Point(0.5294117647, 0.8823529412, 0)),
+        assertEquals(List.of(new Point(1.8, 0.6, 0)),
                 result,
                 "Wrong intersection point in TC11"
         );

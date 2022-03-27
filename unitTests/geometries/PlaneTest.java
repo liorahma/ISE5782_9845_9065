@@ -113,11 +113,11 @@ class PlaneTest {
         );
         // Ray is orthogonal to plane
         // BVA03: Ray intersects plane
-//        assertEquals(p.findIntersections(
-//                        new Ray(new Point(0, 0, 1), new Vector(1, 0, -1))).get(0),
-//                new Point(1d / 3, 1d / 3, 1d / 3),
-//                "Orthogonal ray with 1 intersection point does not work"
-//        );
+        assertEquals(p.findIntersections(
+                        new Ray(new Point(0, 0, 0), new Vector(1d / 3, 1d / 3, 1d / 3))).get(0),
+                new Point(1d / 3, 1d / 3, 1d / 3),
+                "Orthogonal ray with 1 intersection point does not work"
+        );
         // BVA04: starting point of ray is on the plane
         assertNull(p.findIntersections(
                         new Ray(new Point(1d / 3, 1d / 3, 1d / 3), new Vector(1d / 3, 1d / 3, 1d / 3))),
