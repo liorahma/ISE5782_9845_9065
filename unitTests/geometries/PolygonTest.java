@@ -90,6 +90,7 @@ class PolygonTest {
                 pl.getNormal(new Point(0, 0, 1)),
                 "Bad normal to triangle");
     }
+
     @Test
     void testFindIntersections() {
         Polygon polygon = new Polygon(new Point(0, 2, 0),

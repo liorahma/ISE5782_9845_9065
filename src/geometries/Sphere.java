@@ -25,6 +25,7 @@ public class Sphere implements Geometry {
                 ", radius=" + _radius +
                 '}';
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -32,6 +33,7 @@ public class Sphere implements Geometry {
         Sphere sphere = (Sphere) o;
         return isZero(Double.compare(sphere._radius, _radius)) && Objects.equals(_center, sphere._center);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(_center, _radius);
@@ -53,12 +55,12 @@ public class Sphere implements Geometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        if(_center.equals(ray.getP0())) {
+        if (_center.equals(ray.getP0())) {//ray starts from center of sphere
             List<Point> intersections = new ArrayList<>();
             intersections.add(ray.getP0().add(ray.getDir().scale(_radius)));
             return intersections;
         }
-        Vector u= _center.subtract(ray.getP0());
+        Vector u = _center.subtract(ray.getP0());
         double tm = u.dotProduct(ray.getDir().normalize());
         double d = Math.sqrt(u.lengthSquared() - tm * tm);
         if (d >= _radius)//no intersections
@@ -66,7 +68,7 @@ public class Sphere implements Geometry {
         double th = Math.sqrt(_radius * _radius - d * d);
         double t1 = tm + th;
         double t2 = tm - th;
-        if (t1 <= 0 && t2 <= 0)
+        if (t1 <= 0 && t2 <= 0)//both are on 'opposite' side of ray, so it doesn't count as an intersection
             return null;
         List<Point> intersections = new ArrayList<>();
         if (t1 > 0)

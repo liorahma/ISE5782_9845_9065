@@ -26,6 +26,9 @@ class SphereTest {
         );
     }
 
+    /**
+     * Test method for {@link Sphere#findIntersections(Ray)}
+     */
     @Test
     void testFindIntersections() {
         Sphere sphere = new Sphere(new Point(1, 0, 0), 1d);
@@ -42,7 +45,7 @@ class SphereTest {
         Point p2 = new Point(1.53484692283495, 0.844948974278318, 0);
         List<Point> result = sphere.findIntersections(new Ray(new Point(-1, 0, 0),
                 new Vector(3, 1, 0)));
-        assertNotNull(result,"TC02 returned null");
+        assertNotNull(result, "TC02 returned null");
         assertEquals(2, result.size(), "TC02 Wrong number of points");
         // dif (result.get(0)._xyz._d1 > result.get(1).getX())
         //    result = List.of(result.get(1), result.get(0));
@@ -51,7 +54,7 @@ class SphereTest {
 
         // TC03: Ray starts inside the sphere (1 point)
         result = sphere.findIntersections(new Ray(new Point(1.5d, 0, 0), new Vector(1, 0, 0)));
-        assertEquals(1, result.size(),"Wrong number of points in TC03");
+        assertEquals(1, result.size(), "Wrong number of points in TC03");
         assertEquals(List.of(new Point(2, 0, 0)),
                 result,
                 "Wrong intersection point in TC03"
