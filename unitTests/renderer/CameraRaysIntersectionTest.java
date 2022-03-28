@@ -10,6 +10,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+
 /***
  * Testing rays intersections with geometries on view plane
  * Integration test methods for {@link Camera#constructRay(int, int, int, int)}
