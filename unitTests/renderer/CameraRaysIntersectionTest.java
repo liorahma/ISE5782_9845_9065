@@ -36,32 +36,32 @@ public class CameraRaysIntersectionTest {
         triangle = new Triangle(new Point(0.5, 0.5, -1),
                 new Point(-1, 0.5, -1),
                 new Point(0.5, -1, -1));
-        assertEquals(1, findCameraRaysIntersections(camera, 3, 3, triangle));
+        assertEquals(1, findCameraRaysIntersections(camera, 3, 3, triangle), bad);
         // TC03: camera ray is included in triangle's plane (0 point)
         triangle = new Triangle(new Point(0, 0, 0),
                 new Point(0, 0, 1),
                 new Point(0, 1, 1));
-        assertEquals(0, findCameraRaysIntersections(camera, 3, 3, triangle));
+        assertEquals(0, findCameraRaysIntersections(camera, 3, 3, triangle), bad);
         // TC04: Triangle is not parallel to view plane and goes through it, small triangle (1 point)
         triangle = new Triangle(new Point(0.5, 0.5, 1),
                 new Point(-1, 0.5, -1),
                 new Point(0.5, -1, -1));
-        assertEquals(1, findCameraRaysIntersections(camera, 3, 3, triangle));
+        assertEquals(1, findCameraRaysIntersections(camera, 3, 3, triangle), bad);
         // TC05: Triangle is not parallel to view plane and not visible (0 points)
         triangle = new Triangle(new Point(20.5, 20.5, 11),
                 new Point(20, 20, 10),
                 new Point(19, 19, 11));
-        assertEquals(0, findCameraRaysIntersections(camera, 3, 3, triangle));
+        assertEquals(0, findCameraRaysIntersections(camera, 3, 3, triangle), bad);
         // TC06: Triangle is parallel to view plane and behind camera (0 points)
         triangle = new Triangle(new Point(0.5, 0.5, 11),
                 new Point(-1, 0.5, 11),
                 new Point(0.5, -1, 11));
-        assertEquals(1, findCameraRaysIntersections(camera, 3, 3, triangle));
+        assertEquals(1, findCameraRaysIntersections(camera, 3, 3, triangle), bad);
         // TC07: Triangle is included in view plane (9 points)
         triangle = new Triangle(new Point(-20, 0, 0),
                 new Point(-20, 20, 0),
                 new Point(20, 20, 0));
-        assertEquals(9, findCameraRaysIntersections(camera, 3, 3, triangle));
+        assertEquals(9, findCameraRaysIntersections(camera, 3, 3, triangle), bad);
 
 
     }

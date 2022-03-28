@@ -6,6 +6,7 @@ import primitives.*;
 
 /**
  * class for representing camera view
+ *
  * @author Liora Mandelbaum and Sarah Bednarsh
  */
 public class Camera {
@@ -40,8 +41,9 @@ public class Camera {
 
     /**
      * Builds camera according to location of source point and vectors that define view plane
+     *
      * @param location point where the camera is located
-     * @param vto z-axis to view plane
+     * @param vto      z-axis to view plane
      */
     public Camera(Point location, Vector vto, Vector vup) {
         if (!isZero(vto.dotProduct(vup)))
@@ -55,7 +57,8 @@ public class Camera {
 
     /**
      * Builder pattern - sets property and return the object
-     * @param width width of view plane
+     *
+     * @param width  width of view plane
      * @param height height of view plane
      * @return this
      */
@@ -67,6 +70,7 @@ public class Camera {
 
     /**
      * Builder pattern - sets property and return the object
+     *
      * @param distance distance of camera from the vew plane
      * @return this
      */
@@ -84,7 +88,17 @@ public class Camera {
      * @return Ray starting at camera that goes through the pixel
      */
     public Ray constructRay(int nX, int nY, int j, int i) {
-        return null;
-
+        double ry = _height / nY;
+        double rx = _width / nX;
+        double yScale = alignZero((j - nX / 2d) * rx + rx / 2d);
+        double xScale = alignZero((i - nY / 2d) * ry + ry / 2d);
+        Point p = _location.add(_vto.scale(_distance)); // center
+        if (!isZero(yScale))
+            p = p.add(_vright.scale(yScale));
+        if (!isZero(xScale))
+            p = p.add(_vup.scale(-1 * xScale));
+        Vector v = p.subtract(_location);
+        v = v.normalize();
+        return new Ray(_location, p.subtract(_location));
     }
 }
