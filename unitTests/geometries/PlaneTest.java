@@ -103,7 +103,7 @@ class PlaneTest {
         // Ray is parallel to plane
         // BVA01: Ray is included in the plane
         assertNull(p.findIntersections(
-                        new Ray(new Point(0, 0, 1), new Vector(1, 0, -1))),
+                        new Ray(new Point(1, 0, 0), new Vector(1, 0, -1))),
                 "Ray is included - should return null"
         );
         // BVA02: Ray is parallel to plane but not included

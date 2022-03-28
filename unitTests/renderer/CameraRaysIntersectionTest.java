@@ -56,9 +56,9 @@ public class CameraRaysIntersectionTest {
         triangle = new Triangle(new Point(0.5, 0.5, 11),
                 new Point(-1, 0.5, 11),
                 new Point(0.5, -1, 11));
-        assertEquals(1, findCameraRaysIntersections(camera, 3, 3, triangle), bad);
+        assertEquals(0, findCameraRaysIntersections(camera, 3, 3, triangle), bad);
         // TC07: Triangle is included in view plane (9 points)
-        triangle = new Triangle(new Point(-20, 0, 0),
+        triangle = new Triangle(new Point(0, -20, 0),
                 new Point(-20, 20, 0),
                 new Point(20, 20, 0));
         assertEquals(9, findCameraRaysIntersections(camera, 3, 3, triangle), bad);
@@ -92,7 +92,7 @@ public class CameraRaysIntersectionTest {
         plane = new Plane(new Point(10, 10, 0), new Vector(0, 1, 1));
         assertEquals(0, findCameraRaysIntersections(camera, 3, 3, plane), bad);
         // TC06: Plane is parallel to view plane and is behind it (0 points)
-        plane = new Plane(new Point(0, 0, -1), new Vector(0, 0, 1));
+        plane = new Plane(new Point(0, 0, 10), new Vector(0, 0, 1));
         assertEquals(0, findCameraRaysIntersections(camera, 3, 3, plane), bad);
         // TC07: view plane is included in plane (9 points)
         plane = new Plane(new Point(0, 0, 0), new Vector(0, 0, 1));
@@ -110,22 +110,22 @@ public class CameraRaysIntersectionTest {
                 .setVPSize(4d, 4d);
         // *** Group: Sphere is completely visible
         // TC01: Sphere behind view plane and visible completely from the view plane (2 points)
-        Sphere sphere = new Sphere(new Point(0, 0, -1), 0.5d);
+        Sphere sphere = new Sphere(new Point(0.5, 0.5, -1), 0.5);
         assertEquals(2, findCameraRaysIntersections(camera, 4, 4, sphere),
                 "Wrong number - visible sphere after plane");
         // TC02: Sphere in front of view plane and visible completely (2 points)
-        sphere = new Sphere(new Point(0, 0, 1), 1d);
+        sphere = new Sphere(new Point(0.5, 0.5, 1), 0.5);
         assertEquals(2, findCameraRaysIntersections(camera, 4, 4, sphere),
                 "Wrong number - visible sphere before plane");
 
         // *** Group: view plane is in the sphere, sphere is after camera
-        // TC03: Sphere boundaries are inside view plane (12 points)
-        sphere = new Sphere(new Point(0, 0, 0), 1.9);
-        assertEquals(12, findCameraRaysIntersections(camera, 4, 4, sphere),
+        // TC03: Sphere boundaries are inside view plane (8 points)
+        sphere = new Sphere(new Point(0, 0, 0), 1);
+        assertEquals(8, findCameraRaysIntersections(camera, 4, 4, sphere),
                 "Wrong number - view plane partially inside sphere");
         // TC04: Sphere boundaries are outside view plane (16 points)
         sphere = new Sphere(new Point(0, 0, 0), 3.9d);
-        assertEquals(16, findCameraRaysIntersections(camera, 4, 4, sphere),
+        assertEquals(32, findCameraRaysIntersections(camera, 4, 4, sphere),
                 "Wrong number - view plane completely inside sphere");
 
         // TC05: Sphere boundaries are outside view plane, camera and vp are inside the sphere (16 points)
@@ -135,7 +135,7 @@ public class CameraRaysIntersectionTest {
 
         // TC06: camera and view plane are behind the sphere (0 points)
         sphere = new Sphere(new Point(0, 0, 10), 1);
-        assertEquals(16, findCameraRaysIntersections(camera, 4, 4, sphere),
+        assertEquals(0, findCameraRaysIntersections(camera, 4, 4, sphere),
                 "Wrong number - view plane and camera are behind the sphere");
     }
 

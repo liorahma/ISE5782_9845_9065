@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static primitives.Util.isZero;
+
 public class Plane implements Geometry {
 
     final private Point _q0;
@@ -83,15 +85,16 @@ public class Plane implements Geometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        if (_q0.equals(ray.getP0()))//ray starts on point of plan, no intersections
+        if (_q0.equals(ray.getP0()))//ray starts on point of plain, no intersections
+            return null;
+        if(isZero(_normal.dotProduct(ray.getDir())))
             return null;
         double t = _normal.dotProduct(_q0.subtract(ray.getP0())) / _normal.dotProduct(ray.getDir());
-        if (t <= 0 || Util.isZero(t))//no intersection
+        if (t <= 0 || isZero(t))//no intersection
             return null;
         List<Point> intersections = new ArrayList<Point>();
         intersections.add(ray.getP0().add(ray.getDir().scale(t)));
         return intersections;
-
 
     }
 }
