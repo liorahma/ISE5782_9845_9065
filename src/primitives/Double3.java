@@ -10,7 +10,7 @@ import static primitives.Util.*;
  * 
  * @author Dan Zilberstein
  */
-class Double3 {
+public class Double3 {
 	final double _d1;
 	final double _d2;
 	final double _d3;
