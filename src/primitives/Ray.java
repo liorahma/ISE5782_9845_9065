@@ -1,5 +1,6 @@
 package primitives;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Ray {
@@ -8,7 +9,8 @@ public class Ray {
 
     /**
      * constructs Ray with point and vector
-     * @param p0 starting point
+     *
+     * @param p0  starting point
      * @param dir direction vector
      */
     public Ray(Point p0, Vector dir) {
@@ -31,6 +33,21 @@ public class Ray {
         if (!(obj instanceof Ray)) return false;
         Ray other = (Ray) obj;
         return Objects.equals(_p0, other._p0) && Objects.equals(_dir, other._dir);
+    }
+
+    public Point findClosestPoint(List<Point> points) {
+        if (points == null || points.isEmpty())
+            return null;
+        double distance = _p0.distanceSquared(points.get(0));
+        Point closest = points.get(0);
+        for (Point point : points) {
+            double current = _p0.distanceSquared(point);
+            if (current < distance) {
+                distance = current;
+                closest = point;
+            }
+        }
+        return closest;
     }
 
     @Override

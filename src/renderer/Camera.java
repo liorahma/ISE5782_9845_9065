@@ -4,6 +4,8 @@ import static primitives.Util.*;
 
 import primitives.*;
 
+import java.util.MissingResourceException;
+
 /**
  * class for representing camera view
  *
@@ -38,6 +40,10 @@ public class Camera {
      * camera distance from view plane
      */
     private double _distance;
+
+
+    private ImageWriter _imageWriter;
+    private RayTracerBase _rayTracerBase;
 
     /**
      * Builds camera according to location of source point and vectors that define view plane
@@ -79,6 +85,17 @@ public class Camera {
         return this;
     }
 
+
+    public Camera setImageWriter(ImageWriter imageWriter) {
+        _imageWriter = imageWriter;
+        return this;
+    }
+
+    public Camera setRayTracer(RayTracerBase rayTracerBase) {
+        _rayTracerBase = rayTracerBase;
+        return this;
+    }
+
     /***
      * Constructs ray through pixel
      * @param nX columns
@@ -101,4 +118,54 @@ public class Camera {
         v = v.normalize();
         return new Ray(_location, p.subtract(_location));
     }
+
+    public void renderImage() {
+        if (_location == null)
+            throw new MissingResourceException("location is missing", "Point", "location");
+        if (_vto == null)
+            throw new MissingResourceException("Vto is missing", "Vector", "vto");
+        if (_vup == null)
+            throw new MissingResourceException("Vup is missing", "Vector", "vup");
+        if (_vright == null)
+            throw new MissingResourceException("Vright is missing", "Vector", "vright");
+        if (_height == 0)
+            throw new MissingResourceException("height is missing", "double", "height");
+        if (_width == 0)
+            throw new MissingResourceException("width is missing", "double", "width");
+        if (_distance == 0)
+            throw new MissingResourceException("distance is missing", "double", "distance");
+        if (_imageWriter == null)
+            throw new MissingResourceException("imageWriter is missing", "ImageWriter", "imageWriter");
+        if (_rayTracerBase == null)
+            throw new MissingResourceException("rayTracerBase is missing", "RayTraceBase", "rayTracerBase");
+
+        for (int i = 0; i < _imageWriter.getNx(); i++) {
+            for (int j = 0; j < _imageWriter.getNy(); j++) {
+                _imageWriter.writePixel(j, i, castRay(j, i));
+            }
+        }
+    }
+
+    private Color castRay(int j, int i){
+        Ray ray = constructRay(_imageWriter.getNx(), _imageWriter.getNy(), j, i);
+        return _rayTracerBase.traceRay(ray);
+    }
+    public void printGrid(int interval, Color color) {
+        if (_imageWriter == null)
+            throw new MissingResourceException("imageWriter is missing", "ImageWriter", "imageWriter");
+        for (int i = 0; i < _imageWriter.getNx(); i++) {
+            for (int j = 0; j < _imageWriter.getNy(); j++) {
+                // on grid
+                if (i % interval == 0 || j % interval == 0)
+                    _imageWriter.writePixel(j, i, color);
+            }
+        }
+    }
+
+    public void writeToImage() {
+        if (_imageWriter == null)
+            throw new MissingResourceException("imageWriter is missing", "ImageWriter", "imageWriter");
+        _imageWriter.writeToImage();
+    }
+
 }

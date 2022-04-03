@@ -27,7 +27,7 @@ public class Double3 {
 	 * @param d2 second number value
 	 * @param d3 third number value
 	 */
-	protected Double3(double d1, double d2, double d3) {
+	public Double3(double d1, double d2, double d3) {
 		_d1 = d1;
 		_d2 = d2;
 		_d3 = d3;
