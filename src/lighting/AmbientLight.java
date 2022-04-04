@@ -3,6 +3,7 @@ package lighting;
 import primitives.*;
 
 
+
 /**
  * Class representing ambient light
  * @author Liorah Mandelbaum and Sarah Bednarsh
