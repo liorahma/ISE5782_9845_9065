@@ -11,15 +11,15 @@ import javax.imageio.*;
 
 /**
  * Image writer class combines accumulation of pixel color matrix and finally
- * producing a non-optimized jpeg image from this matrix. The class although is
- * responsible of holding image related parameters of View Plane - pixel matrix
+ * producing a non-optimized jpeg image from this matrix. The class also is
+ * responsible for holding image related parameters of View Plane - pixel matrix
  * size and resolution
  * 
  * @author Dan
  */
 public class ImageWriter {
-	private int nX;
-	private int nY;
+	private int _nX;
+	private int _nY;
 
 	private static final String FOLDER_PATH = System.getProperty("user.dir") + "/images";
 
@@ -37,8 +37,8 @@ public class ImageWriter {
 	 */
 	public ImageWriter(String imageName, int nX, int nY) {
 		this.imageName = imageName;
-		this.nX = nX;
-		this.nY = nY;
+		this._nX = nX;
+		this._nY = nY;
 
 		image = new BufferedImage(nX, nY, BufferedImage.TYPE_INT_RGB);
 	}
@@ -50,7 +50,7 @@ public class ImageWriter {
 	 * @return the amount of vertical pixels
 	 */
 	public int getNy() {
-		return nY;
+		return _nY;
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class ImageWriter {
 	 * @return the amount of horizontal pixels
 	 */
 	public int getNx() {
-		return nX;
+		return _nX;
 	}
 
 	// ***************** Operations ******************** //

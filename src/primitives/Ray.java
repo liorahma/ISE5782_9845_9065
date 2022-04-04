@@ -35,6 +35,11 @@ public class Ray {
         return Objects.equals(_p0, other._p0) && Objects.equals(_dir, other._dir);
     }
 
+    /**
+     * Finds the closest point to start point of ray out of list of points
+     * @param points list of points
+     * @return closest point, null if list is empty
+     */
     public Point findClosestPoint(List<Point> points) {
         if (points == null || points.isEmpty())
             return null;
