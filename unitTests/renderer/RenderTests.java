@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import lighting.AmbientLight;
 import geometries.*;
 import primitives.*;
-import renderer.*;
 import scene.Scene;
 
 /**
@@ -43,7 +42,24 @@ public class RenderTests {
 		camera.renderImage();
 		camera.printGrid(100, new Color(java.awt.Color.YELLOW));
 		camera.writeToImage();
+
+
+		// Test moveCamera
+		camera.setImageWriter(new ImageWriter("testMoveCamera", 1000, 1000));
+		camera.move(50, 0, 0);
+		camera.renderImage();
+		camera.printGrid(100, new Color(java.awt.Color.YELLOW));
+		camera.writeToImage();
+
+		// Test rotateCamera
+		camera.setImageWriter(new ImageWriter("testRotateCamera", 1000, 1000));
+		camera.rotate(new Vector(0, 0, -1), 30);
+		camera.renderImage();
+		camera.printGrid(100, new Color(java.awt.Color.YELLOW));
+		camera.writeToImage();
+
 	}
+
 
 	/**
 	 * Test for XML based scene - for bonus
