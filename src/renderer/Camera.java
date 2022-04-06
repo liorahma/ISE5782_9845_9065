@@ -92,6 +92,7 @@ public class Camera {
 
     /**
      * Builder pattern - sets property and return the object
+     *
      * @param imageWriter image writer
      * @return this
      */
@@ -102,6 +103,7 @@ public class Camera {
 
     /**
      * Builder pattern - sets property and return the object
+     *
      * @param rayTracerBase ray tracer object
      * @return this
      */
@@ -109,6 +111,36 @@ public class Camera {
         _rayTracerBase = rayTracerBase;
         return this;
     }
+
+    /**
+     * allows moving camera's location according to parameters in each axis
+     *
+     * @param to    change in to axis
+     * @param up    change in up axis
+     * @param right change in right axis
+     * @return this
+     */
+    public Camera move(double to, double up, double right) {
+        if (!isZero(to)) _location.add(_vto.scale(to));
+        if (!isZero(up)) _location.add(_vup.scale(up));
+        if (!isZero(right)) _location.add(_vright.scale(right));
+        return this;
+    }
+
+    /**
+     * allows rotating camera on a given axis by a given angle
+     * @param rotationAxis the rotation axis
+     * @param angle the rotation angle
+     * @return this
+     */
+    public Camera rotate(Vector rotationAxis, double angle) {
+        if (isZero(angle)) return this;
+        _vto = _vto.rotate(rotationAxis, angle);
+        _vup = _vup.rotate(rotationAxis, angle);
+        _vright = _vright.rotate(rotationAxis, angle);
+        return this;
+    }
+
 
     /***
      * Constructs ray through pixel
@@ -166,11 +198,12 @@ public class Camera {
 
     /**
      * Casts a ray through a pixel, traces it and returns the color for the pixel
+     *
      * @param j col index
      * @param i row index
      * @return Color for a certain pixel
      */
-    private Color castRay(int j, int i){
+    private Color castRay(int j, int i) {
         Ray ray = constructRay(_imageWriter.getNx(), _imageWriter.getNy(), j, i);
         return _rayTracerBase.traceRay(ray);
     }
@@ -178,8 +211,9 @@ public class Camera {
 
     /**
      * Creates grid according to the interval defined
+     *
      * @param interval width and length of a grid square (in pixels)
-     * @param color color of grid
+     * @param color    color of grid
      */
     public void printGrid(int interval, Color color) {
         if (_imageWriter == null)
