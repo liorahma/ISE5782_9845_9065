@@ -7,6 +7,9 @@ import scene.Scene;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * @author Liorah Mandelbaum and Sarah Bednarsh
+ */
 public class RayTracerBasic extends RayTracerBase {
 
     public RayTracerBasic(Scene scene) {

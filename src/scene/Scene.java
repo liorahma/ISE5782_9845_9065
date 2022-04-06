@@ -4,11 +4,27 @@ import geometries.Geometries;
 import lighting.AmbientLight;
 import primitives.*;
 
+/**
+ * Class representing scene
+ * @author Liorah Mandelbaum and Sarah Bednarsh
+ */
 public class Scene {
 
+    /**
+     * name of scene
+     */
     public String _name;
+    /**
+     * background color
+     */
     public Color _background = Color.BLACK;
+    /**
+     * ambient light of scene
+     */
     public AmbientLight _ambientLight = new AmbientLight();
+    /**
+     * the geometries present in the scene
+     */
     public Geometries _geometries;
 
     public Scene(String name)

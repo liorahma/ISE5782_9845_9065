@@ -40,9 +40,13 @@ public class Camera {
      * camera distance from view plane
      */
     private double _distance;
-
-
+    /**
+     * Image writer to write the image
+     */
     private ImageWriter _imageWriter;
+    /**
+     * ray tracer to trace ray and store the scene
+     */
     private RayTracerBase _rayTracerBase;
 
     /**
@@ -77,7 +81,7 @@ public class Camera {
     /**
      * Builder pattern - sets property and return the object
      *
-     * @param distance distance of camera from the vew plane
+     * @param distance distance of camera from the view plane
      * @return this
      */
     public Camera setVPDistance(double distance) {
@@ -86,11 +90,21 @@ public class Camera {
     }
 
 
+    /**
+     * Builder pattern - sets property and return the object
+     * @param imageWriter image writer
+     * @return this
+     */
     public Camera setImageWriter(ImageWriter imageWriter) {
         _imageWriter = imageWriter;
         return this;
     }
 
+    /**
+     * Builder pattern - sets property and return the object
+     * @param rayTracerBase ray tracer object
+     * @return this
+     */
     public Camera setRayTracer(RayTracerBase rayTracerBase) {
         _rayTracerBase = rayTracerBase;
         return this;
@@ -119,6 +133,9 @@ public class Camera {
         return new Ray(_location, p.subtract(_location));
     }
 
+    /**
+     * render the image using the image writer
+     */
     public void renderImage() {
         if (_location == null)
             throw new MissingResourceException("location is missing", "Point", "location");
@@ -139,6 +156,7 @@ public class Camera {
         if (_rayTracerBase == null)
             throw new MissingResourceException("rayTracerBase is missing", "RayTraceBase", "rayTracerBase");
 
+        // for each pixel
         for (int i = 0; i < _imageWriter.getNx(); i++) {
             for (int j = 0; j < _imageWriter.getNy(); j++) {
                 _imageWriter.writePixel(j, i, castRay(j, i));
@@ -146,10 +164,23 @@ public class Camera {
         }
     }
 
+    /**
+     * Casts a ray through a pixel, traces it and returns the color for the pixel
+     * @param j col index
+     * @param i row index
+     * @return Color for a certain pixel
+     */
     private Color castRay(int j, int i){
         Ray ray = constructRay(_imageWriter.getNx(), _imageWriter.getNy(), j, i);
         return _rayTracerBase.traceRay(ray);
     }
+
+
+    /**
+     * Creates grid according to the interval defined
+     * @param interval width and length of a grid square (in pixels)
+     * @param color color of grid
+     */
     public void printGrid(int interval, Color color) {
         if (_imageWriter == null)
             throw new MissingResourceException("imageWriter is missing", "ImageWriter", "imageWriter");
@@ -162,6 +193,9 @@ public class Camera {
         }
     }
 
+    /**
+     * Saves the image as a .png file
+     */
     public void writeToImage() {
         if (_imageWriter == null)
             throw new MissingResourceException("imageWriter is missing", "ImageWriter", "imageWriter");

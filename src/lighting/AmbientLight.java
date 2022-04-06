@@ -2,9 +2,22 @@ package lighting;
 
 import primitives.*;
 
+
+
+
+/**
+ * Class representing ambient light
+ * @author Liorah Mandelbaum and Sarah Bednarsh
+ */
 public class AmbientLight {
 
+    /**
+     * intensity of ambient light (brightness)
+     */
     private Color _intensity;
+    /**
+     * absorption coefficient
+     */
     private Double3 _ka;
 
     public AmbientLight() {
