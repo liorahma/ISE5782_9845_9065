@@ -8,7 +8,7 @@ import java.util.Objects;
 
 import static primitives.Util.isZero;
 
-public class Sphere implements Geometry {
+public class Sphere extends Geometry {
 
     private final Point _center;
     private final double _radius;
@@ -75,6 +75,32 @@ public class Sphere implements Geometry {
         }
         else if (t2 > 0)
             return List.of(ray.getP0().add(ray.getDir().scale(t2)));
+        return null;
+    }
+
+    @Override
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        if (_center.equals(ray.getP0())) {//ray starts from center of sphere
+            return List.of(new GeoPoint(this,ray.getP0().add(ray.getDir().scale(_radius))));
+        }
+        Vector u = _center.subtract(ray.getP0());
+        double tm = u.dotProduct(ray.getDir().normalize());
+        double d = Math.sqrt(u.lengthSquared() - tm * tm);
+        if (d >= _radius)//no intersections
+            return null;
+        double th = Math.sqrt(_radius * _radius - d * d);
+        double t1 = tm + th;
+        double t2 = tm - th;
+        if (t1 <= 0 && t2 <= 0)//both are on 'opposite' side of ray, so it doesn't count as an intersection
+            return null;
+        if (t1 > 0) {
+            if (t2 > 0)
+                return List.of(new GeoPoint(this,ray.getP0().add(ray.getDir().scale(t1))), new GeoPoint(this,ray.getP0().add(ray.getDir().scale(t2))));
+            return List.of(new GeoPoint(this,ray.getP0().add(ray.getDir().scale(t1))));
+
+        }
+        else if (t2 > 0)
+            return List.of(new GeoPoint(this,ray.getP0().add(ray.getDir().scale(t2))));
         return null;
     }
 }

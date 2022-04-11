@@ -4,7 +4,7 @@ import primitives.*;
 
 import java.util.List;
 
-public class Tube implements Geometry {
+public class Tube extends Geometry {
     protected Ray _axisRay;
     protected double _radius;
 
@@ -43,6 +43,11 @@ public class Tube implements Geometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
+        return null;
+    }
+
+    @Override
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         return null;
     }
 }

@@ -31,6 +31,16 @@ public class Triangle extends Polygon {
         return intersections;
     }
 
+    @Override
+    public List<GeoPoint> findGeoIntersections(Ray ray){
+        List<GeoPoint> intersections = _plane.findGeoIntersections(ray);
+        if (intersections==null)
+            return null;
+        if (!isInside(intersections.get(0)._point)) {
+            return null;
+        }
+        return intersections;
+    }
     private boolean isInside(Point p) {
         Point a = this._vertices.get(0);
         Point b = this._vertices.get(1);

@@ -8,7 +8,7 @@ import java.util.Objects;
 
 import static primitives.Util.isZero;
 
-public class Plane implements Geometry {
+public class Plane extends Geometry {
 
     final private Point _q0;
     final private Vector _normal;
@@ -94,5 +94,17 @@ public class Plane implements Geometry {
             return null;
         return List.of(ray.getP0().add(ray.getDir().scale(t)));
 
+    }
+
+    @Override
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        if (_q0.equals(ray.getP0()))//ray starts on point of plain, no intersections
+            return null;
+        if(isZero(_normal.dotProduct(ray.getDir())))
+            return null;
+        double t = _normal.dotProduct(_q0.subtract(ray.getP0())) / _normal.dotProduct(ray.getDir());
+        if (t <= 0 || isZero(t))//no intersection
+            return null;
+        return List.of(new GeoPoint(this, ray.getP0().add(ray.getDir().scale(t))));
     }
 }

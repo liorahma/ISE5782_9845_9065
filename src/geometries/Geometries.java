@@ -4,17 +4,18 @@ import primitives.Point;
 import primitives.Ray;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Class to represent a list of Geometric objects
  */
-public class Geometries implements Intersectable {
+public class Geometries extends Intersectable {
 
     private List<Intersectable> _geometries;
 
     public Geometries() {
-        _geometries = new ArrayList<>();
+        _geometries = new LinkedList<>();
     }
 
     /**
@@ -49,6 +50,23 @@ public class Geometries implements Intersectable {
         //for each shape, adds its intersection points to list of intersection points
         for (Intersectable i : _geometries) {
             tmp = i.findIntersections(ray);
+            if (tmp != null)
+                ans.addAll(tmp);
+        }
+        if (ans.isEmpty())
+            return null;
+        return ans;
+    }
+
+    @Override
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        if (_geometries == null)
+            return null;
+        List<GeoPoint> ans = new LinkedList<>();
+        List<GeoPoint> tmp;
+        //for each shape, adds its intersection points to list of intersection points
+        for (Intersectable i : _geometries) {
+            tmp = i.findGeoIntersections(ray);
             if (tmp != null)
                 ans.addAll(tmp);
         }

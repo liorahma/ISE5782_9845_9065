@@ -13,7 +13,7 @@ import static primitives.Util.*;
  *
  * @author Dan
  */
-public class Polygon implements Geometry {
+public class Polygon extends Geometry {
     /**
      * List of polygon's vertices
      */
@@ -128,6 +128,45 @@ public class Polygon implements Geometry {
                 return null;
         }
         return _plane.findIntersections(ray);
+    }
+
+    @Override
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        Point p0 = ray.getP0();
+        Vector dir = ray.getDir();
+        Vector v1 = _vertices.get(_size - 2).subtract(p0);
+        Vector v2 = _vertices.get(_size - 1).subtract(p0);
+        Vector cross;
+        try {
+            // if an exception about zero vector was throw, ray point is on the edge
+            cross = v2.crossProduct(v1);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+        double product = alignZero(dir.dotProduct(cross));
+        if (isZero(product)) // intersection is on the edge
+            return null;
+
+        // first find direction of the normal to 2 adjacent vertices planes with p0
+        boolean sign = product > 0;
+
+        for (Point vertex:_vertices) {
+            v1 = v2;
+            v2 = vertex.subtract(p0);
+            try {
+                // if an exception about zero vector was throw, ray point is on the edge
+                cross = v2.crossProduct(v1);
+            } catch (IllegalArgumentException e) {
+                return null;
+            }
+            product = alignZero(dir.dotProduct(cross));
+            if (isZero(product)) // intersection is on the edge
+                return null;
+            // intersection is outside of polygon
+            if(sign != product > 0)
+                return null;
+        }
+        return _plane.findGeoIntersections(ray);
     }
 
 }

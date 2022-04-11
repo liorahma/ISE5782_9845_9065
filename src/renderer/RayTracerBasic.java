@@ -1,12 +1,11 @@
 package renderer;
 
-import jdk.jshell.spi.ExecutionControl;
 import primitives.*;
 import scene.Scene;
 
 import java.util.List;
-import java.util.Scanner;
 
+import geometries.Intersectable.GeoPoint;
 /**
  * @author Liorah Mandelbaum and Sarah Bednarsh
  */
@@ -19,13 +18,13 @@ public class RayTracerBasic extends RayTracerBase {
 
     @Override
     public Color traceRay(Ray ray) {
-        List<Point> points = _scene._geometries.findIntersections(ray);
+        List<GeoPoint> points = _scene._geometries.findGeoIntersections(ray);
         if (points == null)
             return _scene._background;
-        Point closest = ray.findClosestPoint(points);
+        GeoPoint closest = ray.findClosestGeoPoint(points);
         return calcColor(closest);
     }
-    private Color calcColor(Point point){
-        return _scene._ambientLight.getIntensity();
+    private Color calcColor(GeoPoint point){
+        return _scene._ambientLight.getIntensity().add(point._geometry.getEmission());
     }
 }
