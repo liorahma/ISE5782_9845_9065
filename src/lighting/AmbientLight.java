@@ -3,35 +3,29 @@ package lighting;
 import primitives.*;
 
 
-
-
 /**
  * Class representing ambient light
+ *
  * @author Liorah Mandelbaum and Sarah Bednarsh
  */
-public class AmbientLight {
+public class AmbientLight extends Light {
 
     /**
-     * intensity of ambient light (brightness - color)
+     * default constructor for ambient light
      */
-    private Color _intensity;
-    /**
-     * absorption coefficient
-     */
-    private Double3 _ka;
-
     public AmbientLight() {
-        _intensity = Color.BLACK;
+        super(Color.BLACK);
     }
 
+    /**
+     * constructor for ambient light
+     * @param intensity intensity of ambient light
+     * @param ka attenuation coefficient
+     */
     public AmbientLight(Color intensity, Double3 ka) {
-        _intensity = intensity.scale(ka);
-        _ka = ka;
+        super(intensity.scale(ka));
     }
 
-    public Color getIntensity() {
-        return _intensity;
-    }
 
 
 }

@@ -43,19 +43,16 @@ public class Ray {
      * @return closest point, null if list is empty
      */
     public Point findClosestPoint(List<Point> points) {
-        if (points == null || points.isEmpty())
-            return null;
-        double distance = _p0.distanceSquared(points.get(0));
-        Point closest = points.get(0);
-        for (Point point : points) {
-            double current = _p0.distanceSquared(point);
-            if (current < distance) {
-                distance = current;
-                closest = point;
-            }
-        }
-        return closest;
+        return points == null || points.isEmpty() ? null
+                : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList())._point;
     }
+
+
+    /**
+     * Finds the closest point to start point of ray out of list of points
+     * @param points list of points
+     * @return closest point, null if list is empty
+     */
     public GeoPoint findClosestGeoPoint(List<GeoPoint> points) {
         if (points == null || points.isEmpty())
             return null;
