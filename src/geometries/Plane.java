@@ -92,9 +92,7 @@ public class Plane implements Geometry {
         double t = _normal.dotProduct(_q0.subtract(ray.getP0())) / _normal.dotProduct(ray.getDir());
         if (t <= 0 || isZero(t))//no intersection
             return null;
-        List<Point> intersections = new ArrayList<Point>();
-        intersections.add(ray.getP0().add(ray.getDir().scale(t)));
-        return intersections;
+        return List.of(ray.getP0().add(ray.getDir().scale(t)));
 
     }
 }

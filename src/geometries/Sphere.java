@@ -56,9 +56,7 @@ public class Sphere implements Geometry {
     @Override
     public List<Point> findIntersections(Ray ray) {
         if (_center.equals(ray.getP0())) {//ray starts from center of sphere
-            List<Point> intersections = new ArrayList<>();
-            intersections.add(ray.getP0().add(ray.getDir().scale(_radius)));
-            return intersections;
+            return List.of(ray.getP0().add(ray.getDir().scale(_radius)));
         }
         Vector u = _center.subtract(ray.getP0());
         double tm = u.dotProduct(ray.getDir().normalize());
@@ -70,11 +68,13 @@ public class Sphere implements Geometry {
         double t2 = tm - th;
         if (t1 <= 0 && t2 <= 0)//both are on 'opposite' side of ray, so it doesn't count as an intersection
             return null;
-        List<Point> intersections = new ArrayList<>();
-        if (t1 > 0)
-            intersections.add(ray.getP0().add(ray.getDir().scale(t1)));
-        if (t2 > 0)
-            intersections.add(ray.getP0().add(ray.getDir().scale(t2)));
-        return intersections;
+        if (t1 > 0) {
+            if (t2 > 0)
+                return List.of(ray.getP0().add(ray.getDir().scale(t1)), ray.getP0().add(ray.getDir().scale(t2)));
+            return List.of(ray.getP0().add(ray.getDir().scale(t1)));
+        }
+        else if (t2 > 0)
+            return List.of(ray.getP0().add(ray.getDir().scale(t2)));
+        return null;
     }
 }
