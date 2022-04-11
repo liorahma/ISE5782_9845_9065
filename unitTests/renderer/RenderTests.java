@@ -1,5 +1,6 @@
 package renderer;
 
+import XMLoperations.XMLReaderDOM;
 import org.junit.jupiter.api.Test;
 
 import lighting.AmbientLight;
@@ -99,9 +100,9 @@ public class RenderTests {
 	 */
 	@Test
 	public void basicRenderXml() {
-		Scene scene = new Scene("XML Test scene");
+
 		// enter XML file name and parse from XML file into scene object
-		// ...
+		Scene scene = XMLReaderDOM.buildSceneFromXML("XML Test scene", "src/XMLoperations/basicRenderTestTwoColors.xml");
 
 		Camera camera = new Camera(Point.ZERO, new Vector(0, 0, -1), new Vector(0, 1, 0)) //
 				.setVPDistance(100) //
