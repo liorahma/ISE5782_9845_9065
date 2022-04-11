@@ -166,7 +166,9 @@ public class Polygon extends Geometry {
             if(sign != product > 0)
                 return null;
         }
-        return _plane.findGeoIntersections(ray);
+        List<GeoPoint> intersections = _plane.findGeoIntersections(ray);
+        intersections.get(0)._geometry = this;
+        return intersections;
     }
 
 }

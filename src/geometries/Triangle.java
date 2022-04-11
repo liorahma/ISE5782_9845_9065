@@ -39,8 +39,15 @@ public class Triangle extends Polygon {
         if (!isInside(intersections.get(0)._point)) {
             return null;
         }
+        intersections.get(0)._geometry = this;
         return intersections;
     }
+
+    /**
+     * find whether aa given point is inside the triangle or not
+     * @param p point to check
+     * @return true if inside, false if outside
+     */
     private boolean isInside(Point p) {
         Point a = this._vertices.get(0);
         Point b = this._vertices.get(1);

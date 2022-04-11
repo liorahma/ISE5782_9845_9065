@@ -12,7 +12,7 @@ import primitives.*;
 public class AmbientLight {
 
     /**
-     * intensity of ambient light (brightness)
+     * intensity of ambient light (brightness - color)
      */
     private Color _intensity;
     /**
@@ -25,7 +25,7 @@ public class AmbientLight {
     }
 
     public AmbientLight(Color intensity, Double3 ka) {
-        _intensity = intensity;
+        _intensity = intensity.scale(ka);
         _ka = ka;
     }
 

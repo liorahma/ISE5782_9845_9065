@@ -24,6 +24,12 @@ public class RayTracerBasic extends RayTracerBase {
         GeoPoint closest = ray.findClosestGeoPoint(points);
         return calcColor(closest);
     }
+
+    /**
+     * calculates color for given point
+     * @param point point to calculate color for
+     * @return the color of the point
+     */
     private Color calcColor(GeoPoint point){
         return _scene._ambientLight.getIntensity().add(point._geometry.getEmission());
     }
