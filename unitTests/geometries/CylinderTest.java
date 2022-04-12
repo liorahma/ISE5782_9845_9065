@@ -109,27 +109,73 @@ class CylinderTest {
         assertEquals(1, result.size(), "Wrong number of points in TC15");
         assertEquals(new Point(1, 0, 0), result.get(0), "Wrong intersection point in TC15");
         // TC16: Ray is on one of the bases - 0 points
-
+        assertNull(cylinder.findIntersections(new Ray(new Point(0,1,3),new Vector(1,-1,0))),"TC16 doesn't return null");
         // *** Group: Ray is parallel to cylinder ray (and orthogonal to bases)
         // TC17: Ray is inside tube and parallel to it - 2 points
+        result = cylinder.findIntersections(new Ray(new Point(0, 0.5, -4), new Vector(0, 0, 1)));
+        assertEquals(2, result.size(), "Wrong number of points in TC17");
+        p1 = new Point(0,0.5,-3);
+        p2 = new Point(0,0.5,3);
+        assertTrue(List.of(p1, p2).equals(result) || List.of(p2, p1).equals(result),
+                "Wrong intersection points in TC17");
         // TC18: Ray is on tube and parallel to it - 0 points
+        assertNull(cylinder.findIntersections(new Ray(new Point(0,1,-4),new Vector(0,0,1))),"TC18 doesn't return null");
         // TC19: Ray is out of cylinder and parallel to it - 0 points
+        assertNull(cylinder.findIntersections(new Ray(new Point(0,2,-4),new Vector(0,0,1))),"TC19 doesn't return null");
 
         // *** Group: Ray is orthogonal to cylinder ray
         // TC20: Ray starts out of the tube and crosses the tube - 2 points
+        result = cylinder.findIntersections(new Ray(new Point(0, -2, 1), new Vector(0, 1, 0)));
+        assertEquals(2, result.size(), "Wrong number of points in TC20");
+        p1 = new Point(0,-1,1);
+        p2 = new Point(0,1,1);
+        assertTrue(List.of(p1, p2).equals(result) || List.of(p2, p1).equals(result),
+                "Wrong intersection points in TC20");
         // TC21: Ray starts out of the tube and does not cross the tube - 0 points
+        assertNull(cylinder.findIntersections(new Ray(new Point(0,2,1),new Vector(0,1,0))),"TC21 doesn't return null");
         // TC22: Ray starts on the tube and goes in - 1 point
+        result = cylinder.findIntersections(new Ray(new Point(0, 1, 1), new Vector(0, 1,0)));
+        assertEquals(1, result.size(), "Wrong number of points in TC22");
+        assertEquals(new Point(0,-1,0), result.get(0), "Wrong intersection point in TC22");
         // TC23: Ray starts on the tube and goes out - 0 points
+        assertNull(cylinder.findIntersections(new Ray(new Point(0,1,1),new Vector(0,0,1))),"TC23 doesn't return null");
 
-        // *** Group: Ray starts on cylinder's Ray
+        // *** Group: Ray starts on cylinder's Ray (same start point)
         // TC24: Ray starts on Ray and is not orthogonal - 1 intersection
+        result = cylinder.findIntersections(new Ray(new Point(0,0,0), new Vector(0, 1, 1)));
+        assertEquals(1, result.size(), "Wrong number of points in TC24");
+        assertEquals(new Point(0,1,1), result.get(0), "Wrong intersection point in TC24");
         // TC25: Ray starts on Ray and is orthogonal - 1 intersection
-        // TC26: Ray is on ray and starts outside the cylinder, not crossing - 0 points
-        // TC27: Ray is on ray and starts outside the cylinder, crossing bases - 2 points
-        // TC28: Ray is on ray and starts inside the cylinder, crossing 1 base - 1 point
-        // TC29: Ray is on ray and starts on base, going inside - 1 point
-        // TC30: Ray is on ray and starts on base, going outside - 0 points
+        result = cylinder.findIntersections(new Ray(new Point(0,0,0), new Vector(0, 0, 1)));
+        assertEquals(1, result.size(), "Wrong number of points in TC25");
+        assertEquals(new Point(0,0,1), result.get(0), "Wrong intersection point in TC25");
+        // TC26: Ray is on ray and starts on base, going inside with the ray- 1 point
+        result = cylinder.findIntersections(new Ray(new Point(0,0,0), new Vector(0, 0, 1)));
+        assertEquals(1, result.size(), "Wrong number of points in TC26");
+        assertEquals(new Point(0,0,3), result.get(0), "Wrong intersection point in TC26");
+        // TC27: Ray is on ray and starts on base, going outside - 0 points
+        assertNull(cylinder.findIntersections(new Ray(new Point(0,0,0),new Vector(0,-1,1))),"TC27 doesn't return null");
 
+        // *** Group: Ray is on cylinder's Ray (share part of the line)
+        // TC28: Ray is on ray and starts outside the cylinder, not crossing - 0 points
+        assertNull(cylinder.findIntersections(new Ray(new Point(0,0,4),new Vector(0,0,1))),"TC28 doesn't return null");
+        // TC29: Ray is on ray and starts outside the cylinder, crossing bases - 2 points
+        result = cylinder.findIntersections(new Ray(new Point(0, 0, -5), new Vector(0, 0, 1)));
+        assertEquals(2, result.size(), "Wrong number of points in TC29");
+        p1 = new Point(0,0,-3);
+        p2 = new Point(0,0,3);
+        assertTrue(List.of(p1, p2).equals(result) || List.of(p2, p1).equals(result),
+                "Wrong intersection points in TC29");
+        // TC30: Ray is on ray and starts inside the cylinder, crossing 1 base - 1 point
+        result = cylinder.findIntersections(new Ray(new Point(0,0,1), new Vector(0, 0, 1)));
+        assertEquals(1, result.size(), "Wrong number of points in TC30");
+        assertEquals(new Point(0,1,1), result.get(0), "Wrong intersection point in TC30");
+        // TC31: Ray is on ray and starts on base, going inside - 1 point
+        result = cylinder.findIntersections(new Ray(new Point(0,0,-3), new Vector(0, 0, 1)));
+        assertEquals(1, result.size(), "Wrong number of points in TC31");
+        assertEquals(new Point(0,0,31), result.get(0), "Wrong intersection point in TC31");
+        // TC32: Ray is on ray and starts on base, going outside - 0 points
+        assertNull(cylinder.findIntersections(new Ray(new Point(0,0,3),new Vector(0,0,1))),"TC32 doesn't return null");
 
     }
 }
