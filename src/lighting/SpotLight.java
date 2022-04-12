@@ -6,6 +6,7 @@ import primitives.Vector;
 
 /**
  * class representing spotlight
+ *
  * @author Liorah Mandelbaum and Sarah Bednarsh
  */
 public class SpotLight extends PointLight {
@@ -16,12 +17,17 @@ public class SpotLight extends PointLight {
 
     /**
      * constructor for SpotLight
+     *
      * @param intensity intensity for Light
-     * @param position location point for PointLight
+     * @param position  location point for PointLight
      * @param direction direction of SpotLight
      */
     public SpotLight(Color intensity, Point position, Vector direction) {
         super(intensity, position);
         _direction = direction;
+    }
+
+    public Color getIntensity(Point p) {
+        return super.getIntensity().scale(Math.max(0d, _direction.dotProduct(super.getL(p))));
     }
 }

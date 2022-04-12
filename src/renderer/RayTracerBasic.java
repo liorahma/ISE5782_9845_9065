@@ -1,11 +1,15 @@
 package renderer;
 
+import lighting.LightSource;
 import primitives.*;
 import scene.Scene;
 
 import java.util.List;
 
 import geometries.Intersectable.GeoPoint;
+
+import static primitives.Util.alignZero;
+
 /**
  * @author Liorah Mandelbaum and Sarah Bednarsh
  */
@@ -22,15 +26,71 @@ public class RayTracerBasic extends RayTracerBase {
         if (points == null)
             return _scene._background;
         GeoPoint closest = ray.findClosestGeoPoint(points);
-        return calcColor(closest);
+        return calcColor(closest, ray);
     }
 
     /**
      * calculates color for given point
+     *
      * @param point point to calculate color for
+     * @param ray   camera ray that intersects with the point
      * @return the color of the point
      */
-    private Color calcColor(GeoPoint point){
-        return _scene._ambientLight.getIntensity().add(point._geometry.getEmission());
+    private Color calcColor(GeoPoint point, Ray ray) {
+        return _scene._ambientLight.getIntensity().add(calcLocalEffects(point, ray));
+    }
+
+    /**
+     * calculates color at a certain point
+     * taking into account all the local effects of light sources
+     *
+     * @param gp  the point to calculate lighting for
+     * @param ray camera ray that intersects with the given point
+     * @return color for the point
+     */
+    private Color calcLocalEffects(GeoPoint gp, Ray ray) {
+        Color color = gp._geometry.getEmission();
+        Vector v = ray.getDir();
+        Vector n = gp._geometry.getNormal(gp._point);
+        double nv = alignZero(n.dotProduct(v));
+        if (nv == 0) return color;
+        Material material = gp._geometry.getMaterial();
+        for (LightSource lightSource : _scene._lights) {
+            Vector l = lightSource.getL(gp._point);
+            double nl = alignZero(n.dotProduct(l));
+            if (nl * nv > 0) { // sign(nl) == sing(nv)
+                Color iL = lightSource.getIntensity(gp._point);
+                color = color.add(iL.scale(calcDiffusive(material, nl)),
+                        iL.scale(calcSpecular(material, n, l, nl, v)));
+            }
+
+        }
+        return color;
+    }
+
+    /**
+     * calculates diffusive light
+     *
+     * @param material material of geometry
+     * @param nl       dot product of normal to point and vector from light source to point
+     * @return factor of diffusive effect
+     */
+    private Double3 calcDiffusive(Material material, double nl) {
+        return material._kd.scale(Math.abs(nl));
+    }
+
+    /**
+     * calculates specular light
+     *
+     * @param material material of geometry
+     * @param n        normal to point
+     * @param l        vector from light source to point
+     * @param nl       dot product of normal to point and vector from light source to point
+     * @param v        direction of camera ray intersecting
+     * @return factor of specular effect
+     */
+    private Double3 calcSpecular(Material material, Vector n, Vector l, double nl, Vector v) {
+        Vector r = l.subtract(n.scale(nl).scale(2)); // r = l - 2 * (n * l) * n
+        return material._ks.scale(Math.pow(Math.max(0d, v.scale(-1).dotProduct(r)), material._nshininess));
     }
 }

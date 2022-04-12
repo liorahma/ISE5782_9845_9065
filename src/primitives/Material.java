@@ -27,8 +27,8 @@ public class Material {
      * @param kd diffuse factor
      * @return this
      */
-    public Material setKd(Double3 kd) {
-        _kd = kd;
+    public Material setKd(double kd) {
+        _kd = new Double3(kd);
         return this;
     }
 
@@ -38,8 +38,8 @@ public class Material {
      * @param ks specular factor
      * @return this
      */
-    public Material setKs(Double3 ks) {
-        _ks = ks;
+    public Material setKs(double ks) {
+        _ks = new Double3(ks);
         return this;
     }
 
@@ -49,7 +49,7 @@ public class Material {
      * @param nshininess level of shininess of material
      * @return this
      */
-    public Material setNshininess(int nshininess) {
+    public Material setShininess(int nshininess) {
         _nshininess = nshininess;
         return this;
     }

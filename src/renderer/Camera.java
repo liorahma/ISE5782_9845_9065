@@ -168,7 +168,7 @@ public class Camera {
     /**
      * render the image using the image writer
      */
-    public void renderImage() {
+    public Camera renderImage() {
         if (_location == null)
             throw new MissingResourceException("location is missing", "Point", "location");
         if (_vto == null)
@@ -194,6 +194,7 @@ public class Camera {
                 _imageWriter.writePixel(j, i, castRay(j, i));
             }
         }
+        return this;
     }
 
     /**
