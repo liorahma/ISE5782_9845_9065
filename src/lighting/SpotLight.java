@@ -28,6 +28,6 @@ public class SpotLight extends PointLight {
     }
 
     public Color getIntensity(Point p) {
-        return super.getIntensity().scale(Math.max(0d, _direction.dotProduct(super.getL(p))));
+        return super.getIntensity(p).scale(Math.max(0d, _direction.dotProduct(super.getL(p))));
     }
 }
