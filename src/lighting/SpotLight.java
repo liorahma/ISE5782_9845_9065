@@ -24,7 +24,7 @@ public class SpotLight extends PointLight {
      */
     public SpotLight(Color intensity, Point position, Vector direction) {
         super(intensity, position);
-        _direction = direction;
+        _direction = direction.normalize();
     }
 
     public Color getIntensity(Point p) {
