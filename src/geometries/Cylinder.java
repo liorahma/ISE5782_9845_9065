@@ -59,4 +59,8 @@ public class Cylinder extends Tube {
 
         return null;
     }
+
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+        return null;
+    }
 }

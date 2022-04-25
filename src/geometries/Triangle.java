@@ -23,7 +23,7 @@ public class Triangle extends Polygon {
     @Override
     public List<Point> findIntersections(Ray ray) {
         List<Point> intersections = _plane.findIntersections(ray);
-        if (intersections==null)
+        if (intersections == null)
             return null;
         if (!isInside(intersections.get(0))) {
             return null;
@@ -32,9 +32,9 @@ public class Triangle extends Polygon {
     }
 
     @Override
-    public List<GeoPoint> findGeoIntersections(Ray ray){
-        List<GeoPoint> intersections = _plane.findGeoIntersections(ray);
-        if (intersections==null)
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+        List<GeoPoint> intersections = _plane.findGeoIntersections(ray, maxDistance);
+        if (intersections == null)
             return null;
         if (!isInside(intersections.get(0)._point)) {
             return null;
@@ -45,6 +45,7 @@ public class Triangle extends Polygon {
 
     /**
      * find whether aa given point is inside the triangle or not
+     *
      * @param p point to check
      * @return true if inside, false if outside
      */
