@@ -60,7 +60,7 @@ public class RayTracerBasic extends RayTracerBase {
         Vector epsVector = n.scale(nv < 0 ? DELTA : -DELTA);
         Point point = gp._point.add(epsVector);
         Ray lightRay = new Ray(point, lightDir);
-        List<GeoPoint> intersections = _scene._geometries.findGeoIntersections(lightRay);
+        List<GeoPoint> intersections = _scene._geometries.findGeoIntersections(lightRay,light.getDistance(gp._point));
 //        if (intersections==null)
 //            return true;
 //        double disSquared = gp._point.distanceSquared(light.)
