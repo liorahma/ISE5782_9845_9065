@@ -1,5 +1,6 @@
 package renderer;
 
+import geometries.Intersectable;
 import lighting.LightSource;
 import primitives.*;
 import scene.Scene;
@@ -15,9 +16,10 @@ import static primitives.Util.alignZero;
  */
 public class RayTracerBasic extends RayTracerBase {
 
+    private static final double DELTA = 0.1;
+
     public RayTracerBasic(Scene scene) {
         super(scene);
-        //throw new ExecutionControl.NotImplementedException("RayTracerBasic was not yet implemented");
     }
 
     @Override
@@ -41,6 +43,30 @@ public class RayTracerBasic extends RayTracerBase {
     }
 
     /**
+     * checks if there is an object blocking the light source from the point
+     *
+     * @param gp intersection point on geometry
+     * @param l  vector from light source to geometry
+     * @param n
+     * @return weather the point should be shaded or not
+     */
+    private boolean unshaded(GeoPoint gp, LightSource light, Vector l, Vector n, double nv) {
+        Vector lightDir = l.scale(-1);//starts from point to the light source
+        Vector epsVector = n.scale(nv < 0 ? DELTA : -DELTA);
+        Point point = gp._point.add(epsVector);
+        Ray lightRay = new Ray(point, lightDir);
+        List<GeoPoint> intersections = _scene._geometries.findGeoIntersections(lightRay);
+//        if (intersections==null)
+//            return true;
+//        double disSquared = gp._point.distanceSquared(light.)
+//        for (GeoPoint g: intersections) {
+//            if (g._point.distanceSquared(gp._point))
+//        }
+
+        return intersections == null;
+    }
+
+    /**
      * calculates color at a certain point
      * taking into account all the local effects of light sources
      *
@@ -59,9 +85,11 @@ public class RayTracerBasic extends RayTracerBase {
             Vector l = lightSource.getL(gp._point);
             double nl = alignZero(n.dotProduct(l));
             if (nl * nv > 0) { // sign(nl) == sign(nv)
-                Color iL = lightSource.getIntensity(gp._point);
-                color = color.add(iL.scale(calcDiffusive(material, nl)),
-                        iL.scale(calcSpecular(material, n, l, nl, v)));
+                if (unshaded(gp, lightSource, l, n, nv)) {
+                    Color iL = lightSource.getIntensity(gp._point);
+                    color = color.add(iL.scale(calcDiffusive(material, nl)),
+                            iL.scale(calcSpecular(material, n, l, nl, v)));
+                }
             }
 
         }

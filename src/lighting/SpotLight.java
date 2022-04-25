@@ -14,6 +14,7 @@ public class SpotLight extends PointLight {
      * direction of spotlight
      */
     final private Vector _direction;
+    int _narrowBeam = 1;
 
     /**
      * constructor for SpotLight
@@ -30,4 +31,14 @@ public class SpotLight extends PointLight {
     public Color getIntensity(Point p) {
         return super.getIntensity(p).scale(Math.max(0d, _direction.dotProduct(super.getL(p))));
     }
+
+    public SpotLight setNarrowBeam(int narrowBeam) {
+        this._narrowBeam = narrowBeam;
+        return this;
+    }
+
+    public int getNarrowBeam() {
+        return _narrowBeam;
+    }
+
 }

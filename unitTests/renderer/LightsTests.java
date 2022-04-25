@@ -138,8 +138,8 @@ public class LightsTests {
 	public void sphereSpotSharp() {
 		// for bonus
 		_scene1._geometries.add(_sphere);
-		//scene1._lights
-		//		.add(new SpotLight(spCL, spPL, new Vector(1, 1, -0.5)).setNarrowBeam(10).setKl(0.001).setKq(0.00004));
+		_scene1._lights
+				.add(new SpotLight(_spCL, _spPL, new Vector(1, 1, -0.5)).setNarrowBeam(10).setKl(0.001).setKq(0.00004));
 
 		ImageWriter imageWriter = new ImageWriter("lightSphereSpotSharp", 500, 500);
 		_camera1.setImageWriter(imageWriter) //
