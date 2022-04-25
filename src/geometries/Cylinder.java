@@ -15,7 +15,6 @@ import static primitives.Util.*;
 public class Cylinder extends Tube {
     private double _height;
 
-
     /**
      * constructs a cylinder with Ray, radius and height
      *
@@ -40,6 +39,11 @@ public class Cylinder extends Tube {
                 '}';
     }
 
+    /**
+     * returns normal vector from give point
+     * @param point from which we start the vector
+     * @return normal vector
+     */
     @Override
     public Vector getNormal(Point point) {
         // Vector point - p0
@@ -54,9 +58,13 @@ public class Cylinder extends Tube {
         return super.getNormal(point);
     }
 
+    /**
+     * returns list of intersection points between given ray and our geometry
+     * @param ray that we check if it intersects
+     * @return list of intersections
+     */
     @Override
     public List<Point> findIntersections(Ray ray) {
-
         return null;
     }
 }

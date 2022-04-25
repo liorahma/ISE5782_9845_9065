@@ -22,6 +22,11 @@ public class RayTracerBasic extends RayTracerBase {
         super(scene);
     }
 
+    /**
+     * Method that traces a ray and returns the color that the pixel should be colored in
+     * @param ray ray to be traced and colored
+     * @return Color for the pixel of a certain ray
+     */
     @Override
     public Color traceRay(Ray ray) {
         List<GeoPoint> points = _scene._geometries.findGeoIntersections(ray);
