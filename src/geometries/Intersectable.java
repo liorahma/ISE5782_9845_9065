@@ -3,6 +3,7 @@ package geometries;
 
 
 import primitives.*;
+
 import java.util.*;
 
 
@@ -12,23 +13,32 @@ import java.util.*;
 public abstract class Intersectable {
     /**
      * finds intersections between ray and object
+     *
      * @param ray ray that intersects
      * @return list of intersection points
      */
     public abstract List<Point> findIntersections(Ray ray);
 
-    public List<GeoPoint> findGeoIntersections(Ray ray){
-        return findGeoIntersectionsHelper(ray);
+    public List<GeoPoint> findGeoIntersections(Ray ray) {
+        return findGeoIntersectionsHelper(ray, Double.POSITIVE_INFINITY);
     }
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
+
+    public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        return findGeoIntersectionsHelper(ray, maxDistance);
+    }
+
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
+
     /**
      * static class for point on _geometry
      */
     public static class GeoPoint {
         public Geometry _geometry;
         public Point _point;
+
         /**
          * constructor for GeoPoint
+         *
          * @param geometry
          * @param point
          */

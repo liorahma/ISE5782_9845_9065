@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
 public class Plane extends Geometry {
@@ -87,7 +88,7 @@ public class Plane extends Geometry {
     public List<Point> findIntersections(Ray ray) {
         if (_q0.equals(ray.getP0()))//ray starts on point of plain, no intersections
             return null;
-        if(isZero(_normal.dotProduct(ray.getDir())))
+        if (isZero(_normal.dotProduct(ray.getDir())))
             return null;
         double t = _normal.dotProduct(_q0.subtract(ray.getP0())) / _normal.dotProduct(ray.getDir());
         if (t <= 0 || isZero(t))//no intersection
@@ -97,13 +98,13 @@ public class Plane extends Geometry {
     }
 
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         if (_q0.equals(ray.getP0()))//ray starts on point of plain, no intersections
             return null;
-        if(isZero(_normal.dotProduct(ray.getDir())))
+        if (isZero(_normal.dotProduct(ray.getDir())))
             return null;
         double t = _normal.dotProduct(_q0.subtract(ray.getP0())) / _normal.dotProduct(ray.getDir());
-        if (t <= 0 || isZero(t))//no intersection
+        if (t <= 0 || isZero(t) || alignZero(t - maxDistance) > 0)  // no intersection or a distant one
             return null;
         return List.of(new GeoPoint(this, ray.getP0().add(ray.getDir().scale(t))));
     }

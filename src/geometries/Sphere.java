@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
 public class Sphere extends Geometry {
@@ -72,16 +73,15 @@ public class Sphere extends Geometry {
             if (t2 > 0)
                 return List.of(ray.getP0().add(ray.getDir().scale(t1)), ray.getP0().add(ray.getDir().scale(t2)));
             return List.of(ray.getP0().add(ray.getDir().scale(t1)));
-        }
-        else if (t2 > 0)
+        } else if (t2 > 0)
             return List.of(ray.getP0().add(ray.getDir().scale(t2)));
         return null;
     }
 
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        if (_center.equals(ray.getP0())) {//ray starts from center of sphere
-            return List.of(new GeoPoint(this,ray.getP0().add(ray.getDir().scale(_radius))));
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+        if (_center.equals(ray.getP0())) { // ray starts from center of sphere
+            return List.of(new GeoPoint(this, ray.getP0().add(ray.getDir().scale(_radius))));
         }
         Vector u = _center.subtract(ray.getP0());
         double tm = u.dotProduct(ray.getDir().normalize());
@@ -89,18 +89,18 @@ public class Sphere extends Geometry {
         if (d >= _radius)//no intersections
             return null;
         double th = Math.sqrt(_radius * _radius - d * d);
-        double t1 = tm + th;
-        double t2 = tm - th;
+        double t1 = alignZero(tm + th);
+        double t2 = alignZero(tm - th);
         if (t1 <= 0 && t2 <= 0)//both are on 'opposite' side of ray, so it doesn't count as an intersection
             return null;
-        if (t1 > 0) {
-            if (t2 > 0)
-                return List.of(new GeoPoint(this,ray.getP0().add(ray.getDir().scale(t1))), new GeoPoint(this,ray.getP0().add(ray.getDir().scale(t2))));
-            return List.of(new GeoPoint(this,ray.getP0().add(ray.getDir().scale(t1))));
+        if (t1 > 0 && alignZero(t1 - maxDistance) <= 0) {
+            if (t2 > 0 && alignZero(t2 - maxDistance) <= 0)
+                return List.of(new GeoPoint(this, ray.getP0().add(ray.getDir().scale(t1))),
+                        new GeoPoint(this, ray.getP0().add(ray.getDir().scale(t2))));
+            return List.of(new GeoPoint(this, ray.getP0().add(ray.getDir().scale(t1))));
 
-        }
-        else if (t2 > 0)
-            return List.of(new GeoPoint(this,ray.getP0().add(ray.getDir().scale(t2))));
+        } else if (t2 > 0 && alignZero(t2 - maxDistance) <= 0)
+            return List.of(new GeoPoint(this, ray.getP0().add(ray.getDir().scale(t2))));
         return null;
     }
 }
