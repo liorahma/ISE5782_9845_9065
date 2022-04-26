@@ -17,6 +17,8 @@ import static primitives.Util.alignZero;
 public class RayTracerBasic extends RayTracerBase {
 
     private static final double DELTA = 0.1;
+    private static final int MAX_CALC_COLOR_LEVEL = 10;
+    private static final double MIN_CALC_COLOR_K = 0.001;
 
     public RayTracerBasic(Scene scene) {
         super(scene);
@@ -29,10 +31,9 @@ public class RayTracerBasic extends RayTracerBase {
      */
     @Override
     public Color traceRay(Ray ray) {
-        List<GeoPoint> points = _scene._geometries.findGeoIntersections(ray);
-        if (points == null)
+        GeoPoint closest = findClosestIntersection(ray);
+        if (closest == null)
             return _scene._background;
-        GeoPoint closest = ray.findClosestGeoPoint(points);
         return calcColor(closest, ray);
     }
 
@@ -43,10 +44,21 @@ public class RayTracerBasic extends RayTracerBase {
      * @param ray   camera ray that intersects with the point
      * @return the color of the point
      */
-    private Color calcColor(GeoPoint point, Ray ray) {
-        return _scene._ambientLight.getIntensity().add(calcLocalEffects(point, ray));
+    private Color calcColor(GeoPoint point, Ray ray, int level, double k) {
+        Color color= calcLocalEffects(point, ray);
+        return 1 == level ? color : color.add(calcGlobalEffects(intersection, ray, level, k));
     }
 
+    /**
+     * calculates color for given point
+     *
+     * @param gp  point to calculate color for
+     * @param ray camera ray that intersects with the point
+     * @return the color of the point
+     */
+    private Color calcColor(GeoPoint gp, Ray ray)    {
+
+    }
     /**
      * checks if there is an object blocking the light source from the point
      *
@@ -61,13 +73,6 @@ public class RayTracerBasic extends RayTracerBase {
         Point point = gp._point.add(epsVector);
         Ray lightRay = new Ray(point, lightDir);
         List<GeoPoint> intersections = _scene._geometries.findGeoIntersections(lightRay,light.getDistance(gp._point));
-//        if (intersections==null)
-//            return true;
-//        double disSquared = gp._point.distanceSquared(light.)
-//        for (GeoPoint g: intersections) {
-//            if (g._point.distanceSquared(gp._point))
-//        }
-
         return intersections == null;
     }
 
@@ -126,4 +131,17 @@ public class RayTracerBasic extends RayTracerBase {
         Vector r = l.subtract(n.scale(nl).scale(2)); // r = l - 2 * (n * l) * n
         return material._ks.scale(Math.pow(Math.max(0d, v.scale(-1).dotProduct(r)), material._nshininess));
     }
+
+    /**
+     * find the closest point to ray
+     * @param ray ray to find closest from
+     * @return closest point
+     */
+    private GeoPoint findClosestIntersection(Ray ray){
+        List<GeoPoint> points = _scene._geometries.findGeoIntersections(ray);
+        if (points==null)
+            return null;
+        return ray.findClosestGeoPoint(points);
+    }
+
 }
