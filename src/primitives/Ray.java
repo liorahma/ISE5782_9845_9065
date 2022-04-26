@@ -4,8 +4,13 @@ import geometries.Intersectable;
 
 import java.util.List;
 import java.util.Objects;
+
 import geometries.Intersectable.GeoPoint;
+
 public class Ray {
+
+    private static final double DELTA = 0.1;
+
     final private Point _p0;
     final private Vector _dir;
 
@@ -20,10 +25,35 @@ public class Ray {
         this._dir = dir.normalize(); //vector must be normalized
     }
 
+    /**
+     * constructor for ray, moving starting point in the normal direction by DELTA
+     *
+     * @param head      p0
+     * @param direction dir vector
+     * @param normal    normal to point
+     */
+    public Ray(Point head, Vector direction, Vector normal) {
+        Vector dVector = direction.normalize();
+        Vector delta = normal.scale(normal.dotProduct(dVector) > 0 ? DELTA : -DELTA);
+        Point point = head.add(delta);
+        this._p0 = point;
+        this._dir = dVector;
+    }
+
+    /**
+     * getter for p0
+     *
+     * @return p0
+     */
     public Point getP0() {
         return _p0;
     }
 
+    /**
+     * getter for dir
+     *
+     * @return dir
+     */
     public Vector getDir() {
         return _dir;
     }
@@ -39,6 +69,7 @@ public class Ray {
 
     /**
      * Finds the closest point to start point of ray out of list of points
+     *
      * @param points list of points
      * @return closest point, null if list is empty
      */
@@ -50,6 +81,7 @@ public class Ray {
 
     /**
      * Finds the closest point to start point of ray out of list of points
+     *
      * @param points list of points
      * @return closest point, null if list is empty
      */
@@ -67,6 +99,7 @@ public class Ray {
         }
         return closest;
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(_p0, _dir);
