@@ -176,6 +176,7 @@ public class ReflectionRefractionTests {
 	{
 		Camera camera = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
 				.setVPSize(400, 400).setVPDistance(1000);
+
 		Geometry polyMirror = new Polygon(new Point(-150, -100, 0),
 				new Point(-184.660049030367446, -39.577189086898301, 69.320098060734892),
 				new Point(-178.588419505802932, 57.753112706325403, 57.176839011605836),
@@ -202,6 +203,13 @@ public class ReflectionRefractionTests {
 						.setKl(1E-5).setKq(1.5E-7));
 		ImageWriter imageWriter = new ImageWriter("tryAll", 600, 600);
 		camera.setImageWriter(imageWriter) //
+				.setRayTracer(new RayTracerBasic(_scene)) //
+				.renderImage() //
+				.writeToImage();
+
+		camera.move(0,0,50);
+		ImageWriter imageWriter2 = new ImageWriter("tryAllMove", 600, 600);
+		camera.setImageWriter(imageWriter2) //
 				.setRayTracer(new RayTracerBasic(_scene)) //
 				.renderImage() //
 				.writeToImage();
