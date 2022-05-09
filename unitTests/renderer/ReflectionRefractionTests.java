@@ -132,4 +132,29 @@ public class ReflectionRefractionTests {
 				.renderImage() //
 				.writeToImage();
 	}
+
+
+	@Test
+	public void tryAll()
+	{
+		Camera camera = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+				.setVPSize(200, 200).setVPDistance(1000);
+		scene._geometries.add( //
+				new Triangle(new Point(-80, 80, 30), new Point(-10, 5, 10), new Point(-90, 20, 40)) //
+						.setEmission(new Color(PINK)).setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60)),
+				new Triangle(new Point(100,100,0),new Point(-100,100,0), new Point(0,-150,0))
+				//new Polygon(new Point(100,100,0),new Point(-100,100,0), new Point(-100,0,0),new Point(0,-50,0), new Point(100,-100,0))
+						.setEmission(new Color(WHITE)).setMaterial(new Material().setKs(0.1).setKd(3).setKt(3).setKr(5).setShininess(5)),
+				new Sphere(new Point(50,50,50),20).setEmission(new Color(BLUE)) //
+						.setMaterial(new Material().setKd(0.2).setKs(0.2).setShininess(30).setKt(0.6)));
+		scene._lights.add(new SpotLight(new Color(700, 400, 400), new Point(60, 50, 0), new Vector(0, 0, -1)) //
+				.setKl(4E-5).setKq(2E-7));
+		scene._lights.add(new PointLight(new Color(LIGHT_GRAY),new Point(50,50,50)));
+
+		ImageWriter imageWriter = new ImageWriter("tryAll", 600, 600);
+		camera.setImageWriter(imageWriter) //
+				.setRayTracer(new RayTracerBasic(scene)) //
+				.renderImage() //
+				.writeToImage();
+	}
 }
