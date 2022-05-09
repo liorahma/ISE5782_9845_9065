@@ -111,7 +111,7 @@ public class Polygon extends Geometry {
         // first find direction of the normal to 2 adjacent vertices planes with p0
         boolean sign = product > 0;
 
-        for (Point vertex:_vertices) {
+        for (Point vertex : _vertices) {
             v1 = v2;
             v2 = vertex.subtract(p0);
             try {
@@ -124,7 +124,7 @@ public class Polygon extends Geometry {
             if (isZero(product)) // intersection is on the edge
                 return null;
             // intersection is outside of polygon
-            if(sign != product > 0)
+            if (sign != product > 0)
                 return null;
         }
         return _plane.findIntersections(ray);
@@ -150,7 +150,7 @@ public class Polygon extends Geometry {
         // first find direction of the normal to 2 adjacent vertices planes with p0
         boolean sign = product > 0;
 
-        for (Point vertex:_vertices) {
+        for (Point vertex : _vertices) {
             v1 = v2;
             v2 = vertex.subtract(p0);
             try {
@@ -163,10 +163,12 @@ public class Polygon extends Geometry {
             if (isZero(product)) // intersection is on the edge
                 return null;
             // intersection is outside of polygon
-            if(sign != product > 0)
+            if (sign != product > 0)
                 return null;
         }
         List<GeoPoint> intersections = _plane.findGeoIntersections(ray, maxDistance);
+        if (intersections == null)
+            return null;
         intersections.get(0)._geometry = this;
         return intersections;
     }
