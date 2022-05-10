@@ -121,9 +121,9 @@ public class Camera {
      * @return this
      */
     public Camera move(double to, double up, double right) {
-        if (!isZero(to)) _location.add(_vto.scale(to));
-        if (!isZero(up)) _location.add(_vup.scale(up));
-        if (!isZero(right)) _location.add(_vright.scale(right));
+        if (!isZero(to)) _location = _location.add(_vto.scale(to));
+        if (!isZero(up)) _location = _location.add(_vup.scale(up));
+        if (!isZero(right)) _location = _location.add(_vright.scale(right));
         return this;
     }
 

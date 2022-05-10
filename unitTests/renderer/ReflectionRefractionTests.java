@@ -195,11 +195,12 @@ public class ReflectionRefractionTests {
 				//		.setMaterial(new Material().setKd(0.3).setKr(0.6).setKs(0.7).setShininess(30)),
 				new Sphere(new Point(50,50,50),20).setEmission(new Color(BLUE)) //
 						.setMaterial(new Material().setKd(0.5).setKs(0.2).setShininess(30).setKt(0.4)));
-		_scene._lights.add(new SpotLight(new Color(700, 400, 400), new Point(60, 50, 0), new Vector(0, 0, -1)) //
-				.setKl(4E-5).setKq(2E-7));
+		//_scene._lights.add(new SpotLight(new Color(700, 400, 400), new Point(100, 50, 0), new Vector(0, 0, -1)) //
+		//		.setKl(4E-5).setKq(2E-7));
+        _scene.setAmbientLight(new AmbientLight(new Color(WHITE),0.1));
 		_scene._lights.add(new PointLight(new Color(LIGHT_GRAY),new Point(50,50,50)));
 		_scene._lights.add( //
-				new SpotLight(new Color(400, 240, 0), new Point(-100, -100, 200), new Vector(1, 1, -3)) //
+				new SpotLight(new Color(240, 193, 225), new Point(-100, -100, 200), new Vector(1, 1, -3)) //
 						.setKl(1E-5).setKq(1.5E-7));
 		ImageWriter imageWriter = new ImageWriter("tryAll", 600, 600);
 		camera.setImageWriter(imageWriter) //
@@ -207,9 +208,17 @@ public class ReflectionRefractionTests {
 				.renderImage() //
 				.writeToImage();
 
-		camera.move(0,0,50);
+		camera.move(-1000,0,0);
 		ImageWriter imageWriter2 = new ImageWriter("tryAllMove", 600, 600);
 		camera.setImageWriter(imageWriter2) //
+				.setRayTracer(new RayTracerBasic(_scene)) //
+				.renderImage() //
+				.writeToImage();
+
+		camera.move(1500,0,-100);
+		camera.rotate(new Vector(0, 1, 0),350);
+		ImageWriter imageWriter3 = new ImageWriter("tryAllRotate", 600, 600);
+		camera.setImageWriter(imageWriter3) //
 				.setRayTracer(new RayTracerBasic(_scene)) //
 				.renderImage() //
 				.writeToImage();
