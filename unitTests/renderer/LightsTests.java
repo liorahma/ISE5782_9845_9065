@@ -204,5 +204,17 @@ public class LightsTests {
 				.writeToImage(); //
 
 	}
+	@Test
+	public void myTrianglesLight() {
+		_scene2._geometries.add(_triangle1, _triangle2);
+		_scene2._lights.add(new DirectionalLight(new Color(0,255,0),new Vector(-2.5,3,3) ));//new Vector(-2.5,3,3)
+		_scene2._lights.add(new PointLight(new Color(0,0,255), new Point(30, 10, -100)).setKl(0.001).setKq(0.0002));
+		_scene2._lights.add(new SpotLight(new Color(255,0,0), _trPL, _trDL).setKl(0.001).setKq(0.0001));
 
+		ImageWriter imageWriter = new ImageWriter("lightTriangles", 500, 500);
+		_camera2.setImageWriter(imageWriter) //
+				.setRayTracer(new RayTracerBasic(_scene2)) //
+				.renderImage(); //
+		_camera2.writeToImage(); //
+	}
 }
