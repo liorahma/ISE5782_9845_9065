@@ -18,8 +18,19 @@ import static primitives.Util.isZero;
 public class RayTracerBasic extends RayTracerBase {
 
 
+    /**
+     * initial value for recursion factor
+     */
     private static final double INITIAL_K = 1.0;
+
+    /**
+     * maximum recursion depth for calColor
+     */
     private static final int MAX_CALC_COLOR_LEVEL = 10;
+
+    /**
+     * stopping value for recursion
+     */
     private static final double MIN_CALC_COLOR_K = 0.001;
 
     public RayTracerBasic(Scene scene) {
@@ -66,22 +77,22 @@ public class RayTracerBasic extends RayTracerBase {
     }
 
 
-    /**
-     * checks if there is an object blocking the light source from the point
-     *
-     * @param gp intersection point on geometry
-     * @param l  vector from light source to geometry
-     * @param n  normal vector to point
-     * @return whether the point should be shaded or not
-     */
-    private boolean unshaded(GeoPoint gp, LightSource light, Vector l, Vector n, double nv) {
-        Vector lightDir = l.scale(-1);  // starts from point to the light source
-        Ray lightRay = new Ray(gp._point, lightDir, n);
-        // only intersections that are closer than lightsource
-        List<GeoPoint> intersections = _scene._geometries
-                .findGeoIntersections(lightRay, light.getDistance(gp._point));
-        return intersections == null;
-    }
+//    /**
+//     * checks if there is an object blocking the light source from the point
+//     *
+//     * @param gp intersection point on geometry
+//     * @param l  vector from light source to geometry
+//     * @param n  normal vector to point
+//     * @return whether the point should be shaded or not
+//     */
+//    private boolean unshaded(GeoPoint gp, LightSource light, Vector l, Vector n, double nv) {
+//        Vector lightDir = l.scale(-1);  // starts from point to the light source
+//        Ray lightRay = new Ray(gp._point, lightDir, n);
+//        // only intersections that are closer than lightsource
+//        List<GeoPoint> intersections = _scene._geometries
+//                .findGeoIntersections(lightRay, light.getDistance(gp._point));
+//        return intersections == null;
+//    }
 
     /**
      * checks if there is an object blocking the light source from the point

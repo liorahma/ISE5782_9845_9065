@@ -52,7 +52,14 @@ public class Camera {
      */
     private RayTracerBase _rayTracerBase;
 
+    /**
+     * number of rays in beam for supersampling
+     */
     private int _nSS;
+
+    /**
+     * maximum level of recursion for adaptive supersampling
+     */
     private int _maxLevelAdaptiveSS;
 
     /**
@@ -120,6 +127,27 @@ public class Camera {
         return this;
     }
 
+
+    /**
+     * setter for _nSS
+     * @param nSS value
+     * @return this
+     */
+    public Camera setNSS(int nSS) {
+        _nSS = nSS;
+        return this;
+    }
+
+    /**
+     * setter for _maxLevel
+     * @param maxLevelAdaptiveSS value
+     * @return this
+     */
+    public Camera setMaxLevelAdaptiveSS(int maxLevelAdaptiveSS) {
+        _maxLevelAdaptiveSS = maxLevelAdaptiveSS;
+        return this;
+    }
+
     /**
      * allows moving camera's location according to parameters in each axis
      *
@@ -175,6 +203,9 @@ public class Camera {
     }
 
 
+    /**
+     * function checking that camera object has everything needed for rendering
+     */
     private void checkExceptions() {
         if (_location == null)
             throw new MissingResourceException("location is missing", "Point", "location");
@@ -224,7 +255,7 @@ public class Camera {
     }
 
     /**
-     * render the image using the image writer
+     * render the image using the image writer, using super sampling in the random method
      */
     public Camera renderImageSuperSampling() {
         checkExceptions();
@@ -238,29 +269,30 @@ public class Camera {
     }
 
     /**
-     * render the image using the image writer
+     * casts beam of rays around the center ray of pixel
+     *
+     * @param j col index
+     * @param i row index
+     * @return Color for a certain pixel
      */
-    public Camera renderImageAdaptiveSuperSampling() {
-        checkExceptions();
-        // for each pixel
-        for (int i = 0; i < _imageWriter.getNx(); i++) {
-            for (int j = 0; j < _imageWriter.getNy(); j++) {
-                _imageWriter.writePixel(j, i, castBeamAdaptiveSuperSampling(j, i));
-            }
-        }
-        return this;
-    }
-
     private Color castBeamSuperSampling(int j, int i) {
         List<Ray> beam = constructBeamSuperSampling(_imageWriter.getNx(), _imageWriter.getNy(), j, i);
         Color color = Color.BLACK;
+        // calculate average color of rays traced
         for (Ray ray : beam) {
             color = color.add(_rayTracerBase.traceRay(ray));
         }
         return color.reduce(_nSS);
     }
 
-
+    /**
+     * creates beam of rays around center of pixel randomly
+     * @param nX num of row pixels
+     * @param nY num of col pixels
+     * @param j col index
+     * @param i row index
+     * @return list of rays in beam
+     */
     private List<Ray> constructBeamSuperSampling(int nX, int nY, int j, int i) {
         List<Ray> beam = new LinkedList<Ray>();
         beam.add(constructRay(nX, nY, j, i));
@@ -274,6 +306,7 @@ public class Camera {
         if (!isZero(xScale))
             pixelCenter = pixelCenter.add(_vup.scale(-1 * xScale));
         Random rand = new Random();
+        // create rays randomly around the center ray
         for (int c = 0; c < _nSS; c++) {
             // move randomly in the pixel
             double dxfactor = rand.nextBoolean() ? rand.nextDouble() : -1 * rand.nextDouble();
@@ -290,22 +323,54 @@ public class Camera {
         return beam;
     }
 
+    /**
+     * render the image using the image writer, using adaptive supersampling
+     */
+    public Camera renderImageAdaptiveSuperSampling() {
+        checkExceptions();
+        // for each pixel
+        for (int i = 0; i < _imageWriter.getNx(); i++) {
+            for (int j = 0; j < _imageWriter.getNy(); j++) {
+                _imageWriter.writePixel(j, i, castBeamAdaptiveSuperSampling(j, i));
+            }
+        }
+        return this;
+    }
 
+    /**
+     * casts beam of rays in pixel according to adaptive supersampling
+     *
+     * @param j col index
+     * @param i row index
+     * @return Color for a certain pixel
+     */
     private Color castBeamAdaptiveSuperSampling(int j, int i) {
         return calcAdaptiveSuperSampling(_imageWriter.getNx(), _imageWriter.getNy(), j, i, _maxLevelAdaptiveSS);
     }
 
+    /**
+     * calculates actual color using adaptive supersampling
+     * @param nX num of rows
+     * @param nY num of cols
+     * @param j col index of pixel
+     * @param i row index of pixel
+     * @param level level of recursion
+     * @return color of pixel
+     */
     private Color calcAdaptiveSuperSampling(int nX, int nY, int j, int i, int level) {
         Ray center = constructRay(nX, nY, j, i);
+        // recursion reached maximum level
         if (level == 0) {
             return _rayTracerBase.traceRay(center);
         }
         Color color = Color.BLACK;
         Color centerColor = _rayTracerBase.traceRay(center);
+        // divide pixel into 4 mini-pixels
         List<Ray> beam = List.of(constructRay(2 * nX, 2 * nY, 2 * j, 2 * i),
                 constructRay(2 * nX, 2 * nY, 2 * j, 2 * i + 1),
                 constructRay(2 * nX, 2 * nY, 2 * j + 1, 2 * i),
                 constructRay(2 * nX, 2 * nY, 2 * j + 1, 2 * i + 1));
+        // for each mini-pixel
         for (int ray = 0; ray < 4; ray++) {
             Color currentColor = _rayTracerBase.traceRay(beam.get(ray));
             if (!currentColor.equals(centerColor))
@@ -344,11 +409,4 @@ public class Camera {
         _imageWriter.writeToImage();
     }
 
-    public void setNSS(int nSS) {
-        _nSS = nSS;
-    }
-
-    public void setMaxLevelAdaptiveSS(int maxLevelAdaptiveSS) {
-        _maxLevelAdaptiveSS = maxLevelAdaptiveSS;
-    }
 }

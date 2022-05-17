@@ -16,7 +16,15 @@ import scene.Scene;
 
 import static java.awt.Color.*;
 
+/**
+ * @author Liorah Mandelbaum and Sarah Bednarsh
+ * test class for super sampling
+ */
 public class SuperSampling {
+
+    /**
+     * Test method for {@link Camera#renderImageSuperSampling()}
+     */
     @Test
     public void testSuperSamplingRandom() {
         Scene scene = new Scene("Test scene")//
@@ -44,6 +52,9 @@ public class SuperSampling {
         camera.writeToImage();
     }
 
+    /**
+     * Test method for {@link Camera#renderImageAdaptiveSuperSampling()}
+     */
     @Test
     public void testAdaptiveSuperSampling() {
         Scene scene = new Scene("Test scene")//
