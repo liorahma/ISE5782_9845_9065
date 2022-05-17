@@ -15,8 +15,6 @@ import java.util.Random;
  * @author Liora Mandelbaum and Sarah Bednarsh
  */
 public class Camera {
-    private static final int N_SUPERSAMPLING = 7;
-    private static final int MAX_LEVEL_ADAPTIVE_SS = 4;
     /**
      * location of camera
      */
@@ -54,6 +52,9 @@ public class Camera {
      */
     private RayTracerBase _rayTracerBase;
 
+    private int _nSS;
+    private int _maxLevelAdaptiveSS;
+
     /**
      * Builds camera according to location of source point and vectors that define view plane
      *
@@ -68,6 +69,8 @@ public class Camera {
         _vto = vto.normalize();
         _vup = vup.normalize();
         _vright = vto.crossProduct(vup).normalize();
+        _nSS = 50;
+        _maxLevelAdaptiveSS = 4;
     }
 
     /**
@@ -254,7 +257,7 @@ public class Camera {
         for (Ray ray : beam) {
             color = color.add(_rayTracerBase.traceRay(ray));
         }
-        return color.reduce(N_SUPERSAMPLING * N_SUPERSAMPLING);
+        return color.reduce(_nSS);
     }
 
 
@@ -271,7 +274,7 @@ public class Camera {
         if (!isZero(xScale))
             pixelCenter = pixelCenter.add(_vup.scale(-1 * xScale));
         Random rand = new Random();
-        for (int c = 0; c < N_SUPERSAMPLING * N_SUPERSAMPLING; c++) {
+        for (int c = 0; c < _nSS; c++) {
             // move randomly in the pixel
             double dxfactor = rand.nextBoolean() ? rand.nextDouble() : -1 * rand.nextDouble();
             double dyfactor = rand.nextBoolean() ? rand.nextDouble() : -1 * rand.nextDouble();
@@ -289,7 +292,7 @@ public class Camera {
 
 
     private Color castBeamAdaptiveSuperSampling(int j, int i) {
-        return calcAdaptiveSuperSampling(_imageWriter.getNx(), _imageWriter.getNy(), j, i, MAX_LEVEL_ADAPTIVE_SS);
+        return calcAdaptiveSuperSampling(_imageWriter.getNx(), _imageWriter.getNy(), j, i, _maxLevelAdaptiveSS);
     }
 
     private Color calcAdaptiveSuperSampling(int nX, int nY, int j, int i, int level) {
@@ -341,4 +344,11 @@ public class Camera {
         _imageWriter.writeToImage();
     }
 
+    public void setNSS(int nSS) {
+        _nSS = nSS;
+    }
+
+    public void setMaxLevelAdaptiveSS(int maxLevelAdaptiveSS) {
+        _maxLevelAdaptiveSS = maxLevelAdaptiveSS;
+    }
 }
