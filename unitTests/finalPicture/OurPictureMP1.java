@@ -109,9 +109,9 @@ public class OurPictureMP1 {
         _scene._lights.add(middleLight);
 
 
-        camera.setImageWriter(new ImageWriter("ourPictureMP1", 500, 500)) //
+        camera.setImageWriter(new ImageWriter("ourPictureMP1", 2000, 2000)) //
                 .setRayTracer(new RayTracerBasic(_scene)) //
-                .renderImage() //
+                .renderImageAdaptiveSuperSampling() //
                 .writeToImage();
         cameraTop.setImageWriter(new ImageWriter("ourPictureMP1Up", 500, 500)) //
                 .setRayTracer(new RayTracerBasic(_scene)) //
