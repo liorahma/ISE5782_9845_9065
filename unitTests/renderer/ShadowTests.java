@@ -48,6 +48,9 @@ public class ShadowTests {
 		sphereTriangleHelper("shadowSphereTriangleInitial", //
 				new Triangle(new Point(-70, -40, 0), new Point(-40, -70, 0), new Point(-68, -68, -4)), //
 				new Point(-100, -100, 200));
+		camera.setImageWriter(new ImageWriter("shadowSphereTriangleInitial", 400, 400)) //
+				.renderImage() //
+				.writeToImage();
 	}
 
 	/**

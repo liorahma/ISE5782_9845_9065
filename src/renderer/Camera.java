@@ -4,7 +4,10 @@ import static primitives.Util.*;
 
 import primitives.*;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.MissingResourceException;
+import java.util.Random;
 
 /**
  * class for representing camera view
@@ -12,6 +15,8 @@ import java.util.MissingResourceException;
  * @author Liora Mandelbaum and Sarah Bednarsh
  */
 public class Camera {
+    private static final int N_SUPERSAMPLING = 7;
+    private static final int MAX_LEVEL_ADAPTIVE_SS = 4;
     /**
      * location of camera
      */
@@ -129,8 +134,9 @@ public class Camera {
 
     /**
      * allows rotating camera on a given axis by a given angle
+     *
      * @param rotationAxis the rotation axis
-     * @param angle the rotation angle
+     * @param angle        the rotation angle
      * @return this
      */
     public Camera rotate(Vector rotationAxis, double angle) {
@@ -165,10 +171,8 @@ public class Camera {
         return new Ray(_location, p.subtract(_location));
     }
 
-    /**
-     * render the image using the image writer
-     */
-    public Camera renderImage() {
+
+    private void checkExceptions() {
         if (_location == null)
             throw new MissingResourceException("location is missing", "Point", "location");
         if (_vto == null)
@@ -188,6 +192,13 @@ public class Camera {
         if (_rayTracerBase == null)
             throw new MissingResourceException("rayTracerBase is missing", "RayTraceBase", "rayTracerBase");
 
+    }
+
+    /**
+     * render the image using the image writer
+     */
+    public Camera renderImage() {
+        checkExceptions();
         // for each pixel
         for (int i = 0; i < _imageWriter.getNx(); i++) {
             for (int j = 0; j < _imageWriter.getNy(); j++) {
@@ -207,6 +218,99 @@ public class Camera {
     private Color castRay(int j, int i) {
         Ray ray = constructRay(_imageWriter.getNx(), _imageWriter.getNy(), j, i);
         return _rayTracerBase.traceRay(ray);
+    }
+
+    /**
+     * render the image using the image writer
+     */
+    public Camera renderImageSuperSampling() {
+        checkExceptions();
+        // for each pixel
+        for (int i = 0; i < _imageWriter.getNx(); i++) {
+            for (int j = 0; j < _imageWriter.getNy(); j++) {
+                _imageWriter.writePixel(j, i, castBeamSuperSampling(j, i));
+            }
+        }
+        return this;
+    }
+
+    /**
+     * render the image using the image writer
+     */
+    public Camera renderImageAdaptiveSuperSampling() {
+        checkExceptions();
+        // for each pixel
+        for (int i = 0; i < _imageWriter.getNx(); i++) {
+            for (int j = 0; j < _imageWriter.getNy(); j++) {
+                _imageWriter.writePixel(j, i, castBeamAdaptiveSuperSampling(j, i));
+            }
+        }
+        return this;
+    }
+
+    private Color castBeamSuperSampling(int j, int i) {
+        List<Ray> beam = constructBeamSuperSampling(_imageWriter.getNx(), _imageWriter.getNy(), j, i);
+        Color color = Color.BLACK;
+        for (Ray ray : beam) {
+            color = color.add(_rayTracerBase.traceRay(ray));
+        }
+        return color.reduce(N_SUPERSAMPLING * N_SUPERSAMPLING);
+    }
+
+
+    private List<Ray> constructBeamSuperSampling(int nX, int nY, int j, int i) {
+        List<Ray> beam = new LinkedList<Ray>();
+        beam.add(constructRay(nX, nY, j, i));
+        double ry = _height / nY;
+        double rx = _width / nX;
+        double yScale = alignZero((j - nX / 2d) * rx + rx / 2d);
+        double xScale = alignZero((i - nY / 2d) * ry + ry / 2d);
+        Point pixelCenter = _location.add(_vto.scale(_distance)); // center
+        if (!isZero(yScale))
+            pixelCenter = pixelCenter.add(_vright.scale(yScale));
+        if (!isZero(xScale))
+            pixelCenter = pixelCenter.add(_vup.scale(-1 * xScale));
+        Random rand = new Random();
+        for (int c = 0; c < N_SUPERSAMPLING * N_SUPERSAMPLING; c++) {
+            // move randomly in the pixel
+            double dxfactor = rand.nextBoolean() ? rand.nextDouble() : -1 * rand.nextDouble();
+            double dyfactor = rand.nextBoolean() ? rand.nextDouble() : -1 * rand.nextDouble();
+            double dx = rx * dxfactor;
+            double dy = ry * dyfactor;
+            Point randomPoint = pixelCenter;
+            if (!isZero(dx))
+                randomPoint = randomPoint.add(_vright.scale(dx));
+            if (!isZero(dy))
+                randomPoint = randomPoint.add(_vup.scale(-1 * dy));
+            beam.add(new Ray(_location, randomPoint.subtract(_location)));
+        }
+        return beam;
+    }
+
+
+    private Color castBeamAdaptiveSuperSampling(int j, int i) {
+        return calcAdaptiveSuperSampling(_imageWriter.getNx(), _imageWriter.getNy(), j, i, MAX_LEVEL_ADAPTIVE_SS);
+    }
+
+    private Color calcAdaptiveSuperSampling(int nX, int nY, int j, int i, int level) {
+        Ray center = constructRay(nX, nY, j, i);
+        if (level == 0) {
+            return _rayTracerBase.traceRay(center);
+        }
+        Color color = Color.BLACK;
+        Color centerColor = _rayTracerBase.traceRay(center);
+        List<Ray> beam = List.of(constructRay(2 * nX, 2 * nY, 2 * j, 2 * i),
+                constructRay(2 * nX, 2 * nY, 2 * j, 2 * i + 1),
+                constructRay(2 * nX, 2 * nY, 2 * j + 1, 2 * i),
+                constructRay(2 * nX, 2 * nY, 2 * j + 1, 2 * i + 1));
+        for (int ray = 0; ray < 4; ray++) {
+            Color currentColor = _rayTracerBase.traceRay(beam.get(ray));
+            if (!currentColor.equals(centerColor))
+                currentColor = calcAdaptiveSuperSampling(2 * nX, 2 * nY,
+                        2 * j + ray / 2, 2 * i + ray % 2, level - 1);
+            color = color.add(currentColor);
+        }
+        return color.reduce(4);
     }
 
 
