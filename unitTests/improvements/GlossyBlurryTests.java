@@ -56,6 +56,7 @@ public class GlossyBlurryTests {
                 .writeToImage();
 
     }
+
     /**
      * Test method for {@link renderer.RayTracerBasic#traceRay(Ray)}
      * for a blurry object
