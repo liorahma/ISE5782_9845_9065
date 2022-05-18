@@ -20,7 +20,7 @@ import static java.awt.Color.*;
  * @author Liorah Mandelbaum and Sarah Bednarsh
  * test class for super sampling
  */
-public class SuperSampling {
+public class SuperSamplingTests {
 
     /**
      * Test method for {@link Camera#renderImageSuperSampling()}

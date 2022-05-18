@@ -1,10 +1,10 @@
 package renderer;
 
-import geometries.Intersectable;
 import lighting.LightSource;
 import primitives.*;
 import scene.Scene;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import geometries.Intersectable.GeoPoint;
@@ -33,8 +33,30 @@ public class RayTracerBasic extends RayTracerBase {
      */
     private static final double MIN_CALC_COLOR_K = 0.001;
 
+
+    /**
+     * sqrt of maximum number of rays in a beam
+     */
+    private int _nRays = 4;
+
+    /**
+     * constructor
+     *
+     * @param scene scene to trace rays in
+     */
     public RayTracerBasic(Scene scene) {
         super(scene);
+    }
+
+    /**
+     * setter for nrays
+     *
+     * @param nRays sqrt of maximum number of rays in a beam
+     * @return this
+     */
+    public RayTracerBasic setNRays(int nRays) {
+        _nRays = nRays;
+        return this;
     }
 
     /**
@@ -181,12 +203,30 @@ public class RayTracerBasic extends RayTracerBase {
         Vector n = gp._geometry.getNormal(gp._point);
         Material material = gp._geometry.getMaterial();
         Double3 kkr = k.product(material._kr);
-        if (kkr.greaterThan(MIN_CALC_COLOR_K))
-            color = calcGlobalEffect(constructReflectedRay(gp._point, v, n), level, material._kr, kkr);
+        if (kkr.greaterThan(MIN_CALC_COLOR_K)) {
+            //color = calcGlobalEffect(constructReflectedRay(gp._point, v, n), level, material._kr, kkr);
+            List<Ray> reflectedBeam = constructBeamAroundRay(constructReflectedRay(gp._point, v, n), n,
+                    material._kg);
+            Color temp = Color.BLACK;
+            for (Ray reflected : reflectedBeam) {
+                temp = temp.add(calcGlobalEffect(reflected, level, material._kr, kkr));
+            }
+            color = color.add(temp.reduce(reflectedBeam.size()));
+            //color = color.add(temp);
+        }
         Double3 kkt = k.product(material._kt);
-        if (kkt.greaterThan(MIN_CALC_COLOR_K))
-            color = color.add(
-                    calcGlobalEffect(constructRefractedRay(gp._point, v, n), level, material._kt, kkt));
+        if (kkt.greaterThan(MIN_CALC_COLOR_K)) {
+            //color = color.add(
+            //        calcGlobalEffect(constructRefractedRay(gp._point, v, n), level, material._kt, kkt));
+            List<Ray> refractedBeam = constructBeamAroundRay(constructRefractedRay(gp._point, v, n), n,
+                    1 - material._kb);
+            Color temp = Color.BLACK;
+            for (Ray refracted : refractedBeam) {
+                temp = temp.add(calcGlobalEffect(refracted, level, material._kt, kkt));
+            }
+            color = color.add(temp.reduce(refractedBeam.size()));
+            //color = color.add(temp);
+        }
         return color;
     }
 
@@ -214,8 +254,40 @@ public class RayTracerBasic extends RayTracerBase {
     private Ray constructReflectedRay(Point point, Vector v, Vector n) {
         if (isZero(v.dotProduct(n)))
             return new Ray(point, v);
-        Vector r = v.subtract(n.scale(v.dotProduct(n)).scale(2)); // r = v - 2 * (v * l) * n
+        Vector r = v.subtract(n.scale(v.dotProduct(n)).scale(2)); // r = v - 2 * (v * n) * n
         return new Ray(point, r, n);
+    }
+
+    /**
+     * constructs a beam around a ray according to coefficient
+     *
+     * @param ray         ray to construct beam around
+     * @param n           normal to geometry
+     * @param coefficient precision factor
+     * @return list of rays in beam
+     */
+    private List<Ray> constructBeamAroundRay(Ray ray, Vector n, double coefficient) {
+
+        List<Ray> beam = new LinkedList<>();
+        beam.add(ray);
+        double widthFactor = 1 - coefficient;
+        Vector ortho;
+        // ortho = dir - (dir * n) * n
+        if (isZero(ray.getDir().dotProduct(n)))
+            ortho = n;
+        else
+            ortho = ray.getDir().subtract(n.scale(ray.getDir().dotProduct(n))).normalize();
+
+        for (int i = 0; i < _nRays && !isZero(widthFactor); i++, widthFactor *= 0.9d) {
+            ortho = ortho.scale(widthFactor);
+            Vector dir = ray.getDir().add(ortho).normalize();
+            for (int j = 0; j < _nRays;
+                 j++, dir.rotate(ray.getDir(), 360d / _nRays),
+                         beam.add(new Ray(ray.getP0(), dir)))
+                ;
+        }
+        return beam;
+
     }
 
 

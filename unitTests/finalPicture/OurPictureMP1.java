@@ -113,6 +113,7 @@ public class OurPictureMP1 {
 
 
         camera.setImageWriter(new ImageWriter("ourPictureMP1", 2000, 2000)) //
+                .setMaxLevelAdaptiveSS(5)
                 .setRayTracer(new RayTracerBasic(_scene)) //
                 .renderImageAdaptiveSuperSampling() //
                 .writeToImage();
