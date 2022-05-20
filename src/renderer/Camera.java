@@ -130,6 +130,7 @@ public class Camera {
 
     /**
      * setter for _nSS
+     *
      * @param nSS value
      * @return this
      */
@@ -140,6 +141,7 @@ public class Camera {
 
     /**
      * setter for _maxLevel
+     *
      * @param maxLevelAdaptiveSS value
      * @return this
      */
@@ -287,10 +289,11 @@ public class Camera {
 
     /**
      * creates beam of rays around center of pixel randomly
+     *
      * @param nX num of row pixels
      * @param nY num of col pixels
-     * @param j col index
-     * @param i row index
+     * @param j  col index
+     * @param i  row index
      * @return list of rays in beam
      */
     private List<Ray> constructBeamSuperSampling(int nX, int nY, int j, int i) {
@@ -345,26 +348,30 @@ public class Camera {
      * @return Color for a certain pixel
      */
     private Color castBeamAdaptiveSuperSampling(int j, int i) {
-        return calcAdaptiveSuperSampling(_imageWriter.getNx(), _imageWriter.getNy(), j, i, _maxLevelAdaptiveSS);
+        Ray center = constructRay(_imageWriter.getNx(), _imageWriter.getNy(), j, i);
+        Color centerColor = _rayTracerBase.traceRay(center);
+        return calcAdaptiveSuperSampling(_imageWriter.getNx(), _imageWriter.getNy(), j, i, _maxLevelAdaptiveSS, centerColor);
     }
 
     /**
      * calculates actual color using adaptive supersampling
-     * @param nX num of rows
-     * @param nY num of cols
-     * @param j col index of pixel
-     * @param i row index of pixel
+     *
+     * @param nX    num of rows
+     * @param nY    num of cols
+     * @param j     col index of pixel
+     * @param i     row index of pixel
      * @param level level of recursion
      * @return color of pixel
      */
-    private Color calcAdaptiveSuperSampling(int nX, int nY, int j, int i, int level) {
-        Ray center = constructRay(nX, nY, j, i);
+    private Color calcAdaptiveSuperSampling(int nX, int nY, int j, int i, int level, Color centerColor) {
+        //Ray center = constructRay(nX, nY, j, i);
         // recursion reached maximum level
         if (level == 0) {
-            return _rayTracerBase.traceRay(center);
+            //return _rayTracerBase.traceRay(center);
+            return centerColor;
         }
         Color color = Color.BLACK;
-        Color centerColor = _rayTracerBase.traceRay(center);
+        //Color centerColor = _rayTracerBase.traceRay(center);
         // divide pixel into 4 mini-pixels
         List<Ray> beam = List.of(constructRay(2 * nX, 2 * nY, 2 * j, 2 * i),
                 constructRay(2 * nX, 2 * nY, 2 * j, 2 * i + 1),
@@ -375,7 +382,7 @@ public class Camera {
             Color currentColor = _rayTracerBase.traceRay(beam.get(ray));
             if (!currentColor.equals(centerColor))
                 currentColor = calcAdaptiveSuperSampling(2 * nX, 2 * nY,
-                        2 * j + ray / 2, 2 * i + ray % 2, level - 1);
+                        2 * j + ray / 2, 2 * i + ray % 2, level - 1, currentColor);
             color = color.add(currentColor);
         }
         return color.reduce(4);
