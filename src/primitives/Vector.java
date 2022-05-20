@@ -178,4 +178,5 @@ public class Vector extends Point {
 
         return new Vector(xRotated, yRotated, zRotated);
     }
+
 }

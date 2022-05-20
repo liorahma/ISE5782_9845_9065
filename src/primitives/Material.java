@@ -28,9 +28,18 @@ public class Material {
      * level of shininess of material
      */
     public int _nshininess = 0;
+    /**
+     * glossiness coefficient
+     */
+    public double _kg = 1;
+    /**
+     * blurriness coefficient
+     */
+    public double _kb = 0;
 
     /**
      * setter for kD, builder pattern
+     *
      * @param kd diffuse factor
      * @return this
      */
@@ -38,8 +47,10 @@ public class Material {
         _kd = new Double3(kd);
         return this;
     }
+
     /**
      * setter for kR, builder pattern
+     *
      * @param kr reflectance coefficient
      * @return this
      */
@@ -47,8 +58,10 @@ public class Material {
         _kr = new Double3(kr);
         return this;
     }
-  /**
+
+    /**
      * setter for kt, builder pattern
+     *
      * @param kt transparency coefficient
      * @return this
      */
@@ -76,6 +89,28 @@ public class Material {
      */
     public Material setShininess(int nshininess) {
         _nshininess = nshininess;
+        return this;
+    }
+
+    /**
+     * setter for field kglossy, builder pattern
+     *
+     * @param kg glossiness coefficient
+     * @return this
+     */
+    public Material setKg(double kg) {
+        _kg = kg;
+        return this;
+    }
+
+    /**
+     * setter for field kblurry, builder pattern
+     *
+     * @param kb blurriness coefficient
+     * @return this
+     */
+    public Material setKb(double kb) {
+        _kb = kb;
         return this;
     }
 }
