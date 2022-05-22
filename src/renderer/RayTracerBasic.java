@@ -278,16 +278,17 @@ public class RayTracerBasic extends RayTracerBase {
         else
             ortho = ray.getDir().subtract(n.scale(ray.getDir().dotProduct(n))).normalize();
 
+        //double epsilon = 360d / (_nRays * _nRays * _nRays);
         for (int i = 0; i < _nRays && !isZero(widthFactor); i++, widthFactor *= 0.9d) {
             ortho = ortho.scale(widthFactor);
+            //ortho = ortho.rotate(ray.getDir(), i * epsilon);
             Vector dir = ray.getDir().add(ortho).normalize();
             for (int j = 0; j < _nRays;
-                 j++, dir.rotate(ray.getDir(), 360d / _nRays),
-                         beam.add(new Ray(ray.getP0(), dir)))
-                ;
+                 j++, dir = dir.rotate(ray.getDir(), 360d / _nRays)) {
+                beam.add(new Ray(ray.getP0(), dir));
+            }
         }
         return beam;
-
     }
 
 
