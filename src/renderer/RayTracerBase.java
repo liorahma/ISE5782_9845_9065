@@ -7,6 +7,7 @@ import scene.Scene;
  * Class representing a base for a Ray tracer
  */
 public abstract class RayTracerBase {
+
     /**
      * scene to trace rays in
      */

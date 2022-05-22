@@ -297,7 +297,7 @@ public class Camera {
      * @return list of rays in beam
      */
     private List<Ray> constructBeamSuperSampling(int nX, int nY, int j, int i) {
-        List<Ray> beam = new LinkedList<Ray>();
+        List<Ray> beam = new LinkedList<>();
         beam.add(constructRay(nX, nY, j, i));
         double ry = _height / nY;
         double rx = _width / nX;
