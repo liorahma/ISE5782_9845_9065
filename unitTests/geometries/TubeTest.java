@@ -42,7 +42,7 @@ class TubeTest {
     @Test
     void testFindIntersections() {
 
-        Tube tube = new Tube(new Ray(new Point(0, 1, 0), new Vector(0, 1, 0)), 1);
+        Tube tube = new Tube(new Ray(new Point(0, 0, 1), new Vector(0, 0, 1)), 1);
         // ============ Equivalence Partitions Tests ==============
 
         // *** Group: Ray starts on the outside, crosses the tube and is not orthogonal
@@ -60,7 +60,7 @@ class TubeTest {
         // TC03: Ray starts inside tube and is not orthogonal - 1 intersection
         result = tube.findIntersections(new Ray(new Point(0, -0.5, 0), new Vector(0, -1.5, 2)));
         assertEquals(1, result.size(), "Wrong number of points in TC03");
-        assertEquals(new Point(0, -1, 2 / 3f), result.get(0), "Wrong intersection point in TC03");
+        assertEquals(new Point(0, -1, 0.666666666666666666666), result.get(0), "Wrong intersection point in TC03");
 
         // =============== Boundary Values Tests ==================
 

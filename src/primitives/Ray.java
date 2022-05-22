@@ -112,4 +112,10 @@ public class Ray {
                 ", dir=" + _dir +
                 '}';
     }
+
+    public Point getPoint(double t) {
+        if (t==0)
+            return _p0;
+        return _p0.add(_dir.scale(t));
+    }
 }
