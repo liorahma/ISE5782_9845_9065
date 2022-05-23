@@ -370,7 +370,7 @@ public class Camera {
             //return _rayTracerBase.traceRay(center);
             return centerColor;
         }
-        Color color = Color.BLACK;
+        Color color = centerColor;
         //Color centerColor = _rayTracerBase.traceRay(center);
         // divide pixel into 4 mini-pixels
         List<Ray> beam = List.of(constructRay(2 * nX, 2 * nY, 2 * j, 2 * i),
@@ -385,7 +385,7 @@ public class Camera {
                         2 * j + ray / 2, 2 * i + ray % 2, level - 1, currentColor);
             color = color.add(currentColor);
         }
-        return color.reduce(4);
+        return color.reduce(5);
     }
 
 
