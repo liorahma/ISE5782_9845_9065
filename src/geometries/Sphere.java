@@ -17,6 +17,8 @@ public class Sphere extends Geometry {
     public Sphere(Point center, double radius) {
         _center = center;
         _radius = radius;
+        if (_bvhIsOn)
+            createBoundingBox();
     }
 
     @Override
@@ -52,6 +54,16 @@ public class Sphere extends Geometry {
     @Override
     public Vector getNormal(Point point) {
         return point.subtract(_center).normalize();
+    }
+
+    @Override
+    public void createBoundingBox() {
+        double minX = _center.add(new Vector(-1, 0, 0).scale(_radius)).getX();
+        double minY = _center.add(new Vector(0, -1, 0).scale(_radius)).getY();
+        double minZ = _center.add(new Vector(0, 0, -1).scale(_radius)).getZ();
+        double maxX = _center.add(new Vector(1, 0, 0).scale(_radius)).getX();
+        double maxY = _center.add(new Vector(0, 1, 0).scale(_radius)).getY();
+        double maxZ = _center.add(new Vector(0, 0, 1).scale(_radius)).getZ();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package finalPicture;
 
+import jdk.jshell.spi.ExecutionControl;
 import org.junit.jupiter.api.Test;
 
 import static java.awt.Color.*;
@@ -296,6 +297,10 @@ public class OurPictureMP1 {
     //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(66)), 7).setMaterial(material));
     //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(68)), 8).setMaterial(material));
 
+        }
+
+        @Override
+        public void createBoundingBox() {
         }
 
         @Override

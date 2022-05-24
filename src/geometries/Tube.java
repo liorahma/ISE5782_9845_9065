@@ -7,6 +7,7 @@ import java.util.List;
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
+
 public class Tube extends Geometry {
     protected Ray _axisRay;
     protected double _radius;
@@ -14,6 +15,8 @@ public class Tube extends Geometry {
     public Tube(Ray axisRay, double radius) {
         this._axisRay = axisRay;
         this._radius = radius;
+        if (_bvhIsOn)
+            createBoundingBox();
     }
 
     public Ray getAxisRay() {
@@ -42,6 +45,11 @@ public class Tube extends Geometry {
             return p0point.normalize();
         Point o = _axisRay.getP0().add(_axisRay.getDir().scale(t));
         return point.subtract(o).normalize();
+    }
+
+    @Override
+    public void createBoundingBox() {
+        _box = null;
     }
 
     /**
@@ -162,11 +170,11 @@ public class Tube extends Geometry {
         try {
             deltaP = p0.subtract(_axisRay.getP0());
         } catch (IllegalArgumentException e1) { // the ray begins at axis P0
-            if (vVa == 0&&alignZero(_radius-maxDistance)<=0) // the ray is orthogonal to Axis
-                return List.of(new GeoPoint(this,ray.getPoint(_radius)));
+            if (vVa == 0 && alignZero(_radius - maxDistance) <= 0) // the ray is orthogonal to Axis
+                return List.of(new GeoPoint(this, ray.getPoint(_radius)));
 
             double t = alignZero(Math.sqrt(_radius * _radius / vMinusVVaVa.lengthSquared()));
-            return (t == 0||alignZero(t - maxDistance) > 0) ? null : List.of(new GeoPoint(this,ray.getPoint(t)));
+            return (t == 0 || alignZero(t - maxDistance) > 0) ? null : List.of(new GeoPoint(this, ray.getPoint(t)));
         }
 
         double dPVAxis = alignZero(deltaP.dotProduct(vAxis));
@@ -180,7 +188,7 @@ public class Tube extends Geometry {
                 dPMinusdPVaVa = deltaP.subtract(dPVaVa);
             } catch (IllegalArgumentException e1) {
                 double t = alignZero(Math.sqrt(_radius * _radius / a));
-                return (t == 0||alignZero(t - maxDistance) > 0) ? null : List.of(new GeoPoint(this,ray.getPoint(t)));
+                return (t == 0 || alignZero(t - maxDistance) > 0) ? null : List.of(new GeoPoint(this, ray.getPoint(t)));
             }
         }
 
@@ -204,10 +212,10 @@ public class Tube extends Geometry {
         double t2 = alignZero(tm - th);
 
         // if both t1 and t2 are positive
-        if (t2 > 0&& alignZero(t2 - maxDistance) <= 0&&alignZero(t1 - maxDistance) <= 0)
-            return List.of(new GeoPoint(this,ray.getPoint(t1)), new GeoPoint(this,ray.getPoint(t2)));
+        if (t2 > 0 && alignZero(t2 - maxDistance) <= 0 && alignZero(t1 - maxDistance) <= 0)
+            return List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2)));
         else if (alignZero(t1 - maxDistance) <= 0)// t2 is behind the head
-            return List.of(new GeoPoint(this,ray.getPoint(t1)));
+            return List.of(new GeoPoint(this, ray.getPoint(t1)));
         return null;
     }
 }
