@@ -12,6 +12,7 @@ import renderer.Camera;
 import renderer.ImageWriter;
 import renderer.RayTracerBasic;
 import scene.Scene;
+import scene.Scene.*;
 
 import javax.management.remote.rmi.RMIConnectionImpl_Stub;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.Random;
 
 public class OurPictureMP1 {
-    private Scene _scene = new Scene("Test scene");
+    private Scene _scene = new BuilderScene("Test scene").build();
     int lengthToX = 10000;
     int firstX = 5000;
     int distanceBetweenPins = 70;
