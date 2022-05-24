@@ -187,7 +187,7 @@ public class ReflectionRefractionTests {
 				.setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20).setKt(0.5));
 		_scene._geometries.add( //
 				polyMirror,
-				new Plane(new Point(0,0,-20),new Point(1,1,-20),new Point(-5,-7,-20)).setMaterial(new Material().setShininess(19).setKt(0.3).setKd(0.2).setKr(0.5).setKs(0.6)),
+				new Plane(new Point(0,0,-20),new Point(1,1,-20),new Point(-5,-7,-20)).setMaterial(new Material().setShininess(19).setKt(0.3).setKd(0.2).setKr(0.5).setKs(0.6).setKg(0.8)),
 				new Triangle(new Point(-80, 80, 30), new Point(-10, 5, 10), new Point(-90, 20, 40)) //
 						.setEmission(new Color(3,6,18)).setMaterial(new Material().setKd(0.4).setKt(0.5).setKs(0.5).setShininess(60)),
 				//new Triangle(new Point(100,100,0),new Point(-100,100,0), new Point(0,-90,-50))

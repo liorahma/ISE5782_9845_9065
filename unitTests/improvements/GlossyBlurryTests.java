@@ -35,16 +35,16 @@ public class GlossyBlurryTests {
 
         _scene._geometries.add( //
                 new Sphere(new Point(-950, -900, -1000), 400d).setEmission(new Color(0, 0, 100)) //
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20).setKt(0.5)),
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20).setKt(0.5).setKg(0.5)),
                 new Sphere(new Point(-950, -900, -1000), 200d).setEmission(new Color(100, 20, 20)) //
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20).setKg(0.5)),
                 new Triangle(new Point(1500, -1500, -1500), new Point(-1500, 1500, -1500), new Point(670, 670, 3000)) //
                         .setEmission(new Color(20, 20, 20)) //
-                        .setMaterial(new Material().setKr(1).setKg(0.99)),
+                        .setMaterial(new Material().setKr(1)),
                 new Triangle(new Point(1500, -1500, -1500), new Point(-1500, 1500, -1500),
                         new Point(-1500, -1500, -2000)) //
                         .setEmission(new Color(20, 20, 20)) //
-                        .setMaterial(new Material().setKr(0.5).setKg(0.7)));
+                        .setMaterial(new Material().setKr(0.5)));
 
         _scene._lights.add(new SpotLight(new Color(1020, 400, 400), new Point(-750, -750, -150), new Vector(-1, -1, -4)) //
                 .setKl(0.00001).setKq(0.000005));

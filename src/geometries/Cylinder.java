@@ -126,7 +126,7 @@ public class Cylinder extends Tube {
             return null;
         }
 
-        if(intersections.size()==2) {
+        if (intersections.size() == 2) {
             // Ray - infinite cylinder intersection points
             p1 = intersections.get(0);
             p2 = intersections.get(1);
@@ -161,9 +161,7 @@ public class Cylinder extends Tube {
             if (p2 != null)
                 return List.of(p2);
             return null;
-        }
-
-        else//one intersection- starts inside the tube
+        } else//one intersection- starts inside the tube
         {
             p1 = intersections.get(0);
             //todooooooooooooooo
