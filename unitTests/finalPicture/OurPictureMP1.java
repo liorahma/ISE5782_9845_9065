@@ -62,12 +62,13 @@ public class OurPictureMP1 {
 
         createTexture(new Ray(new Point(6999, -330, 200), new Vector(0, 1, 1)));
 
-        camera.setImageWriter(new ImageWriter("ourPictureMP1", 2000, 2000)) //
+        //_scene._geometries.setBvhIsOn(false);
+        camera.setImageWriter(new ImageWriter("ourPictureMP2BVH", 2000, 2000)) //
                 .setRayTracer(new RayTracerBasic(_scene)) //
                 .renderImage() //
                 .writeToImage();
 
-        cameraTop.setImageWriter(new ImageWriter("ourPictureMP1Up", 500, 500)) //
+        cameraTop.setImageWriter(new ImageWriter("ourPictureMP2UpBVH", 500, 500)) //
                 .setRayTracer(new RayTracerBasic(_scene)) //
                 .renderImage() //
                 .writeToImage();
@@ -299,6 +300,8 @@ public class OurPictureMP1 {
 
         @Override
         public void createBoundingBox() {
+            _spheres.createBoundingBox();
+            _box = _spheres._box;
         }
 
         @Override

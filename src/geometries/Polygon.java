@@ -106,7 +106,7 @@ public class Polygon extends Geometry {
         for (Point ver : _vertices) {
             minX = Math.min(minX, ver.getX());
             minY = Math.min(minY, ver.getY());
-            minX = Math.min(minX, ver.getZ());
+            minZ = Math.min(minZ, ver.getZ());
             maxX = Math.max(maxX, ver.getX());
             maxY = Math.max(maxY, ver.getY());
             maxZ = Math.max(maxZ, ver.getZ());

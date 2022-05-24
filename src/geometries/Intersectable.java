@@ -17,7 +17,7 @@ public abstract class Intersectable {
     /**
      * a field to turn on and off the bvh
      */
-    protected boolean _bvhIsOn = false;
+    protected boolean _bvhIsOn = true;
     /**
      * actual boundary box
      */

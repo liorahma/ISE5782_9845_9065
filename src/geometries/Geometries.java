@@ -59,7 +59,7 @@ public class Geometries extends Intersectable {
             if (geo._box != null) {
                 minX = Math.min(minX, geo._box._minimums.getX());
                 minY = Math.min(minY, geo._box._minimums.getY());
-                minX = Math.min(minX, geo._box._minimums.getZ());
+                minZ = Math.min(minZ, geo._box._minimums.getZ());
                 maxX = Math.max(maxX, geo._box._maximums.getX());
                 maxY = Math.max(maxY, geo._box._maximums.getY());
                 maxZ = Math.max(maxZ, geo._box._maximums.getZ());

@@ -58,12 +58,13 @@ public class Sphere extends Geometry {
 
     @Override
     public void createBoundingBox() {
-        double minX = _center.add(new Vector(-1, 0, 0).scale(_radius)).getX();
-        double minY = _center.add(new Vector(0, -1, 0).scale(_radius)).getY();
-        double minZ = _center.add(new Vector(0, 0, -1).scale(_radius)).getZ();
-        double maxX = _center.add(new Vector(1, 0, 0).scale(_radius)).getX();
-        double maxY = _center.add(new Vector(0, 1, 0).scale(_radius)).getY();
-        double maxZ = _center.add(new Vector(0, 0, 1).scale(_radius)).getZ();
+        double minX = _center.getX() - _radius;
+        double minY = _center.getY() - _radius;
+        double minZ = _center.getZ() - _radius;
+        double maxX = _center.getX() + _radius;
+        double maxY = _center.getY() + _radius;
+        double maxZ = _center.getZ() + _radius;
+        _box = new BoundingBox(new Point(minX, minY, minZ), new Point(maxX, maxY, maxZ));
     }
 
     @Override
