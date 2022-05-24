@@ -84,9 +84,9 @@ public class OurPictureMP1 {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 2; j++) {
                 _scene._geometries.add(new Sphere(new Point(ballHolderX + 25 + 50 * i, ballHolderY - 25 - 50 * j, ballHolderZ + 80), 20)
-                        .setEmission(randomColor()).setMaterial(new Material().setKs(1).setKd(0.45).setKr(0.35).setKg(0.5)));
+                        .setEmission(randomColor()).setMaterial(new Material().setKs(1).setKd(0.45).setKr(0.35).setShininess(25)));
                 _scene._geometries.add(new Sphere(new Point(ballHolderX + 25 + 50 * i, ballHolderY - 25 - 50 * j, ballHolderZ + 20), 20)
-                        .setEmission(randomColor()).setMaterial(new Material().setKs(1).setKd(0.45).setKr(0.35).setKg(0.5)));
+                        .setEmission(randomColor()).setMaterial(new Material().setKs(1).setKd(0.45).setKr(0.35).setShininess(25)));
             }
         }
         _scene._geometries.add(bottomBallHolder, topBallHolder);

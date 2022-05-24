@@ -285,7 +285,10 @@ public class RayTracerBasic extends RayTracerBase {
             Vector dir = ray.getDir().add(ortho).normalize();
             for (int j = 0; j < _nRays;
                  j++, dir = dir.rotate(ray.getDir(), 360d / _nRays)) {
-                beam.add(new Ray(ray.getP0(), dir));
+                // if the rays are on the same side of surface
+                if (dir.dotProduct(n) * ray.getDir().dotProduct(n) > 0) {
+                    beam.add(new Ray(ray.getP0(), dir));
+                }
             }
         }
         return beam;
