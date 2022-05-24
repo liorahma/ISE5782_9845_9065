@@ -17,6 +17,8 @@ public class Plane extends Geometry {
     public Plane(Point q0, Vector normal) {
         this._q0 = q0;
         this._normal = normal;
+        if (_bvhIsOn)
+            createBoundingBox();
     }
 
     /**
@@ -82,6 +84,11 @@ public class Plane extends Geometry {
     @Override
     public int hashCode() {
         return Objects.hash(_q0, _normal);
+    }
+
+    @Override
+    public void createBoundingBox() {
+        _box = null;
     }
 
     @Override
