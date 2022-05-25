@@ -62,6 +62,8 @@ public class Camera {
      */
     private int _maxLevelAdaptiveSS = 3;
 
+    private int _threadsCount = 3;
+
     /**
      * Builds camera according to location of source point and vectors that define view plane
      *
@@ -228,19 +230,56 @@ public class Camera {
 
     }
 
+
+    /**
+     * renders image using multithreading
+     * @return this
+     */
+    public Camera renderImageMultiThreading() {
+        Pixel.initialize(_imageWriter.getNy(), _imageWriter.getNx(), 60);
+        while (_threadsCount-- > 0) {
+            new Thread(() -> {
+                for (Pixel pixel = new Pixel(); pixel.nextPixel(); Pixel.pixelDone())
+                    _imageWriter.writePixel(pixel.col, pixel.row, castRay(pixel.col, pixel.row));
+            }).start();
+        }
+        Pixel.waitToFinish();
+        return this;
+    }
+
+    /**
+     * renders image using multithreading and adaptive supersampling
+     * @return this
+     */
+    public Camera renderImageMultiThreadingASS() {
+        Pixel.initialize(_imageWriter.getNy(), _imageWriter.getNx(), 60);
+        while (_threadsCount-- > 0) {
+            new Thread(() -> {
+                for (Pixel pixel = new Pixel(); pixel.nextPixel(); Pixel.pixelDone())
+                    _imageWriter.writePixel(pixel.col, pixel.row, castBeamAdaptiveSuperSampling(pixel.col, pixel.row));
+            }).start();
+        }
+        Pixel.waitToFinish();
+        return this;
+    }
+
     /**
      * render the image using the image writer
      */
     public Camera renderImage() {
         checkExceptions();
-        // for each pixel
-        for (int i = 0; i < _imageWriter.getNx(); i++) {
-            for (int j = 0; j < _imageWriter.getNy(); j++) {
+        Pixel.initialize(_imageWriter.getNy(), _imageWriter.getNx(), 60);
+        for (int i = 0; i < _imageWriter.getNx(); ++i) {
+            for (int j = 0; j < _imageWriter.getNy(); ++j) {
                 _imageWriter.writePixel(j, i, castRay(j, i));
+                Pixel.pixelDone();
+                Pixel.printPixel();
             }
         }
         return this;
+
     }
+
 
     /**
      * Casts a ray through a pixel, traces it and returns the color for the pixel

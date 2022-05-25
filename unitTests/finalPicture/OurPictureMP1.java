@@ -59,13 +59,13 @@ public class OurPictureMP1 {
         //_scene._geometries.setBvhIsOn(false);
         camera.setImageWriter(new ImageWriter("ourPictureMP2BVH", 2000, 2000)) //
                 .setRayTracer(new RayTracerBasic(_scene)) //
-                .renderImage() //
+                .renderImageMultiThreadingASS() //
                 .writeToImage();
 
         cameraTop.setImageWriter(new ImageWriter("ourPictureMP2UpBVH", 500, 500)) //
-               .setRayTracer(new RayTracerBasic(_scene)) //
-             .renderImage() //
-           .writeToImage();
+                .setRayTracer(new RayTracerBasic(_scene)) //
+                .renderImage() //
+                .writeToImage();
 
     }
 
@@ -116,7 +116,7 @@ public class OurPictureMP1 {
                 .setMaterial(new Material().setKs(1).setKd(0.3).setKr(0.3).setShininess(19));
         _scene._geometries.add(lane, laneLeft, laneRight);
         _scene._geometries.add(rightPolL, rightPolR, leftPolL, leftPolR, rightPolM, leftPolM);
-        _scene._geometries.add(rightTube,leftTube);
+        _scene._geometries.add(rightTube, leftTube);
 
     }
 
@@ -140,11 +140,11 @@ public class OurPictureMP1 {
 
     private void createFallingBowlingPins(int x, int y) {
         int height = 16;
-        double zVector= 1;
+        double zVector = 1;
         Material bowlPinMat = new Material().setKr(0.3).setKs(1).setShininess(19);
         Color bowlingMain = new Color(242, 242, 242).reduce(1.3);
         BowlingPin bowlingPin1 = new BowlingPin(new Ray(new Point(firstX, y, height), new Vector(1, 0, zVector)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin2 = new BowlingPin(new Ray(new Point(firstX + distanceBetweenPins, y - distanceBetweenPins / 2d, height), new Vector(1, -0.2,zVector)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin2 = new BowlingPin(new Ray(new Point(firstX + distanceBetweenPins, y - distanceBetweenPins / 2d, height), new Vector(1, -0.2, zVector)), bowlPinMat, bowlingMain, new Color(RED));
         BowlingPin bowlingPin3 = new BowlingPin(new Ray(new Point(firstX + distanceBetweenPins, y + distanceBetweenPins / 2d, height), new Vector(1, 0.2, zVector)), bowlPinMat, bowlingMain, new Color(RED));
         BowlingPin bowlingPin4 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y - distanceBetweenPins, height), new Vector(1, -0.3, zVector)), bowlPinMat, bowlingMain, new Color(RED));
         BowlingPin bowlingPin5 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y, height), new Vector(1, 0, zVector)), bowlPinMat, bowlingMain, new Color(RED));
@@ -192,7 +192,7 @@ public class OurPictureMP1 {
         _scene._lights.add(new DirectionalLight(new Color(255, 230, 128), new Vector(0, -1, -0.7)));
 
         Polygon rightWall = (Polygon) new Polygon(new Point(-500, -340, 1500), new Point(lengthToX, -340, 1500), new Point(lengthToX, -340, 0), new Point(-500, -340, 0)).setEmission(wallColor)
-                .setMaterial(wallMat);
+                .setMaterial(wallMat.setKg(0.9));
         Polygon backWall = (Polygon) new Polygon(new Point(7000, 340, 1500), new Point(7000, -340, 1500), new Point(7000, -340, 0), new Point(7000, 340, 0)).setEmission(wallColor)
                 .setMaterial(wallMat);
         Geometry roof = new Polygon(new Point(7000, 340, 600), new Point(7000, -340, 600), new Point(-500, -340, 600), new Point(-600, 340, 600))
