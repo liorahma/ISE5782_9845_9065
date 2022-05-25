@@ -62,10 +62,10 @@ public class OurPictureMP1 {
                 .renderImageMultiThreadingASS() //
                 .writeToImage();
 
-        cameraTop.setImageWriter(new ImageWriter("ourPictureMP2UpBVH", 500, 500)) //
-                .setRayTracer(new RayTracerBasic(_scene)) //
-                .renderImage() //
-                .writeToImage();
+//        cameraTop.setImageWriter(new ImageWriter("ourPictureMP2UpBVH", 500, 500)) //
+//                .setRayTracer(new RayTracerBasic(_scene)) //
+//                .renderImage() //
+//                .writeToImage();
 
     }
 
@@ -192,7 +192,7 @@ public class OurPictureMP1 {
         _scene._lights.add(new DirectionalLight(new Color(255, 230, 128), new Vector(0, -1, -0.7)));
 
         Polygon rightWall = (Polygon) new Polygon(new Point(-500, -340, 1500), new Point(lengthToX, -340, 1500), new Point(lengthToX, -340, 0), new Point(-500, -340, 0)).setEmission(wallColor)
-                .setMaterial(wallMat.setKg(0.9));
+                .setMaterial(wallMat);
         Polygon backWall = (Polygon) new Polygon(new Point(7000, 340, 1500), new Point(7000, -340, 1500), new Point(7000, -340, 0), new Point(7000, 340, 0)).setEmission(wallColor)
                 .setMaterial(wallMat);
         Geometry roof = new Polygon(new Point(7000, 340, 600), new Point(7000, -340, 600), new Point(-500, -340, 600), new Point(-600, 340, 600))
