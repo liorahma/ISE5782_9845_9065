@@ -1,6 +1,5 @@
 package finalPicture;
 
-import jdk.jshell.spi.ExecutionControl;
 import org.junit.jupiter.api.Test;
 
 import static java.awt.Color.*;
@@ -13,14 +12,12 @@ import renderer.ImageWriter;
 import renderer.RayTracerBasic;
 import scene.Scene;
 
-import javax.management.remote.rmi.RMIConnectionImpl_Stub;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
 public class OurPictureMP1 {
-    private Scene _scene = new Scene("Test scene");
+    private final Scene _scene = new Scene("Test scene");
     int lengthToX = 10000;
     int firstX = 5000;
     int distanceBetweenPins = 70;
@@ -38,27 +35,23 @@ public class OurPictureMP1 {
 
         createBowlingPins(firstX, 0);
         createBowlingPins(firstX, -240);
-        createBowlingPins(firstX, 240);
+        createFallingBowlingPins(firstX, 240);
 
         createWalls();
 
         createBoxForEndOfLane();
 
-        SpotLight leftBottomSpotLight = new SpotLight(new Color(217, 102, 255).reduce(20), new Point(0, 200, 50), new Vector(1, -1, -0.5));
+        //SpotLight leftBottomSpotLight = new SpotLight(new Color(217, 102, 255).reduce(20), new Point(0, 200, 50), new Vector(1, -1, -0.5));
         //_scene._lights.add(leftBottomSpotLight);
 
 
-        SpotLight trySomething = new SpotLight(new Color(255, 102, 255), new Point(5000, -240, 180), new Vector(0, 0, -1));
-        //_scene._lights.add(trySomething);
-
-        SpotLight trySomething2 = new SpotLight(new Color(102, 255, 51), new Point(4800, 240, 10), new Vector(1, 0, 0));
+        SpotLight trySomething2 = new SpotLight(new Color(102, 255, 51), new Point(4800, 240, 30), new Vector(1, 0, 0.2));
         _scene._lights.add(trySomething2);
 
         createBallHolder(2500, -150, 3);
 
 
         createLightFixture(new Point(3500, 0, 550));
-        _scene.setAmbientLight(new AmbientLight(new Color(WHITE), 0.06));
 
         createTexture(new Ray(new Point(6999, -330, 200), new Vector(0, 1, 1)));
 
@@ -69,9 +62,9 @@ public class OurPictureMP1 {
                 .writeToImage();
 
         cameraTop.setImageWriter(new ImageWriter("ourPictureMP2UpBVH", 500, 500)) //
-                .setRayTracer(new RayTracerBasic(_scene)) //
-                .renderImage() //
-                .writeToImage();
+               .setRayTracer(new RayTracerBasic(_scene)) //
+             .renderImage() //
+           .writeToImage();
 
     }
 
@@ -122,7 +115,7 @@ public class OurPictureMP1 {
                 .setMaterial(new Material().setKs(1).setKd(0.3).setKr(0.3).setShininess(19));
         _scene._geometries.add(lane, laneLeft, laneRight);
         _scene._geometries.add(rightPolL, rightPolR, leftPolL, leftPolR, rightPolM, leftPolM);
-        //_scene._geometries.add(rightTube,leftTube);
+        _scene._geometries.add(rightTube,leftTube);
 
     }
 
@@ -130,68 +123,78 @@ public class OurPictureMP1 {
         Material bowlPinMat = new Material().setKr(0.3).setKs(1).setShininess(19);
         Color bowlingMain = new Color(242, 242, 242).reduce(1.3);
         BowlingPin bowlingPin1 = new BowlingPin(new Ray(new Point(firstX, y, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin2 = new BowlingPin(new Ray(new Point(firstX + distanceBetweenPins, y - distanceBetweenPins / 2, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin3 = new BowlingPin(new Ray(new Point(firstX + distanceBetweenPins, y + distanceBetweenPins / 2, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin2 = new BowlingPin(new Ray(new Point(firstX + distanceBetweenPins, y - distanceBetweenPins / 2d, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin3 = new BowlingPin(new Ray(new Point(firstX + distanceBetweenPins, y + distanceBetweenPins / 2d, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
         BowlingPin bowlingPin4 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y - distanceBetweenPins, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
         BowlingPin bowlingPin5 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
         BowlingPin bowlingPin6 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y + distanceBetweenPins, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
         BowlingPin bowlingPin7 = new BowlingPin(new Ray(new Point(firstX + 3 * distanceBetweenPins, y - 1.5 * distanceBetweenPins, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin8 = new BowlingPin(new Ray(new Point(firstX + 3 * distanceBetweenPins, y - distanceBetweenPins / 2, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin9 = new BowlingPin(new Ray(new Point(firstX + 3 * distanceBetweenPins, y + distanceBetweenPins / 2, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin8 = new BowlingPin(new Ray(new Point(firstX + 3 * distanceBetweenPins, y - distanceBetweenPins / 2d, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin9 = new BowlingPin(new Ray(new Point(firstX + 3 * distanceBetweenPins, y + distanceBetweenPins / 2d, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
         BowlingPin bowlingPin10 = new BowlingPin(new Ray(new Point(firstX + 3 * distanceBetweenPins, y + 1.5 * distanceBetweenPins, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
         //_scene._geometries.add(bowlingPin1,bowlingPin2,bowlingPin3,bowlingPin4,bowlingPin5,bowlingPin6,bowlingPin7,bowlingPin8,bowlingPin9,bowlingPin10);
         _scene._geometries.add(bowlingPin1, bowlingPin2, bowlingPin3, bowlingPin4, bowlingPin5, bowlingPin6);
-        //_scene._geometries.add(bowlingPin1, bowlingPin2, bowlingPin3);
+
     }
 
     private void createFallingBowlingPins(int x, int y) {
         int height = 16;
-        Material bowlPinMat = new Material().setKs(1).setShininess(19);
+        double zVector= 1;
+        Material bowlPinMat = new Material().setKr(0.3).setKs(1).setShininess(19);
         Color bowlingMain = new Color(242, 242, 242).reduce(1.3);
-        BowlingPin bowlingPin1 = new BowlingPin(new Ray(new Point(firstX, y, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin2 = new BowlingPin(new Ray(new Point(firstX + distanceBetweenPins, y - distanceBetweenPins / 2, height), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin3 = new BowlingPin(new Ray(new Point(firstX + distanceBetweenPins, y + distanceBetweenPins / 2, height), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin4 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y - distanceBetweenPins, height), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin5 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y, height), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin6 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y + distanceBetweenPins, height), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin7 = new BowlingPin(new Ray(new Point(firstX + 3 * distanceBetweenPins, y - 1.5 * distanceBetweenPins, height), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin8 = new BowlingPin(new Ray(new Point(firstX + 3 * distanceBetweenPins, y - distanceBetweenPins / 2, height), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin9 = new BowlingPin(new Ray(new Point(firstX + 3 * distanceBetweenPins, y + distanceBetweenPins / 2, height), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin10 = new BowlingPin(new Ray(new Point(firstX + 3 * distanceBetweenPins, y + 1.5 * distanceBetweenPins, height), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        //_scene._geometries.add(bowlingPin1,bowlingPin2,bowlingPin3,bowlingPin4,bowlingPin5,bowlingPin6,bowlingPin7,bowlingPin8,bowlingPin9,bowlingPin10);
-        _scene._geometries.add(bowlingPin1, bowlingPin2, bowlingPin3, bowlingPin4, bowlingPin5, bowlingPin6);
-        //_scene._geometries.add(bowlingPin1, bowlingPin2, bowlingPin3);
+        BowlingPin bowlingPin1 = new BowlingPin(new Ray(new Point(firstX, y, height), new Vector(1, 0, zVector)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin2 = new BowlingPin(new Ray(new Point(firstX + distanceBetweenPins, y - distanceBetweenPins / 2d, height), new Vector(1, -0.2,zVector)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin3 = new BowlingPin(new Ray(new Point(firstX + distanceBetweenPins, y + distanceBetweenPins / 2d, height), new Vector(1, 0.2, zVector)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin4 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y - distanceBetweenPins, height), new Vector(1, -0.2, zVector)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin5 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y, height), new Vector(1, 0, zVector)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin6 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y + distanceBetweenPins, 0), new Vector(1, 0.3, zVector)), bowlPinMat, bowlingMain, new Color(RED));
+        Geometry ball= new Sphere(new Point(firstX,y-25,25),25)
+                .setEmission(new Color(179, 0, 134)).setMaterial(new Material().setShininess(25).setKs(1).setKd(0.25).setKr(0.1));
+        _scene._geometries.add(bowlingPin1, bowlingPin2, bowlingPin3, bowlingPin4, bowlingPin5, bowlingPin6,ball);
+
     }
 
     private void createWalls() {
+        Material wallMat = new Material().setKd(0.6).setKr(0.2).setShininess(19);
+        //Material wallMat= new Material().setKd(0.9).setShininess(19);
         Color wallColor = new Color(0, 122, 204).scale(1.8);
-        Polygon leftWall = (Polygon) new Polygon(new Point(-500, 340, 1500), new Point(lengthToX, 340, 1500), new Point(lengthToX, 340, 0), new Point(-500, 340, 0)).setEmission(wallColor)
-                .setMaterial(new Material().setKd(0.9).setShininess(19));
+        //Color wallColor = new Color(255, 204, 102).scale(1.3);
+//        Polygon leftWall = (Polygon) new Polygon(new Point(-500, 340, 1500), new Point(lengthToX, 340, 1500), new Point(lengthToX, 340, 0), new Point(-500, 340, 0)).setEmission(wallColor)
+//                .setMaterial(wallMat);
         //create wall with space for window
-        Point topFarPoint = new Point(5500, 340, 450);
-        Point bottomFarPoint = new Point(5500, 340, 300);
-        Point topClosePoint = new Point(4000, 340, 450);
-        Point bottomClosePoint = new Point(4000, 340, 300);
-        Polygon leftWall1 = (Polygon) new Polygon(new Point(-500, 340, 1500), new Point(4000, 340, 1500), new Point(4000, 340, 0), new Point(-500, 340, 0)).setEmission(wallColor)
-                .setMaterial(new Material().setKd(0.9).setShininess(19));
-        Polygon leftWall2 = (Polygon) new Polygon(new Point(5500, 340, 1500), new Point(lengthToX, 340, 1500), new Point(lengthToX, 340, 0), new Point(5500, 340, 0)).setEmission(wallColor)
-                .setMaterial(new Material().setKd(0.9).setShininess(19));
-        Polygon leftWall3 = (Polygon) new Polygon(new Point(4000, 340, 1500), new Point(5500, 340, 1500), new Point(5500, 340, 450), new Point(4000, 340, 450)).setEmission(wallColor)
-                .setMaterial(new Material().setKd(0.9).setShininess(19));
-        Polygon leftWall4 = (Polygon) new Polygon(new Point(4000, 340, 300), new Point(5500, 340, 300), new Point(5500, 340, 0), new Point(4000, 340, 0)).setEmission(wallColor)
-                .setMaterial(new Material().setKd(0.9).setShininess(19));
-        _scene._geometries.add(leftWall1, leftWall2, leftWall3, leftWall4);
+        int closeX = 4000;
+        int farX = 5500;
+        int bottomZ = 300;
+        int topZ = 450;
+        Point topFarPoint = new Point(farX, 340, topZ);
+        Point bottomFarPoint = new Point(farX, 340, bottomZ);
+        Point topClosePoint = new Point(closeX, 340, topZ);
+        Point bottomClosePoint = new Point(closeX, 340, bottomZ);
+        Polygon leftWall1 = (Polygon) new Polygon(new Point(-500, 340, 1500), new Point(closeX, 340, 1500), new Point(closeX, 340, 0), new Point(-500, 340, 0)).setEmission(wallColor)
+                .setMaterial(wallMat);
+        Polygon leftWall2 = (Polygon) new Polygon(new Point(farX, 340, 1500), new Point(lengthToX, 340, 1500), new Point(lengthToX, 340, 0), new Point(farX, 340, 0)).setEmission(wallColor)
+                .setMaterial(wallMat);
+        Polygon leftWall3 = (Polygon) new Polygon(new Point(closeX, 340, 1500), new Point(farX, 340, 1500), new Point(farX, 340, topZ), new Point(closeX, 340, topZ)).setEmission(wallColor)
+                .setMaterial(wallMat);
+        Polygon leftWall4 = (Polygon) new Polygon(new Point(closeX, 340, bottomZ), new Point(farX, 340, bottomZ), new Point(farX, 340, 0), new Point(closeX, 340, 0)).setEmission(wallColor)
+                .setMaterial(wallMat);
+        Geometry verticalStick = new Polygon(new Point((farX + closeX) / 2d - 20, 339, topZ), new Point((farX + closeX) / 2d + 20, 339, topZ), new Point((farX + closeX) / 2d + 20, 339, bottomZ), new Point((farX + closeX) / 2d - 20, 339, bottomZ))
+                .setEmission(new Color(LIGHT_GRAY));
+        Geometry horizontalStick = new Polygon(new Point(closeX, 339, (topZ + bottomZ) / 2d - 5), new Point(farX, 339, (topZ + bottomZ) / 2d - 5), new Point(farX, 339, (topZ + bottomZ) / 2d + 5), new Point(closeX, 339, (topZ + bottomZ) / 2d + 5))
+                .setEmission(new Color(LIGHT_GRAY));
+        _scene._geometries.add(leftWall1, leftWall2, leftWall3, leftWall4, verticalStick, horizontalStick);
         //creating window
-        Geometry window = new Polygon(topFarPoint, topClosePoint, bottomClosePoint, bottomFarPoint).setMaterial(new Material().setKt(0.8).setKd(0.1).setShininess(1)).setEmission(new Color(WHITE));
+        Geometry window = new Polygon(topFarPoint, topClosePoint, bottomClosePoint, bottomFarPoint)
+                .setMaterial(new Material().setKt(0.7).setKd(0.3).setShininess(1)).setEmission(new Color(230, 230, 255));
         _scene._geometries.add(window);
-        _scene._lights.add(new DirectionalLight(new Color(GRAY),new Vector(0,-1,-0.8)));
+        _scene._lights.add(new DirectionalLight(new Color(255, 230, 128), new Vector(0, -1, -0.7)));
 
         Polygon rightWall = (Polygon) new Polygon(new Point(-500, -340, 1500), new Point(lengthToX, -340, 1500), new Point(lengthToX, -340, 0), new Point(-500, -340, 0)).setEmission(wallColor)
-                .setMaterial(new Material().setKd(0.9).setShininess(19));
+                .setMaterial(wallMat);
         Polygon backWall = (Polygon) new Polygon(new Point(7000, 340, 1500), new Point(7000, -340, 1500), new Point(7000, -340, 0), new Point(7000, 340, 0)).setEmission(wallColor)
-                .setMaterial(new Material().setKd(0.9).setShininess(19));
-        Geometry roof = new Polygon(new Point(7000, 340, 600), new Point(7000, -340, 600), new Point(-500, -340, 600), new Point(-600, 340, 600)).setEmission(new Color(0, 102, 102))
-                .setMaterial(new Material().setKd(0.9).setShininess(19));
+                .setMaterial(wallMat);
+        Geometry roof = new Polygon(new Point(7000, 340, 600), new Point(7000, -340, 600), new Point(-500, -340, 600), new Point(-600, 340, 600))
+                .setEmission(new Color(0, 153, 204)).setMaterial(new Material().setKd(0.9).setShininess(19));
         _scene._geometries.add(rightWall, backWall, roof);
     }
 
@@ -219,7 +222,7 @@ public class OurPictureMP1 {
         double lightZ = p.getZ();
         Geometry lightFront = new Polygon(new Point(lightX - 25, lightY - 25, lightZ), new Point(lightX - 25, lightY + 25, lightZ), new Point(lightX - 15, lightY + 10, lightZ + 20), new Point(lightX - 15, lightY - 10, lightZ + 20))
                 .setMaterial(new Material().setShininess(19).setKs(1)).setEmission(new Color(BLACK));
-        Geometry lightRight = new Polygon(new Point(lightX - 25, lightY - 25, lightZ), new Point(lightX + 25, lightY - 25, lightZ), new Point(lightX + 15, lightY - 10, lightZ + 20), new Point(lightX - 15, lightY + -10, lightZ + 20))
+        Geometry lightRight = new Polygon(new Point(lightX - 25, lightY - 25, lightZ), new Point(lightX + 25, lightY - 25, lightZ), new Point(lightX + 15, lightY - 10, lightZ + 20), new Point(lightX - 15, lightY - 10, lightZ + 20))
                 .setMaterial(new Material().setShininess(19).setKs(1)).setEmission(new Color(BLACK));
         Geometry lightBack = new Polygon(new Point(lightX + 25, lightY - 25, lightZ), new Point(lightX + 25, lightY + 25, lightZ), new Point(lightX + 15, lightY + 10, lightZ + 20), new Point(lightX + 15, lightY + -10, lightZ + 20))
                 .setMaterial(new Material().setShininess(19).setKs(1)).setEmission(new Color(BLACK));
@@ -247,7 +250,7 @@ public class OurPictureMP1 {
     }
 
     primitives.Color randomColor() {
-        List<primitives.Color> col = new ArrayList<Color>();
+        List<primitives.Color> col = new ArrayList<>();
         col.add(new Color(PINK));
         col.add(new Color(RED));
         col.add(new Color(GREEN));
@@ -269,32 +272,32 @@ public class OurPictureMP1 {
 
     public static class BowlingPin extends Intersectable {
 
-        private Geometries _spheres;
+        private final Geometries _spheres;
 
         public BowlingPin(Ray ray, Material material, Color all, Color special) {
-            _spheres= new Geometries();
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(10)), 10).setMaterial(material).setEmission(all));
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(13)), 11).setMaterial(material).setEmission(all));
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(17)), 12).setMaterial(material).setEmission(all));
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(20)), 13).setMaterial(material).setEmission(all));
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(22)), 14).setMaterial(material).setEmission(all));
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(25)), 15).setMaterial(material).setEmission(all));
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(29)), 15.7).setMaterial(material).setEmission(all));
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(33)), 15).setMaterial(material).setEmission(all));
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(36)), 14).setMaterial(material).setEmission(all));
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(38)), 13).setMaterial(material).setEmission(all));
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(41)), 12).setMaterial(material).setEmission(all));
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(45)), 11).setMaterial(material).setEmission(all));
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(48)), 10).setMaterial(material).setEmission(all));
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(50)), 9).setMaterial(material).setEmission(all));
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(52)), 8).setMaterial(material).setEmission(all));
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(54)), 7).setMaterial(material).setEmission(all));
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(56)), 6).setMaterial(material).setEmission(all));
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(58)), 5).setMaterial(material).setEmission(special));//special
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(62)), 5).setMaterial(material).setEmission(special));//special
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(64)), 6).setMaterial(material).setEmission(special));//special
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(66)), 7).setMaterial(material).setEmission(all));
-            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(68)), 8).setMaterial(material).setEmission(all));
+            _spheres = new Geometries();
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(10)), 10).setMaterial(material).setEmission(all));
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(13)), 11).setMaterial(material).setEmission(all));
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(17)), 12).setMaterial(material).setEmission(all));
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(20)), 13).setMaterial(material).setEmission(all));
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(22)), 14).setMaterial(material).setEmission(all));
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(25)), 15).setMaterial(material).setEmission(all));
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(29)), 15.7).setMaterial(material).setEmission(all));
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(33)), 15).setMaterial(material).setEmission(all));
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(36)), 14).setMaterial(material).setEmission(all));
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(38)), 13).setMaterial(material).setEmission(all));
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(41)), 12).setMaterial(material).setEmission(all));
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(45)), 11).setMaterial(material).setEmission(all));
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(48)), 10).setMaterial(material).setEmission(all));
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(50)), 9).setMaterial(material).setEmission(all));
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(52)), 8).setMaterial(material).setEmission(all));
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(54)), 7).setMaterial(material).setEmission(all));
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(56)), 6).setMaterial(material).setEmission(all));
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(58)), 5).setMaterial(material).setEmission(special));//special
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(62)), 5).setMaterial(material).setEmission(special));//special
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(64)), 6).setMaterial(material).setEmission(special));//special
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(66)), 7).setMaterial(material).setEmission(all));
+            _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(68)), 8).setMaterial(material).setEmission(all));
         }
 
 
@@ -311,111 +314,9 @@ public class OurPictureMP1 {
 
         @Override
         protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
-            return _spheres.findGeoIntersections(ray,maxDistance);
+            return _spheres.findGeoIntersections(ray, maxDistance);
         }
 
 
     }
-//    public static class BowlingPin extends Geometry {
-//
-//        private List<Sphere> _spheres;
-//
-//        public BowlingPin(Ray ray, Material material, Color all, Color special) {
-//            _spheres = new ArrayList<>();
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(10)), 10).setMaterial(material).setEmission(all));
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(13)), 11).setMaterial(material).setEmission(all));
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(17)), 12).setMaterial(material).setEmission(all));
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(20)), 13).setMaterial(material).setEmission(all));
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(22)), 14).setMaterial(material).setEmission(all));
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(25)), 15).setMaterial(material).setEmission(all));
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(29)), 15.7).setMaterial(material).setEmission(all));
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(33)), 15).setMaterial(material).setEmission(all));
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(36)), 14).setMaterial(material).setEmission(all));
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(38)), 13).setMaterial(material).setEmission(all));
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(41)), 12).setMaterial(material).setEmission(all));
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(45)), 11).setMaterial(material).setEmission(all));
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(48)), 10).setMaterial(material).setEmission(all));
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(50)), 9).setMaterial(material).setEmission(all));
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(52)), 8).setMaterial(material).setEmission(all));
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(54)), 7).setMaterial(material).setEmission(all));
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(56)), 6).setMaterial(material).setEmission(all));
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(58)), 5).setMaterial(material).setEmission(special));//special
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(62)), 5).setMaterial(material).setEmission(special));//special
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(64)), 6).setMaterial(material).setEmission(special));//special
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(66)), 7).setMaterial(material).setEmission(all));
-//            _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(68)), 8).setMaterial(material).setEmission(all));
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(10)), 10).setMaterial(material));
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(13)), 11).setMaterial(material));
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(17)), 12).setMaterial(material));
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(20)), 13).setMaterial(material));
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(22)), 14).setMaterial(material));
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(25)), 15).setMaterial(material));
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(29)), 15.7).setMaterial(material));
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(33)), 15).setMaterial(material));
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(36)), 14).setMaterial(material));
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(38)), 13).setMaterial(material));
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(41)), 12).setMaterial(material));
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(45)), 11).setMaterial(material));
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(48)), 10).setMaterial(material));
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(50)), 9).setMaterial(material));
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(52)), 8).setMaterial(material));
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(54)), 7).setMaterial(material));
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(56)), 6).setMaterial(material));
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(58)), 5).setMaterial(material).setEmission(special));//special
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(62)), 5).setMaterial(material).setEmission(special));//special
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(64)), 6).setMaterial(material).setEmission(special));//special
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(66)), 7).setMaterial(material));
-//            //        _spheres.add((Sphere) new Sphere(ray.getP0().add(ray.getDir().scale(68)), 8).setMaterial(material));
-//
-//        }
-//
-//        @Override
-//        public List<Point> findIntersections(Ray ray) {
-//            if (_spheres == null)
-//                return null;
-//            List<Point> ans = new ArrayList<>();
-//            List<Point> tmp;
-//            //for each shape, adds its intersection points to list of intersection points
-//            for (Intersectable i : _spheres) {
-//                tmp = i.findIntersections(ray);
-//                if (tmp != null)
-//                    ans.addAll(tmp);
-//            }
-//            if (ans.isEmpty())
-//                return null;
-//            return ans;
-//        }
-//
-//        @Override
-//        protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
-//            if (_spheres == null)
-//                return null;
-//            List<GeoPoint> ans = new LinkedList<>();
-//            List<GeoPoint> tmp;
-//            // for each shape, adds its intersection points to list of intersection points
-//            for (Intersectable i : _spheres) {
-//                tmp = i.findGeoIntersections(ray, maxDistance);
-//                if (tmp != null)
-//                    ans.addAll(tmp);
-//            }
-//            if (ans.isEmpty())
-//                return null;
-//            return ans;
-//        }
-//
-//        @Override
-//        public Vector getNormal(Point point) {
-//            return null;
-//        }
-//        //    @Override
-//        //    public List<Point> findIntersections(Ray ray) {
-//        //
-//        //        return null;
-//        //    }
-//        //
-//        //    @Override
-//        //    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
-//        //        return null;
-//        //    }
-//    }
 }
