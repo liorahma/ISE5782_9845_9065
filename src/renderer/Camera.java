@@ -401,14 +401,11 @@ public class Camera {
      * @return color of pixel
      */
     private Color calcAdaptiveSuperSampling(int nX, int nY, int j, int i, int level, Color centerColor) {
-        //Ray center = constructRay(nX, nY, j, i);
         // recursion reached maximum level
         if (level == 0) {
-            //return _rayTracerBase.traceRay(center);
             return centerColor;
         }
         Color color = centerColor;
-        //Color centerColor = _rayTracerBase.traceRay(center);
         // divide pixel into 4 mini-pixels
         Ray[] beam = new Ray[]{constructRay(2 * nX, 2 * nY, 2 * j, 2 * i),
                 constructRay(2 * nX, 2 * nY, 2 * j, 2 * i + 1),
