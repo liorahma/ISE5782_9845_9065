@@ -202,10 +202,10 @@ public class ReflectionRefractionTests {
 		_scene._lights.add( //
 				new SpotLight(new Color(240, 193, 225), new Point(-100, -100, 200), new Vector(1, 1, -3)) //
 						.setKl(1E-5).setKq(1.5E-7));
-		ImageWriter imageWriter = new ImageWriter("tryAll", 600, 600);
+		ImageWriter imageWriter = new ImageWriter("tryAllAdaptiveSS", 600, 600);
 		camera.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(_scene)) //
-				.renderImage() //
+				.renderImageAdaptiveSuperSampling() //
 				.writeToImage();
 
 		camera.move(-1000,0,0);
