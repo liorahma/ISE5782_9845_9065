@@ -46,7 +46,7 @@ public class OurPictureMP1 {
         //_scene._lights.add(leftBottomSpotLight);
 
 
-        SpotLight trySomething2 = new SpotLight(new Color(102, 255, 51), new Point(4800, 240, 30), new Vector(1, 0, 0.2));
+        SpotLight trySomething2 = new SpotLight(new Color(102, 255, 51), new Point(4800, 20, 12), new Vector(1, 0, 0.02));
         _scene._lights.add(trySomething2);
 
         createBallHolder(2500, -150, 3);
@@ -71,7 +71,7 @@ public class OurPictureMP1 {
 
     private void createBallHolder(int ballHolderX, int ballHolderY, int ballHolderZ) {
 
-        Material ballHolderMat = new Material().setShininess(19).setKt(0.95).setKd(0.2).setKr(0.1).setKs(1);
+        Material ballHolderMat = new Material().setShininess(19).setKd(0.2).setKr(0.1).setKs(1);
         Color ballHolderColor = new Color(140, 140, 140);
         Geometry bottomBallHolder = new Polygon(new Point(ballHolderX, ballHolderY, ballHolderZ), new Point(ballHolderX + 180, ballHolderY, ballHolderZ), new Point(ballHolderX + 180, ballHolderY - 100, ballHolderZ), new Point(ballHolderX, ballHolderY - 100, ballHolderZ))
                 .setMaterial(ballHolderMat).setEmission(ballHolderColor);
@@ -146,12 +146,13 @@ public class OurPictureMP1 {
         BowlingPin bowlingPin1 = new BowlingPin(new Ray(new Point(firstX, y, height), new Vector(1, 0, zVector)), bowlPinMat, bowlingMain, new Color(RED));
         BowlingPin bowlingPin2 = new BowlingPin(new Ray(new Point(firstX + distanceBetweenPins, y - distanceBetweenPins / 2d, height), new Vector(1, -0.2,zVector)), bowlPinMat, bowlingMain, new Color(RED));
         BowlingPin bowlingPin3 = new BowlingPin(new Ray(new Point(firstX + distanceBetweenPins, y + distanceBetweenPins / 2d, height), new Vector(1, 0.2, zVector)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin4 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y - distanceBetweenPins, height), new Vector(1, -0.2, zVector)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin4 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y - distanceBetweenPins, height), new Vector(1, -0.3, zVector)), bowlPinMat, bowlingMain, new Color(RED));
         BowlingPin bowlingPin5 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y, height), new Vector(1, 0, zVector)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin6 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y + distanceBetweenPins, 0), new Vector(1, 0.3, zVector)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin6 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y + distanceBetweenPins, height), new Vector(1, 0.2, zVector)), bowlPinMat, bowlingMain, new Color(RED));
         Geometry ball= new Sphere(new Point(firstX,y-25,25),25)
-                .setEmission(new Color(179, 0, 134)).setMaterial(new Material().setShininess(25).setKs(1).setKd(0.25).setKr(0.1));
+                .setEmission(new Color(148, 148, 184)).setMaterial(new Material().setShininess(25).setKs(1).setKd(0.25).setKr(0.1));
         _scene._geometries.add(bowlingPin1, bowlingPin2, bowlingPin3, bowlingPin4, bowlingPin5, bowlingPin6,ball);
+        //_scene._geometries.add(bowlingPin1, bowlingPin2, bowlingPin3, bowlingPin5, bowlingPin4,ball);
 
     }
 
@@ -176,7 +177,7 @@ public class OurPictureMP1 {
         Polygon leftWall2 = (Polygon) new Polygon(new Point(farX, 340, 1500), new Point(lengthToX, 340, 1500), new Point(lengthToX, 340, 0), new Point(farX, 340, 0)).setEmission(wallColor)
                 .setMaterial(wallMat);
         Polygon leftWall3 = (Polygon) new Polygon(new Point(closeX, 340, 1500), new Point(farX, 340, 1500), new Point(farX, 340, topZ), new Point(closeX, 340, topZ)).setEmission(wallColor)
-                .setMaterial(wallMat);
+                .setMaterial(wallMat.setKd(0.25).setKr(0.1));
         Polygon leftWall4 = (Polygon) new Polygon(new Point(closeX, 340, bottomZ), new Point(farX, 340, bottomZ), new Point(farX, 340, 0), new Point(closeX, 340, 0)).setEmission(wallColor)
                 .setMaterial(wallMat);
         Geometry verticalStick = new Polygon(new Point((farX + closeX) / 2d - 20, 339, topZ), new Point((farX + closeX) / 2d + 20, 339, topZ), new Point((farX + closeX) / 2d + 20, 339, bottomZ), new Point((farX + closeX) / 2d - 20, 339, bottomZ))
