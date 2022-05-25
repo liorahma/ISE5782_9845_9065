@@ -55,12 +55,12 @@ public class Camera {
     /**
      * number of rays in beam for supersampling
      */
-    private int _nSS;
+    private int _nSS = 64;
 
     /**
      * maximum level of recursion for adaptive supersampling
      */
-    private int _maxLevelAdaptiveSS;
+    private int _maxLevelAdaptiveSS = 3;
 
     /**
      * Builds camera according to location of source point and vectors that define view plane
@@ -76,8 +76,6 @@ public class Camera {
         _vto = vto.normalize();
         _vup = vup.normalize();
         _vright = vto.crossProduct(vup).normalize();
-        _nSS = 50;
-        _maxLevelAdaptiveSS = 4;
     }
 
     /**
@@ -373,13 +371,13 @@ public class Camera {
         Color color = centerColor;
         //Color centerColor = _rayTracerBase.traceRay(center);
         // divide pixel into 4 mini-pixels
-        List<Ray> beam = List.of(constructRay(2 * nX, 2 * nY, 2 * j, 2 * i),
+        Ray[] beam = new Ray[]{constructRay(2 * nX, 2 * nY, 2 * j, 2 * i),
                 constructRay(2 * nX, 2 * nY, 2 * j, 2 * i + 1),
                 constructRay(2 * nX, 2 * nY, 2 * j + 1, 2 * i),
-                constructRay(2 * nX, 2 * nY, 2 * j + 1, 2 * i + 1));
+                constructRay(2 * nX, 2 * nY, 2 * j + 1, 2 * i + 1)};
         // for each mini-pixel
         for (int ray = 0; ray < 4; ray++) {
-            Color currentColor = _rayTracerBase.traceRay(beam.get(ray));
+            Color currentColor = _rayTracerBase.traceRay(beam[ray]);
             if (!currentColor.equals(centerColor))
                 currentColor = calcAdaptiveSuperSampling(2 * nX, 2 * nY,
                         2 * j + ray / 2, 2 * i + ray % 2, level - 1, currentColor);
