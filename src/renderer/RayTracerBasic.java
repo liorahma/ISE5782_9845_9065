@@ -204,7 +204,6 @@ public class RayTracerBasic extends RayTracerBase {
         Material material = gp._geometry.getMaterial();
         Double3 kkr = k.product(material._kr);
         if (kkr.greaterThan(MIN_CALC_COLOR_K)) {
-            //color = calcGlobalEffect(constructReflectedRay(gp._point, v, n), level, material._kr, kkr);
             List<Ray> reflectedBeam = constructBeamAroundRay(constructReflectedRay(gp._point, v, n), n,
                     material._kg);
             Color temp = Color.BLACK;
@@ -212,12 +211,9 @@ public class RayTracerBasic extends RayTracerBase {
                 temp = temp.add(calcGlobalEffect(reflected, level, material._kr, kkr));
             }
             color = color.add(temp.reduce(reflectedBeam.size()));
-            //color = color.add(temp);
         }
         Double3 kkt = k.product(material._kt);
         if (kkt.greaterThan(MIN_CALC_COLOR_K)) {
-            //color = color.add(
-            //        calcGlobalEffect(constructRefractedRay(gp._point, v, n), level, material._kt, kkt));
             List<Ray> refractedBeam = constructBeamAroundRay(constructRefractedRay(gp._point, v, n), n,
                     1 - material._kb);
             Color temp = Color.BLACK;
@@ -225,7 +221,6 @@ public class RayTracerBasic extends RayTracerBase {
                 temp = temp.add(calcGlobalEffect(refracted, level, material._kt, kkt));
             }
             color = color.add(temp.reduce(refractedBeam.size()));
-            //color = color.add(temp);
         }
         return color;
     }
@@ -278,10 +273,8 @@ public class RayTracerBasic extends RayTracerBase {
         else
             ortho = ray.getDir().subtract(n.scale(ray.getDir().dotProduct(n))).normalize();
 
-        //double epsilon = 360d / (_nRays * _nRays * _nRays);
         for (int i = 0; i < _nRays && !isZero(widthFactor); i++, widthFactor *= 0.9d) {
             ortho = ortho.scale(widthFactor);
-            //ortho = ortho.rotate(ray.getDir(), i * epsilon);
             Vector dir = ray.getDir().add(ortho).normalize();
             for (int j = 0; j < _nRays;
                  j++, dir = dir.rotate(ray.getDir(), 360d / _nRays)) {
