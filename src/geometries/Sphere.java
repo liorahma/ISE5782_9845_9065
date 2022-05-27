@@ -8,12 +8,19 @@ import java.util.Objects;
 
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
-
+/**
+ * class Sphere represents a 3D sphere
+ */
 public class Sphere extends Geometry {
 
     private final Point _center;
     private final double _radius;
 
+    /**
+     * Sphere constructor
+     * @param center center of sphere
+     * @param radius radius of sphere
+     */
     public Sphere(Point center, double radius) {
         _center = center;
         _radius = radius;
@@ -50,12 +57,18 @@ public class Sphere extends Geometry {
         return _radius;
     }
 
-
+    /**
+     * overriding {@link Geometry#getNormal(Point)}
+     * @param point point from which a normal vector is requested
+     * @return normal
+     */
     @Override
     public Vector getNormal(Point point) {
         return point.subtract(_center).normalize();
     }
-
+    /**
+     * create boundary box for object
+     */
     @Override
     public void createBoundingBox() {
         double minX = _center.getX() - _radius;
@@ -66,7 +79,11 @@ public class Sphere extends Geometry {
         double maxZ = _center.getZ() + _radius;
         _box = new BoundingBox(new Point(minX, minY, minZ), new Point(maxX, maxY, maxZ));
     }
-
+    /**
+     * returns list of intersection with sphere
+     * @param ray ray that intersects
+     * @return list of intersections
+     */
     @Override
     public List<Point> findIntersections(Ray ray) {
         if (_center.equals(ray.getP0())) {//ray starts from center of sphere
@@ -90,7 +107,12 @@ public class Sphere extends Geometry {
             return List.of(ray.getP0().add(ray.getDir().scale(t2)));
         return null;
     }
-
+    /**
+     * returns a list of GeoIntersections with sphere within a certain distance
+     * @param ray         ray that intersects
+     * @param maxDistance max distance to check
+     * @return list of GeoIntersections
+     */
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         if (_center.equals(ray.getP0())) { // ray starts from center of sphere

@@ -6,8 +6,16 @@ import static primitives.Util.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * class Triangle represents a 3D triangle
+ */
 public class Triangle extends Polygon {
+    /**
+     * creates a triangle
+     * @param p1 point 1
+     * @param p2 point 2
+     * @param p3 point 3
+     */
     public Triangle(Point p1, Point p2, Point p3) {
         super(p1, p2, p3);
     }
@@ -19,7 +27,11 @@ public class Triangle extends Polygon {
                 ", plane=" + _plane +
                 '}';
     }
-
+    /**
+     * returns list of intersection with triangle
+     * @param ray ray that intersects
+     * @return list of intersections
+     */
     @Override
     public List<Point> findIntersections(Ray ray) {
         List<Point> intersections = _plane.findIntersections(ray);
@@ -30,7 +42,12 @@ public class Triangle extends Polygon {
         }
         return intersections;
     }
-
+    /**
+     * returns a list of GeoIntersections with triangle within a certain distance
+     * @param ray         ray that intersects
+     * @param maxDistance max distance to check
+     * @return list of GeoIntersections
+     */
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         List<GeoPoint> intersections = _plane.findGeoIntersections(ray, maxDistance);

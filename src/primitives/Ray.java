@@ -7,6 +7,9 @@ import java.util.Objects;
 
 import geometries.Intersectable.GeoPoint;
 
+/**
+ * Ray class to represnt a 3D ray
+ */
 public class Ray {
 
     private static final double DELTA = 0.1;

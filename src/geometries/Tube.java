@@ -7,11 +7,18 @@ import java.util.List;
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
-
+/**
+ * class Tube represents a 3D tube
+ */
 public class Tube extends Geometry {
     protected Ray _axisRay;
     protected double _radius;
 
+    /**
+     * tube constructor
+     * @param axisRay axis ray of tube - point in tube and vector of the tube's direction
+     * @param radius radius of tube
+     */
     public Tube(Ray axisRay, double radius) {
         this._axisRay = axisRay;
         this._radius = radius;
@@ -35,7 +42,11 @@ public class Tube extends Geometry {
                 '}';
     }
 
-
+    /**
+     * overriding {@link Geometry#getNormal(Point)}
+     * @param point point from which a normal vector is requested
+     * @return normal
+     */
     @Override
     public Vector getNormal(Point point) {
         Vector p0point = point.subtract(_axisRay.getP0());
@@ -46,17 +57,18 @@ public class Tube extends Geometry {
         Point o = _axisRay.getP0().add(_axisRay.getDir().scale(t));
         return point.subtract(o).normalize();
     }
-
+    /**
+     * create boundary box for object
+     */
     @Override
     public void createBoundingBox() {
         _box = null;
     }
-
     /**
-     * implemented by Dan zilberstein
-     *
+     * implemented by Dan Zilberstein
+     * returns list of intersection with tube
      * @param ray ray intersecting with the tube
-     * @return intersection points
+     * @return list of intersections
      */
     @Override
     public List<Point> findIntersections(Ray ray) {
@@ -138,7 +150,12 @@ public class Tube extends Geometry {
 
     }
 
-
+    /**
+     * returns a list of GeoIntersections with tube within a certain distance
+     * @param ray         ray that intersects
+     * @param maxDistance max distance to check
+     * @return list of GeoIntersections
+     */
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         Vector vAxis = _axisRay.getDir();

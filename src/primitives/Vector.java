@@ -2,6 +2,9 @@ package primitives;
 
 import static primitives.Util.isZero;
 
+/**
+ * Vector class to represent a direction vector
+ */
 public class Vector extends Point {
     /**
      * Builds representation of a 3D vector

@@ -8,12 +8,24 @@ import java.util.Objects;
 
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
-
+/**
+ * class Plane represents a 3D plane
+ */
 public class Plane extends Geometry {
-
+    /**
+     * point on plane
+     */
     final private Point _q0;
+    /**
+     * normal to plane
+     */
     final private Vector _normal;
 
+    /**
+     * plane constructor
+     * @param q0 point on plane
+     * @param normal normal to plane
+     */
     public Plane(Point q0, Vector normal) {
         this._q0 = q0;
         this._normal = normal;
@@ -55,7 +67,6 @@ public class Plane extends Geometry {
 
     /**
      * overriding {@link Geometry#getNormal(Point)}
-     *
      * @param point point from which a normal vector is requested
      * @return normal
      */
@@ -85,12 +96,19 @@ public class Plane extends Geometry {
     public int hashCode() {
         return Objects.hash(_q0, _normal);
     }
-
+    /**
+     * create boundary box for object
+     */
     @Override
     public void createBoundingBox() {
         _box = null;
     }
 
+    /**
+     * returns list of intersection with plane
+     * @param ray ray that intersects
+     * @return list of intersections
+     */
     @Override
     public List<Point> findIntersections(Ray ray) {
         if (_q0.equals(ray.getP0()))//ray starts on point of plain, no intersections
@@ -103,7 +121,12 @@ public class Plane extends Geometry {
         return List.of(ray.getP0().add(ray.getDir().scale(t)));
 
     }
-
+    /**
+     * returns a list of GeoIntersections with plane within a certain distance
+     * @param ray         ray that intersects
+     * @param maxDistance max distance to check
+     * @return list of GeoIntersections
+     */
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         if (_q0.equals(ray.getP0()))//ray starts on point of plain, no intersections

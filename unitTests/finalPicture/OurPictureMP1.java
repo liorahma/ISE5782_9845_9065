@@ -42,9 +42,6 @@ public class OurPictureMP1 {
 
         createBoxForEndOfLane();
 
-        //SpotLight leftBottomSpotLight = new SpotLight(new Color(217, 102, 255).reduce(20), new Point(0, 200, 50), new Vector(1, -1, -0.5));
-        //_scene._lights.add(leftBottomSpotLight);
-
 
         SpotLight trySomething2 = new SpotLight(new Color(102, 255, 51), new Point(4800, 20, 12), new Vector(1, 0, 0.02));
         _scene._lights.add(trySomething2);
@@ -56,16 +53,15 @@ public class OurPictureMP1 {
 
         createTexture(new Ray(new Point(6999, -330, 200), new Vector(0, 1, 1)));
 
-        //_scene._geometries.setBvhIsOn(false);
         camera.setImageWriter(new ImageWriter("final picture", 500, 500)) //
                 .setRayTracer(new RayTracerBasic(_scene)) //
                 .renderImageMultiThreadingASS() //
                 .writeToImage();
 
-//        cameraTop.setImageWriter(new ImageWriter("ourPictureMP2UpBVH", 500, 500)) //
-//                .setRayTracer(new RayTracerBasic(_scene)) //
-//                .renderImage() //
-//                .writeToImage();
+        cameraTop.setImageWriter(new ImageWriter("final picture up", 500, 500)) //
+                .setRayTracer(new RayTracerBasic(_scene)) //
+                .renderImageMultiThreadingASS() //
+                .writeToImage();
 
     }
 
@@ -152,17 +148,11 @@ public class OurPictureMP1 {
         Geometry ball= new Sphere(new Point(firstX,y-25,25),25)
                 .setEmission(new Color(148, 148, 184)).setMaterial(new Material().setShininess(25).setKs(1).setKd(0.25).setKr(0.1));
         _scene._geometries.add(bowlingPin1, bowlingPin2, bowlingPin3, bowlingPin4, bowlingPin5, bowlingPin6,ball);
-        //_scene._geometries.add(bowlingPin1, bowlingPin2, bowlingPin3, bowlingPin5, bowlingPin4,ball);
-
     }
 
     private void createWalls() {
         Material wallMat = new Material().setKd(0.6).setKr(0.2).setShininess(19);
-        //Material wallMat= new Material().setKd(0.9).setShininess(19);
         Color wallColor = new Color(0, 122, 204).scale(1.8);
-        //Color wallColor = new Color(255, 204, 102).scale(1.3);
-//        Polygon leftWall = (Polygon) new Polygon(new Point(-500, 340, 1500), new Point(lengthToX, 340, 1500), new Point(lengthToX, 340, 0), new Point(-500, 340, 0)).setEmission(wallColor)
-//                .setMaterial(wallMat);
         //create wall with space for window
         int closeX = 4000;
         int farX = 5500;
@@ -271,11 +261,20 @@ public class OurPictureMP1 {
         return col.get(rand.nextInt(13));
     }
 
-
+    /**
+     * class to create 3D object of a bowling pin
+     */
     public static class BowlingPin extends Intersectable {
 
         private final Geometries _spheres;
 
+        /**
+         * creates a bowling pin using many spheres
+         * @param ray direction of bowling pin
+         * @param material material of bowling pin
+         * @param all color of the pin
+         * @param special special color for line on pin
+         */
         public BowlingPin(Ray ray, Material material, Color all, Color special) {
             _spheres = new Geometries();
             _spheres.add(new Sphere(ray.getP0().add(ray.getDir().scale(10)), 10).setMaterial(material).setEmission(all));

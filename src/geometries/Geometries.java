@@ -4,6 +4,7 @@ import primitives.Point;
 import primitives.Ray;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,9 +26,7 @@ public class Geometries extends Intersectable {
      */
     public Geometries(Intersectable... geometries) {
         _geometries = new ArrayList<>();
-        for (Intersectable i : geometries) {
-            _geometries.add(i);
-        }
+        Collections.addAll(_geometries, geometries);
         if (_bvhIsOn)
             createBoundingBox();
     }
@@ -38,13 +37,14 @@ public class Geometries extends Intersectable {
      * @param geometries objects to add to list of geometries
      */
     public void add(Intersectable... geometries) {
-        for (Intersectable i : geometries) {
-            _geometries.add(i);
-        }
+        Collections.addAll(_geometries, geometries);
         if (_bvhIsOn)
             createBoundingBox();
     }
 
+    /**
+     * creates a bounding box for the geometries
+     */
     @Override
     public void createBoundingBox() {
         if (_geometries == null)
@@ -68,6 +68,11 @@ public class Geometries extends Intersectable {
         _box = new BoundingBox(new Point(minX, minY, minZ), new Point(maxX, maxY, maxZ));
     }
 
+    /**
+     * returns a list of intersections between a ray and geometries
+     * @param ray ray that intersects
+     * @return list of intersection points
+     */
     @Override
     public List<Point> findIntersections(Ray ray) {
         if (_geometries == null)
@@ -85,6 +90,12 @@ public class Geometries extends Intersectable {
         return ans;
     }
 
+    /**
+     * returns a list of GeoIntersections between a ray and geometries within a certain distance
+     * @param ray         ray that intersects
+     * @param maxDistance max distance to check
+     * @return list of GeoIntersections
+     */
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         if (_geometries == null)

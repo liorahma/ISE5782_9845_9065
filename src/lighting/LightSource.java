@@ -13,7 +13,7 @@ public interface LightSource {
 
     /**
      * gets intensity of the light source in a certain point
-     * @param p point to heck
+     * @param p point to check
      * @return intensity
      */
     public Color getIntensity(Point p);

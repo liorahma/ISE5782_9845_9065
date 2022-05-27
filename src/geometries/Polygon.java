@@ -87,12 +87,18 @@ public class Polygon extends Geometry {
         if (_bvhIsOn)
             createBoundingBox();
     }
-
+    /**
+     * overriding {@link Geometry#getNormal(Point)}
+     * @param point point from which a normal vector is requested
+     * @return normal
+     */
     @Override
     public Vector getNormal(Point point) {
         return _plane.getNormal();
     }
-
+    /**
+     * create boundary box for object
+     */
     @Override
     public void createBoundingBox() {
         if (_vertices == null)
@@ -113,7 +119,11 @@ public class Polygon extends Geometry {
         }
         _box = new BoundingBox(new Point(minX, minY, minZ), new Point(maxX, maxY, maxZ));
     }
-
+    /**
+     * returns list of intersection with polygon
+     * @param ray ray that intersects
+     * @return list of intersections
+     */
     @Override
     public List<Point> findIntersections(Ray ray) {
         Point p0 = ray.getP0();
@@ -152,7 +162,12 @@ public class Polygon extends Geometry {
         }
         return _plane.findIntersections(ray);
     }
-
+    /**
+     * returns a list of GeoIntersections with polygon within a certain distance
+     * @param ray         ray that intersects
+     * @param maxDistance max distance to check
+     * @return list of GeoIntersections
+     */
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         Point p0 = ray.getP0();

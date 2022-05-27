@@ -66,6 +66,11 @@ public class PointLight extends Light implements LightSource {
         return this;
     }
 
+    /**
+     * returns intensity of light
+     * @param p point to check
+     * @return color of intensity
+     */
     @Override
     public Color getIntensity(Point p) {
         double d = p.distance(_position);

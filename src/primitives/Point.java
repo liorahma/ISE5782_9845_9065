@@ -2,6 +2,9 @@ package primitives;
 
 import java.util.Objects;
 
+/**
+ * point class to represent a 3D point
+ */
 public class Point {
     public static Point ZERO = new Point(0, 0, 0);
     /**
