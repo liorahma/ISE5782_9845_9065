@@ -113,12 +113,12 @@ class Pixel {
         long current = pixels;
         if (print && last != current) {
             int percentage = (int) (1000l * current / totalPixels);
-            if (lastPrinted != percentage) {
+            //if (lastPrinted != percentage) {
                 last = current;
                 lastPrinted = percentage;
                 //System.out.printf(PRINT_FORMAT, percentage / 10d);
                 System.out.println(percentage / 10d);
-            }
+            //}
         }
     }
 }
