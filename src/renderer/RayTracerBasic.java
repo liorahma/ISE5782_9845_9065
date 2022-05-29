@@ -99,22 +99,24 @@ public class RayTracerBasic extends RayTracerBase {
     }
 
 
-//    /**
-//     * checks if there is an object blocking the light source from the point
-//     *
-//     * @param gp intersection point on geometry
-//     * @param l  vector from light source to geometry
-//     * @param n  normal vector to point
-//     * @return whether the point should be shaded or not
-//     */
-//    private boolean unshaded(GeoPoint gp, LightSource light, Vector l, Vector n, double nv) {
-//        Vector lightDir = l.scale(-1);  // starts from point to the light source
-//        Ray lightRay = new Ray(gp._point, lightDir, n);
-//        // only intersections that are closer than lightsource
-//        List<GeoPoint> intersections = _scene._geometries
-//                .findGeoIntersections(lightRay, light.getDistance(gp._point));
-//        return intersections == null;
-//    }
+    /**
+     * checks if there is an object blocking the light source from the point
+     *
+     * @param gp intersection point on geometry
+     * @param l  vector from light source to geometry
+     * @param n  normal vector to point
+     * @return whether the point should be shaded or not
+     * unused after refactoring
+     */
+    @SuppressWarnings("unused")
+    private boolean unshaded(GeoPoint gp, LightSource light, Vector l, Vector n, double nv) {
+        Vector lightDir = l.scale(-1);  // starts from point to the light source
+        Ray lightRay = new Ray(gp._point, lightDir, n);
+        // only intersections that are closer than lightsource
+        List<GeoPoint> intersections = _scene._geometries
+                .findGeoIntersections(lightRay, light.getDistance(gp._point));
+        return intersections == null;
+    }
 
     /**
      * checks if there is an object blocking the light source from the point
