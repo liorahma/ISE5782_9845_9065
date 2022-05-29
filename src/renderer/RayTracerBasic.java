@@ -205,6 +205,7 @@ public class RayTracerBasic extends RayTracerBase {
         Vector n = gp._geometry.getNormal(gp._point);
         Material material = gp._geometry.getMaterial();
         Double3 kkr = k.product(material._kr);
+        // reflectance
         if (kkr.greaterThan(MIN_CALC_COLOR_K)) {
             List<Ray> reflectedBeam = constructBeamAroundRay(constructReflectedRay(gp._point, v, n), n,
                     material._kg);
@@ -215,6 +216,7 @@ public class RayTracerBasic extends RayTracerBase {
             color = color.add(temp.reduce(reflectedBeam.size()));
         }
         Double3 kkt = k.product(material._kt);
+        // refraction
         if (kkt.greaterThan(MIN_CALC_COLOR_K)) {
             List<Ray> refractedBeam = constructBeamAroundRay(constructRefractedRay(gp._point, v, n), n,
                     1 - material._kb);
