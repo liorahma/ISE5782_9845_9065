@@ -58,7 +58,7 @@ public class OurPictureMP1 {
                 .renderImageMultiThreadingASS() //
                 .writeToImage();
 
-        cameraTop.setImageWriter(new ImageWriter("final picture up", 2000, 2000)) //
+        cameraTop.setImageWriter(new ImageWriter("final picture up2", 2000, 2000)) //
                 .setRayTracer(new RayTracerBasic(_scene)) //
                 .renderImageMultiThreadingASS() //
                 .writeToImage();
