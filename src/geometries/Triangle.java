@@ -18,6 +18,8 @@ public class Triangle extends Polygon {
      */
     public Triangle(Point p1, Point p2, Point p3) {
         super(p1, p2, p3);
+        if (_bvhIsOn)
+            createBoundingBox();
     }
 
     @Override
@@ -61,7 +63,7 @@ public class Triangle extends Polygon {
     }
 
     /**
-     * find whether aa given point is inside the triangle or not
+     * find whether a given point is inside the triangle or not
      *
      * @param p point to check
      * @return true if inside, false if outside
