@@ -272,9 +272,11 @@ public class Camera {
      */
     public Camera renderImage() {
         checkExceptions();
+        int nx = _imageWriter.getNx();
+        int ny = _imageWriter.getNy();
         Pixel.initialize(_imageWriter.getNy(), _imageWriter.getNx(), 60);
-        for (int i = 0; i < _imageWriter.getNx(); ++i) {
-            for (int j = 0; j < _imageWriter.getNy(); ++j) {
+        for (int i = 0; i < nx; ++i) {
+            for (int j = 0; j < ny; ++j) {
                 _imageWriter.writePixel(j, i, castRay(j, i));
                 Pixel.pixelDone();
                 Pixel.printPixel();
@@ -304,8 +306,10 @@ public class Camera {
     public Camera renderImageSuperSampling() {
         checkExceptions();
         // for each pixel
-        for (int i = 0; i < _imageWriter.getNx(); i++) {
-            for (int j = 0; j < _imageWriter.getNy(); j++) {
+        int nx = _imageWriter.getNx();
+        int ny = _imageWriter.getNy();
+        for (int i = 0; i < nx; i++) {
+            for (int j = 0; j < ny; j++) {
                 _imageWriter.writePixel(j, i, castBeamSuperSampling(j, i));
             }
         }
@@ -375,8 +379,10 @@ public class Camera {
     public Camera renderImageAdaptiveSuperSampling() {
         checkExceptions();
         // for each pixel
-        for (int i = 0; i < _imageWriter.getNx(); i++) {
-            for (int j = 0; j < _imageWriter.getNy(); j++) {
+        int nx = _imageWriter.getNx();
+        int ny = _imageWriter.getNy();
+        for (int i = 0; i < nx; i++) {
+            for (int j = 0; j < ny; j++) {
                 _imageWriter.writePixel(j, i, castBeamAdaptiveSuperSampling(j, i));
             }
         }
@@ -438,8 +444,10 @@ public class Camera {
     public void printGrid(int interval, Color color) {
         if (_imageWriter == null)
             throw new MissingResourceException("imageWriter is missing", "ImageWriter", "imageWriter");
-        for (int i = 0; i < _imageWriter.getNx(); i++) {
-            for (int j = 0; j < _imageWriter.getNy(); j++) {
+        int nx = _imageWriter.getNx();
+        int ny = _imageWriter.getNy();
+        for (int i = 0; i < nx; i++) {
+            for (int j = 0; j < ny; j++) {
                 // on grid
                 if (i % interval == 0 || j % interval == 0)
                     _imageWriter.writePixel(j, i, color);
