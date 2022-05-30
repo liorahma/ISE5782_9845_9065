@@ -13,6 +13,10 @@ public abstract class RayTracerBase {
      */
     protected Scene _scene;
 
+    /**
+     * constructor for ray tracer
+     * @param scene scene to trace rays in
+     */
     public RayTracerBase(Scene scene){
         _scene = scene;
     }

@@ -52,6 +52,10 @@ public class Plane extends Geometry {
 
     }
 
+    /**
+     * getter for q0
+     * @return q0
+     */
     public Point getQ0() {
         return _q0;
     }

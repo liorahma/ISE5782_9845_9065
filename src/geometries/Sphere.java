@@ -49,10 +49,18 @@ public class Sphere extends Geometry {
         return Objects.hash(_center, _radius);
     }
 
+    /**
+     * get center point of sphere
+     * @return center point
+     */
     public Point getCenter() {
         return _center;
     }
 
+    /**
+     * get radius of sphere
+     * @return radius
+     */
     public double getRadius() {
         return _radius;
     }

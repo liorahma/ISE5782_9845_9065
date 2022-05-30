@@ -16,11 +16,20 @@ import scene.Scene;
 
 import static java.awt.Color.*;
 
+/**
+ * class for testing running time with bvh
+ * @author Liorah Mandelbaum and Sarah Bednarsh
+ */
 public class BVHTests {
 
-
+    /**
+     * scene to be used in the test
+     */
     private Scene _scene = new Scene("Test scene");
 
+    /**
+     * rendering without bvh
+     */
     @Test
     public void tryNoBVH() {
         Camera camera = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
@@ -61,6 +70,9 @@ public class BVHTests {
     }
 
 
+    /**
+     * rendering with bvh
+     */
     @Test
     public void tryBVH() {
         Camera camera = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //

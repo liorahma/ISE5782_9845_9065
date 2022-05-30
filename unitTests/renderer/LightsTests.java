@@ -204,6 +204,10 @@ public class LightsTests {
 				.writeToImage(); //
 
 	}
+
+	/**
+	 * test for light
+	 */
 	@Test
 	public void myTrianglesLight() {
 		_scene2._geometries.add(_triangle1, _triangle2);

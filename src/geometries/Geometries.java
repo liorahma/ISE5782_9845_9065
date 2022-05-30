@@ -15,6 +15,10 @@ public class Geometries extends Intersectable {
 
     private List<Intersectable> _geometries;
 
+    /**
+     * constructor instantiating list of geometries
+     * linked list is used because we iterate over the entire list every time we use it
+     */
     public Geometries() {
         _geometries = new LinkedList<>();
     }
@@ -25,7 +29,7 @@ public class Geometries extends Intersectable {
      * @param geometries objects to add to list of geometries
      */
     public Geometries(Intersectable... geometries) {
-        _geometries = new ArrayList<>();
+        _geometries = new LinkedList<>();
         Collections.addAll(_geometries, geometries);
         if (_bvhIsOn)
             createBoundingBox();

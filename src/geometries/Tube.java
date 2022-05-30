@@ -11,7 +11,13 @@ import static primitives.Util.isZero;
  * class Tube represents a 3D tube
  */
 public class Tube extends Geometry {
+    /**
+     * direction of tube
+     */
     protected Ray _axisRay;
+    /**
+     * radius of tube
+     */
     protected double _radius;
 
     /**
@@ -26,10 +32,18 @@ public class Tube extends Geometry {
             createBoundingBox();
     }
 
+    /**
+     * getter for axis ray
+     * @return axis ray
+     */
     public Ray getAxisRay() {
         return _axisRay;
     }
 
+    /**
+     * getter for radius
+     * @return radius
+     */
     public double getRadius() {
         return _radius;
     }

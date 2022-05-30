@@ -107,6 +107,9 @@ public class ReflectionRefractionTests {
 	}
 
 
+	/**
+	 * integration test for all effects
+	 */
 	@Test
 	public void tryAll()
 	{

@@ -6,6 +6,9 @@ import java.util.Objects;
  * point class to represent a 3D point
  */
 public class Point {
+    /**
+     * ZERO value
+     */
     public static Point ZERO = new Point(0, 0, 0);
     /**
      * 3D representation of the point
@@ -31,14 +34,26 @@ public class Point {
         _xyz = new Double3(xyz._d1, xyz._d2, xyz._d3);
     }
 
+    /**
+     * getter for x coordinate
+     * @return x
+     */
     public double getX() {
         return _xyz._d1;
     }
 
+    /**
+     * getter for y coordinate
+     * @return y
+     */
     public double getY() {
         return _xyz._d2;
     }
 
+    /**
+     * getter for z coordinate
+     * @return z
+     */
     public double getZ() {
         return _xyz._d3;
     }

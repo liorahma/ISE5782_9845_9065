@@ -116,8 +116,14 @@ public class Ray {
                 '}';
     }
 
+    /**
+     * returns point with t distance from starting point of ray
+     *
+     * @param t distance
+     * @return point
+     */
     public Point getPoint(double t) {
-        if (t==0)
+        if (t == 0)
             return _p0;
         return _p0.add(_dir.scale(t));
     }

@@ -41,9 +41,21 @@ public abstract class Intersectable {
      * class representing boundary box
      */
     public class BoundingBox {
+        /**
+         * extreme node of box, containing minimal values for each axis
+         */
         public Point _minimums;
+        /**
+         * extreme node of box, containing maximal values for each axis
+         */
         public Point _maximums;
 
+        /**
+         * constructor for bounding box
+         *
+         * @param minimums minimal bounding values
+         * @param maximums maximal bounding values
+         */
         public BoundingBox(Point minimums, Point maximums) {
             _minimums = minimums;
             _maximums = maximums;
@@ -163,7 +175,13 @@ public abstract class Intersectable {
      * static class for point on _geometry
      */
     public static class GeoPoint {
+        /**
+         * geometry on which the point is
+         */
         public Geometry _geometry;
+        /**
+         * coordinates of point
+         */
         public Point _point;
 
         /**

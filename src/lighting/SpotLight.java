@@ -27,8 +27,10 @@ public class SpotLight extends PointLight {
         super(intensity, position);
         _direction = direction.normalize();
     }
+
     /**
      * returns intensity of light
+     *
      * @param p point to check
      * @return color of intensity
      */
@@ -38,16 +40,14 @@ public class SpotLight extends PointLight {
 
     /**
      * sets marrow beam for light
+     *
      * @param narrowBeam degree of narrowness
-     * @return the object- builder pattern
+     * @return the object - builder pattern
      */
     public SpotLight setNarrowBeam(int narrowBeam) {
         this._narrowBeam = narrowBeam;
         return this;
     }
 
-    public int getNarrowBeam() {
-        return _narrowBeam;
-    }
 
 }

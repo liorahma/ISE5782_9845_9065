@@ -69,6 +69,7 @@ public class Camera {
      *
      * @param location point where the camera is located
      * @param vto      z-axis to view plane
+     * @param vup      y-axis to view plane
      */
     public Camera(Point location, Vector vto, Vector vup) {
         if (!isZero(vto.dotProduct(vup)))
@@ -233,6 +234,7 @@ public class Camera {
 
     /**
      * renders image using multithreading
+     *
      * @return this
      */
     public Camera renderImageMultiThreading() {
@@ -249,6 +251,7 @@ public class Camera {
 
     /**
      * renders image using multithreading and adaptive supersampling
+     *
      * @return this
      */
     public Camera renderImageMultiThreadingASS() {
@@ -265,6 +268,7 @@ public class Camera {
 
     /**
      * render the image using the image writer
+     * @return this, builder pattern
      */
     public Camera renderImage() {
         checkExceptions();
@@ -295,6 +299,7 @@ public class Camera {
 
     /**
      * render the image using the image writer, using super sampling in the random method
+     * @return this, builder pattern
      */
     public Camera renderImageSuperSampling() {
         checkExceptions();
@@ -365,6 +370,7 @@ public class Camera {
 
     /**
      * render the image using the image writer, using adaptive supersampling
+     * @return this, builder pattern
      */
     public Camera renderImageAdaptiveSuperSampling() {
         checkExceptions();
