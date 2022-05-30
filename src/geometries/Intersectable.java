@@ -72,7 +72,8 @@ public abstract class Intersectable {
      *
      * @param ray ray to check
      * @return whether ray intersects box
-     * code taken from scratchpixel.com
+     * code taken from scratchapixel.com
+     * https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-acceleration-structure/bounding-volume-hierarchy-BVH-part1
      */
     public boolean isIntersectingBoundingBox(Ray ray) {
         if (!_bvhIsOn || _box == null)
