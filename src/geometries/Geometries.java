@@ -77,7 +77,6 @@ public class Geometries extends Intersectable {
      * @param ray ray that intersects
      * @return list of intersection points
      */
-    @Deprecated
     @Override
     public List<Point> findIntersections(Ray ray) {
         if (_geometries == null)

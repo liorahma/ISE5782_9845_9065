@@ -17,7 +17,7 @@ public abstract class Intersectable {
     /**
      * a field to turn on and off the bvh
      */
-    protected boolean _bvhIsOn = true;
+    protected boolean _bvhIsOn = false;
     /**
      * actual boundary box
      */
@@ -188,8 +188,8 @@ public abstract class Intersectable {
         /**
          * constructor for GeoPoint
          *
-         * @param geometry
-         * @param point
+         * @param geometry geometry point is on
+         * @param point point for geoPoint
          */
         public GeoPoint(Geometry geometry, Point point) {
             this._geometry = geometry;
