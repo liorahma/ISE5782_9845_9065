@@ -17,47 +17,64 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * class for our final picture
+ */
 public class OurPictureMP1 {
+    /** We built a bowling scene- with lanes, bowling pins, bowling balls, and the room.
+     * We created a class for the bowling pins, that are created with 22 spheres. They have two colors- the main one and a color for the stripe on the pin.
+     * We created multiple lanes, with bowling pins and bowling balls on them, and on the left one you can see a bowling ball hitting the pins
+     * There are three light fixtures on the image, in coordination with our lecturer.
+     *
+     */
+
     private Scene _scene = new BuilderScene("Test scene").build();
+    //length till end of lanes
     int lengthToX = 10000;
+    //first x for the bowling pins-
     int firstX = 5000;
     int distanceBetweenPins = 70;
 
     @Test
     public void picture() {
-
+        // There are two versions of the photo- the normal one, and another one taken from the top to show another angle of the created scene, for ease of working with it
         Camera camera = new Camera(new Point(-1000, 0, 500), new Vector(1, 0, -0.05), new Vector(0.05, 0, 1)) //
                 .setVPSize(200, 150).setVPDistance(Math.sqrt(500000));
         Camera cameraTop = new Camera(new Point(5000, 0, 580), new Vector(0, 0, -1), new Vector(1, 0, 0)) //
                 .setVPSize(200, 150).setVPDistance(100);
 
-
+        //created three lanes
         createLanes();
-
+        //creating the bowling pins
         createBowlingPins(firstX, 0);
+
         createBowlingPins(firstX, -240);
+
         createFallingBowlingPins(firstX, 240);
-
+        //creating walls for the room- including a window on the left side, with a directional light which you can see hitting the left lane
+        //this is light number one
         createWalls();
-
+        //creating the black boxes to symbol the end of lane, to make the image more realistic
         createBoxForEndOfLane();
 
-
-        SpotLight trySomething2 = new SpotLight(new Color(102, 255, 51), new Point(4800, 20, 12), new Vector(1, 0, 0.02));
-        _scene._lights.add(trySomething2);
-
+        //light number 2- this light is located in front of the middle bowling pins, and you can see it on the back wall-
+        // it is green, and you can see the shape of the bowling pins shaded on the back wall.
+        SpotLight lightFixture2 = new SpotLight(new Color(102, 255, 51), new Point(4670, 20, 7), new Vector(1, 0, 0.02));
+        _scene._lights.add(lightFixture2);
+        //creates the bal holder on the left of the image- If you zoom in on each ball you can see the whole room reflected
         createBallHolder(2500, -150, 3);
 
-
+        //creates light number 3- the spotlight located on the top of the room, pointing downwards
         createLightFixture(new Point(3500, 0, 550));
 
+        //creates the texture on top of the end of lane box- to make the image look nicer
         createTexture(new Ray(new Point(6999, -330, 200), new Vector(0, 1, 1)));
 
-        camera.setImageWriter(new ImageWriter("final picture", 500, 500)) //
+        camera.setImageWriter(new ImageWriter("final picture", 2000, 2000)) //
                 .setRayTracer(new RayTracerBasic(_scene)) //
-                .renderImageMultiThreading() //
+                .renderImageMultiThreadingASS() //
                 .writeToImage();
-//
+
 //        cameraTop.setImageWriter(new ImageWriter("final picture up2", 2000, 2000)) //
 //                .setRayTracer(new RayTracerBasic(_scene)) //
 //                .renderImageMultiThreadingASS() //
@@ -119,17 +136,12 @@ public class OurPictureMP1 {
     private void createBowlingPins(int x, int y) {
         Material bowlPinMat = new Material().setKr(0.3).setKs(1).setShininess(19);
         Color bowlingMain = new Color(242, 242, 242).reduce(1.3);
-        BowlingPin bowlingPin1 = new BowlingPin(new Ray(new Point(firstX, y, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin2 = new BowlingPin(new Ray(new Point(firstX + distanceBetweenPins, y - distanceBetweenPins / 2d, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin3 = new BowlingPin(new Ray(new Point(firstX + distanceBetweenPins, y + distanceBetweenPins / 2d, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin4 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y - distanceBetweenPins, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin5 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin6 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y + distanceBetweenPins, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin7 = new BowlingPin(new Ray(new Point(firstX + 3 * distanceBetweenPins, y - 1.5 * distanceBetweenPins, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin8 = new BowlingPin(new Ray(new Point(firstX + 3 * distanceBetweenPins, y - distanceBetweenPins / 2d, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin9 = new BowlingPin(new Ray(new Point(firstX + 3 * distanceBetweenPins, y + distanceBetweenPins / 2d, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin10 = new BowlingPin(new Ray(new Point(firstX + 3 * distanceBetweenPins, y + 1.5 * distanceBetweenPins, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
-        //_scene._geometries.add(bowlingPin1,bowlingPin2,bowlingPin3,bowlingPin4,bowlingPin5,bowlingPin6,bowlingPin7,bowlingPin8,bowlingPin9,bowlingPin10);
+        BowlingPin bowlingPin1 = new BowlingPin(new Ray(new Point(x, y, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin2 = new BowlingPin(new Ray(new Point(x + distanceBetweenPins, y - distanceBetweenPins / 2d, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin3 = new BowlingPin(new Ray(new Point(x + distanceBetweenPins, y + distanceBetweenPins / 2d, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin4 = new BowlingPin(new Ray(new Point(x + 2 * distanceBetweenPins, y - distanceBetweenPins, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin5 = new BowlingPin(new Ray(new Point(x + 2 * distanceBetweenPins, y, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin6 = new BowlingPin(new Ray(new Point(x + 2 * distanceBetweenPins, y + distanceBetweenPins, 0), new Vector(0, 0, 1)), bowlPinMat, bowlingMain, new Color(RED));
         _scene._geometries.add(bowlingPin1, bowlingPin2, bowlingPin3, bowlingPin4, bowlingPin5, bowlingPin6);
 
     }
@@ -139,13 +151,13 @@ public class OurPictureMP1 {
         double zVector = 1;
         Material bowlPinMat = new Material().setKr(0.3).setKs(1).setShininess(19);
         Color bowlingMain = new Color(242, 242, 242).reduce(1.3);
-        BowlingPin bowlingPin1 = new BowlingPin(new Ray(new Point(firstX, y, height), new Vector(1, 0, zVector)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin2 = new BowlingPin(new Ray(new Point(firstX + distanceBetweenPins, y - distanceBetweenPins / 2d, height), new Vector(1, -0.2, zVector)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin3 = new BowlingPin(new Ray(new Point(firstX + distanceBetweenPins, y + distanceBetweenPins / 2d, height), new Vector(1, 0.2, zVector)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin4 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y - distanceBetweenPins, height), new Vector(1, -0.3, zVector)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin5 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y, height), new Vector(1, 0, zVector)), bowlPinMat, bowlingMain, new Color(RED));
-        BowlingPin bowlingPin6 = new BowlingPin(new Ray(new Point(firstX + 2 * distanceBetweenPins, y + distanceBetweenPins, height), new Vector(1, 0.2, zVector)), bowlPinMat, bowlingMain, new Color(RED));
-        Geometry ball= new Sphere(new Point(firstX,y-25,25),25)
+        BowlingPin bowlingPin1 = new BowlingPin(new Ray(new Point(x, y, height), new Vector(1, 0, zVector)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin2 = new BowlingPin(new Ray(new Point(x + distanceBetweenPins, y - distanceBetweenPins / 2d, height), new Vector(1, -0.2, zVector)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin3 = new BowlingPin(new Ray(new Point(x + distanceBetweenPins, y + distanceBetweenPins / 2d, height), new Vector(1, 0.2, zVector)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin4 = new BowlingPin(new Ray(new Point(x + 2 * distanceBetweenPins, y - distanceBetweenPins, height), new Vector(1, -0.3, zVector)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin5 = new BowlingPin(new Ray(new Point(x + 2 * distanceBetweenPins, y, height), new Vector(1, 0, zVector)), bowlPinMat, bowlingMain, new Color(RED));
+        BowlingPin bowlingPin6 = new BowlingPin(new Ray(new Point(x + 2 * distanceBetweenPins, y + distanceBetweenPins, height), new Vector(1, 0.2, zVector)), bowlPinMat, bowlingMain, new Color(RED));
+        Geometry ball= new Sphere(new Point(x,y-25,25),25)
                 .setEmission(new Color(148, 148, 184)).setMaterial(new Material().setShininess(25).setKs(1).setKd(0.25).setKr(0.1));
         _scene._geometries.add(bowlingPin1, bowlingPin2, bowlingPin3, bowlingPin4, bowlingPin5, bowlingPin6,ball);
     }
@@ -196,6 +208,10 @@ public class OurPictureMP1 {
                 .setMaterial(new Material().setKs(0.8).setShininess(19));
         Geometry rightBox = new Polygon(new Point(6000, -335, boxHeight), new Point(lengthToX, -335, boxHeight), new Point(lengthToX, -335, 0), new Point(6000, -335, 0)).setEmission(new Color(BLACK))
                 .setMaterial(new Material().setKs(0.8).setShininess(19));
+        Geometry backMirror= new Polygon(new Point(6995, -335, boxHeight), new Point(6990, -335, 0), new Point(6990, -120, 0), new Point(6995, -120, boxHeight))
+                .setMaterial(new Material().setKd(0.1).setKr(0.3).setShininess(19)).setEmission(new Color(0, 122, 204));
+
+
         Geometry secondBox = new Polygon(new Point(6000, -120, boxHeight), new Point(lengthToX, -120, boxHeight), new Point(lengthToX, -120, 0), new Point(6000, -120, 0)).setEmission(new Color(BLACK))
                 .setMaterial(new Material().setKs(0.8).setShininess(19));
         Geometry thirdBox = new Polygon(new Point(6000, 120, boxHeight), new Point(lengthToX, 120, boxHeight), new Point(lengthToX, 120, 0), new Point(6000, 120, 0)).setEmission(new Color(BLACK))
@@ -204,7 +220,7 @@ public class OurPictureMP1 {
                 .setMaterial(new Material().setKs(0.8).setShininess(19));
         Geometry backBox = new Polygon(new Point(6995, 340, boxHeight), new Point(6995, -340, boxHeight), new Point(6995, -340, 0), new Point(6995, 340, 0)).setEmission(new Color(89, 89, 89))
                 .setMaterial(new Material().setKs(0.8).setShininess(19));
-        _scene._geometries.add(leftBox, rightBox, topBox, backBox, secondBox, thirdBox);
+        _scene._geometries.add(leftBox, rightBox, topBox, backBox, secondBox, thirdBox,backMirror);
     }
 
 
@@ -216,7 +232,7 @@ public class OurPictureMP1 {
                 .setMaterial(new Material().setShininess(19).setKs(1)).setEmission(new Color(BLACK));
         Geometry lightRight = new Polygon(new Point(lightX - 25, lightY - 25, lightZ), new Point(lightX + 25, lightY - 25, lightZ), new Point(lightX + 15, lightY - 10, lightZ + 20), new Point(lightX - 15, lightY - 10, lightZ + 20))
                 .setMaterial(new Material().setShininess(19).setKs(1)).setEmission(new Color(BLACK));
-        Geometry lightBack = new Polygon(new Point(lightX + 25, lightY - 25, lightZ), new Point(lightX + 25, lightY + 25, lightZ), new Point(lightX + 15, lightY + 10, lightZ + 20), new Point(lightX + 15, lightY + -10, lightZ + 20))
+        Geometry lightBack = new Polygon(new Point(lightX + 25, lightY - 25, lightZ), new Point(lightX + 25, lightY + 25, lightZ), new Point(lightX + 15, lightY + 10, lightZ + 20), new Point(lightX + 15, lightY - 10, lightZ + 20))
                 .setMaterial(new Material().setShininess(19).setKs(1)).setEmission(new Color(BLACK));
         Geometry lightLeft = new Polygon(new Point(lightX + 25, lightY + 25, lightZ), new Point(lightX - 25, lightY + 25, lightZ), new Point(lightX - 15, lightY + 10, lightZ + 20), new Point(lightX + 15, lightY + 10, lightZ + 20))
                 .setMaterial(new Material().setShininess(19).setKs(1)).setEmission(new Color(BLACK));
