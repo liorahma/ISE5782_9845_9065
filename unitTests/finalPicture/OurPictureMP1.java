@@ -53,15 +53,15 @@ public class OurPictureMP1 {
 
         createTexture(new Ray(new Point(6999, -330, 200), new Vector(0, 1, 1)));
 
-        camera.setImageWriter(new ImageWriter("final picture", 2000, 2000)) //
+        camera.setImageWriter(new ImageWriter("final picture", 500, 500)) //
                 .setRayTracer(new RayTracerBasic(_scene)) //
-                .renderImageMultiThreadingASS() //
+                .renderImageMultiThreading() //
                 .writeToImage();
-
-        cameraTop.setImageWriter(new ImageWriter("final picture up2", 2000, 2000)) //
-                .setRayTracer(new RayTracerBasic(_scene)) //
-                .renderImageMultiThreadingASS() //
-                .writeToImage();
+//
+//        cameraTop.setImageWriter(new ImageWriter("final picture up2", 2000, 2000)) //
+//                .setRayTracer(new RayTracerBasic(_scene)) //
+//                .renderImageMultiThreadingASS() //
+//                .writeToImage();
 
     }
 

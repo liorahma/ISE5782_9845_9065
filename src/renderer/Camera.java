@@ -238,7 +238,7 @@ public class Camera {
      * @return this
      */
     public Camera renderImageMultiThreading() {
-        Pixel.initialize(_imageWriter.getNy(), _imageWriter.getNx(), 60);
+        Pixel.initialize(_imageWriter.getNy(), _imageWriter.getNx(), 1);
         while (_threadsCount-- > 0) {
             new Thread(() -> {
                 for (Pixel pixel = new Pixel(); pixel.nextPixel(); Pixel.pixelDone())
