@@ -279,7 +279,7 @@ public class Camera {
             for (int j = 0; j < ny; ++j) {
                 _imageWriter.writePixel(j, i, castRay(j, i));
                 Pixel.pixelDone();
-                Pixel.printPixel();
+                //Pixel.printPixel();
             }
         }
         return this;
